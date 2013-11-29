@@ -15,11 +15,8 @@ workspace/dist/images/
 #node modules
 node_modules/
 
-
-# Go home Tilde, you're drunk.
-*~
-
-
+# html~ files
+*.html~
 
 
 
