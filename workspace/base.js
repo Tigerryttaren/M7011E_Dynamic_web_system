@@ -53,8 +53,8 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	returnURL: 'http://localhost:8080/auth/google/return',
-	realm: 'http://localhost:8080'
+	returnURL: 'http://54.200.238.200:8080/auth/google/return',
+	realm: 'http://54.200.238.200:8080/'
 	},
 
 	function(identifier, profile, done) {
@@ -93,7 +93,7 @@ app.get('/auth/google', passport.authenticate('google'));
 // the process by verifying the assertion.  If valid, the user will be
 // logged in.  Otherwise, authentication has failed.
 app.get('/auth/google/return', 
-  passport.authenticate('google', { successRedirect: '/api/user/me',
+  passport.authenticate('google', { successRedirect: '/',
                                     failureRedirect: '/api/user/register' }));
 
 
@@ -173,7 +173,7 @@ app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?$/, function(req, res){
 	console.log("GET db/content/<c>");
 	var	c = req.params[0];
 	console.log('<c>='+c);
-	res.send('<c>= '+c);
+	res.send('c= '+c);
 });
 
 app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/edit$/, function(req, res){
@@ -184,7 +184,7 @@ app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/edit$/, function(req, res){
 	console.log(req.body.parent);
 	console.log(req.body.content);
 	console.log("\n");
-	res.send('<c> = '+req.params[0]+' token= '+ req.body.token +' parent= '+req.body.parent +' content= '+req.body.content);
+	res.send('c = '+req.params[0]+' token= '+ req.body.token +' parent= '+req.body.parent +' content= '+req.body.content);
 });
 
 app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/rate$/, function(req, res){
@@ -194,7 +194,7 @@ app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/rate$/, function(req, res){
 	console.log(req.body.token);
 	console.log(req.body.value);
 	console.log("\n");
-	res.send('<c> = '+req.params[0]+' token= '+ req.body.token +' value= '+req.body.value);
+	res.send('c = '+req.params[0]+' token= '+ req.body.token +' value= '+req.body.value);
 	
 });
 

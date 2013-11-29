@@ -2,10 +2,12 @@
 <html>
 
 <script>
+	var domain = "http://54.200.238.200:8080/"; 
+	//"http://localhost:8080/";
 	function register()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("POST","http://localhost:8080/api/user/register", true);
+	   xmlhttp.open("POST",domain+"api/user/register", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -18,7 +20,7 @@
 	function login()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("POST","http://localhost:8080/api/user/login", true);
+	   xmlhttp.open("POST",domain+ "api/user/login", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -31,7 +33,7 @@
 	function me()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("GET","http://localhost:8080/api/user/me", true);
+	   xmlhttp.open("GET", domain+ "api/user/me", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -44,7 +46,7 @@
 	function add()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("POST","http://localhost:8080/api/db/content/add", true);
+	   xmlhttp.open("POST",domain+ "api/db/content/add", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -57,7 +59,7 @@
 		function linkget()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("GET","http://localhost:8080/api/db/content/link", true);
+	   xmlhttp.open("GET",domain+ "api/db/content/link", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -70,7 +72,7 @@
 	function linkPost()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("POST","http://localhost:8080/api/db/content/link", true);
+	   xmlhttp.open("POST",domain+ "api/db/content/link", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -83,7 +85,7 @@
 	function linkget()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("GET","http://localhost:8080/api/db/content/link", true);
+	   xmlhttp.open("GET",domain+ "api/db/content/link", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -96,7 +98,7 @@
 	function contentc()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("GET","http://localhost:8080/api/db/content/metallica", true);
+	   xmlhttp.open("GET",domain+ "api/db/content/metallica", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -109,7 +111,7 @@
 	function contentc_edit()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("POST","http://localhost:8080/api/db/content/metallica/edit", true);
+	   xmlhttp.open("POST",domain+ "api/db/content/metallica/edit", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -122,7 +124,7 @@
 	function contentc_rate()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("POST","http://localhost:8080/api/db/content/metallica/rate", true);
+	   xmlhttp.open("POST",domain+ "api/db/content/metallica/rate", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -135,7 +137,7 @@
 	function contentc_review()
 	{
 	   xmlhttp = new XMLHttpRequest();
-	   xmlhttp.open("POST","http://localhost:8080/api/db/content/metallica/review", true);
+	   xmlhttp.open("POST",domain+ "api/db/content/metallica/review", true);
 	   xmlhttp.setRequestHeader('Content-Type', 'application/json');
 	   xmlhttp.onreadystatechange=function(){
 			 if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -151,15 +153,15 @@
 <body>
 	<button onclick="register()">POST register</button>
 	<button onclick="login()">POST login</button>
-	<button onclick="me()">GET me</button>
-	<button onclick="add()">POST add</button>
+	<button onclick="me()">GET me, requires authentication</button>
+	<button onclick="add()">POST add, requires authentication</button>
 	<button onclick="linkget()">GET Link</button>
 	<button onclick="linkPost()">POST Link</button>
 	<button onclick="contentc()">GET contentc</button>
 	<button onclick="contentc_edit()">POST edit</button>
 	<button onclick="contentc_rate()">POST rate</button>
 	<button onclick="contentc_review()">POST review</button>
-	<p id="string">Press a button</p>
+	<p id="string">Press a button and see this text change with answer from server</p>
 	<a href="/auth/google">Sign In with Google</a>
 </body>
 </html> 
