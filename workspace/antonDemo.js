@@ -4,6 +4,7 @@ var express = require('express'),
 	this_port = 8081; //choose port of the program
 
 app.use('/css', express.static(__dirname + '/dist/css'));
+app.use('/images/fake/', express.static(__dirname + '/dist/images/fake/'));
 
 app.get('/', function(req,res){
 	fs.readFile('./dist/index.html', function(err, file) {  
