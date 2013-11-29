@@ -7,7 +7,7 @@ desktop.ini
 #ours
 *.dontsave
 tests/
-workspace/dist/images/
+#workspace/dist/images/
 
 #keys
 *.pem
