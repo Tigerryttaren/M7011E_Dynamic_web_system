@@ -1,0 +1,15 @@
+# Dropbox
+.dropbox
+
+#windows
+desktop.ini
+
+#ours
+*.dontsave
+
+#keys
+*.pem
+
+#node modules
+node_modules/
+
