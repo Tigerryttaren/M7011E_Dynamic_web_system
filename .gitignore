@@ -6,6 +6,7 @@ desktop.ini
 
 #ours
 *.dontsave
+tests/
 
 #keys
 *.pem
