@@ -53,8 +53,8 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	returnURL: 'http://http://54.200.238.200:8080/auth/google/return',
-	realm: 'http://http://54.200.238.200:8080/'
+	returnURL: 'http://54.200.238.200:8080/auth/google/return',
+	realm: 'http://54.200.238.200:8080/'
 	},
 
 	function(identifier, profile, done) {
