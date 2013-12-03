@@ -84,6 +84,28 @@
 	font-size: 30px;
 }
 
+.album-profile-image {	
+	width: 100%;
+	height: auto;
+}
+
+.album-header-text-size {
+	font-size: 30px;
+}
+
+.album-header-text-size-artist {
+	font-size: 20px;
+}
+
+.soundslike-link-text:hover, .soundslike-link-text:visited, .soundslike-link-text:active, .soundslike-link-text:link {
+	text-decoration: none;
+	color: #000000;
+}
+
+.soundslike-link-image {
+	
+}
+
 .btn-soundslike {
   color: #ffffff;
   background-color: #282828;
