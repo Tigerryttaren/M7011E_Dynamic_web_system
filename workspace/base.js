@@ -5,7 +5,10 @@ var express = require('express'),
 	
 var passport = require('passport'), 
 	GoogleStrategy = require('passport-google').Strategy;
-
+	
+//local dependencies
+// var db = require('./database');
+var salt = JSON.parse(fs.readFileSync(__dirname+'/salt.dontsave'));
 
 app.configure(function() {
   //these 2 sets the views to ejs files, can be used 
@@ -21,7 +24,7 @@ app.configure(function() {
   app.use(express.methodOverride());
   
   //set the secret to a string, makes it harder to hijack sessions when salt is used
-  app.use(express.session({ secret: 'Anton is a secret superhero' }));
+  app.use(express.session({secret : salt.secret}));
   
   // Initialize Passport! Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
@@ -69,6 +72,7 @@ passport.use(new GoogleStrategy({
 				// represent the logged-in user. In a typical application, you would want
 				// to associate the Google account with a user record in your database,
 				// and return that user instead.
+			db.findOrCreate(profile, salt);
 			console.log("\n");
 			console.log(profile);
 			console.log("\nHello mr " + profile.name.familyName);
