@@ -17,7 +17,7 @@ app.configure(function() {
   app.use(express.cookieParser());
   app.use(express.bodyParser());
   
-  //I don't know what this foes
+  //I don't know what this does
   app.use(express.methodOverride());
   
   //set the secret to a string, makes it harder to hijack sessions when salt is used
