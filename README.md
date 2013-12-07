@@ -21,3 +21,6 @@ passport
 
 passport-google
 
+mongoose
+
+crypto
