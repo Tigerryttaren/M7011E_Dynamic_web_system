@@ -9,9 +9,9 @@ var db = mongoose.createConnection("localhost", "soundslike");
 var crypt = require("./crypt");
 
 exports.findOrCreate = findOrCreate;
-exports.addcontent(lvl, parent, content, callback);
-exports.getcontent(key, callback);
-exports.findcontent(key, callback);
+exports.addcontent;
+exports.getcontent;
+exports.findcontent;
 
 var lvlSchema = new Schema({
 	name: String,
