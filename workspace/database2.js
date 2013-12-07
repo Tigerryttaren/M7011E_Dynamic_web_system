@@ -74,6 +74,7 @@ function addcontent(lvl, parent, content, callback){
 	});
 }
 
+
 function getcontent(key, callback){
 	db.once('open', function(){
 		lvl.find({name : key}, function(err, res){
@@ -82,7 +83,30 @@ function getcontent(key, callback){
 	});
 }
 
-function findUser(id, callback){
+function getcontentlvl(key, lvl, callback){
+	db.once('open', function(){
+		var current;
+		switch(lvl){
+			case 0:
+				lvl0.find({name : key}, function(err, res){
+					callback(err, res);
+				})
+			case 1:
+				lvl1.find({name : key}, function(err, res){
+					callback(err, res);
+				})
+			case 2:
+				lvl2.find({name : key}, function(err, res){
+					callback(err, res);
+				})
+			default:
+				callback('invalid level', null);
+				return
+		}
+	});
+}
+
+function findUser(id, callback){ //receives salted id 
 	db.once('open', function(){
 		user.find({openID: id}, function(err,res){
 			callback(err,res);

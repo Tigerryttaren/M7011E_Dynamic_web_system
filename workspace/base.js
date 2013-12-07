@@ -147,7 +147,7 @@ app.get('/artist', function(req,res){
 			// res.writeHead(200, { 'Content-Type': 'text/html' });  
 			// res.end(file, "utf-8");  
 	// });
-  res.render('artists', { title: 'The index page!' });
+  res.render('artist', { title: 'The index page!' });
 });
 
 

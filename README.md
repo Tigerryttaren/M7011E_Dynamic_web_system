@@ -21,4 +21,3 @@ passport
 
 passport-google
 
-swig
