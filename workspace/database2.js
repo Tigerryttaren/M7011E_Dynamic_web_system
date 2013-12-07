@@ -30,7 +30,7 @@ var lvl  = db.model('lvl' , lvlSchema),
 	lvl0 = db.model('lvl0', lvl0Schema), 
 	lvl1 = db.model('lvl1', lvlxSchema),
 	lvl2 = db.model('lvl2', lvlxSchema),
-	User = db.model('user', UserSchema);
+	User = db.model('user', userSchema);
 
 function addcontent(lvl, parent, content, callback){
 	//if not in db:
