@@ -83,7 +83,7 @@ passport.use(new GoogleStrategy({
 			console.log("\n");
 
 			db.findOrCreate(identifier, dbsalt, function(err, dbuser){
-				if (err) {return null;}
+				if (err) {console.log('\nErr: error in passport auth: '+err);return null;}
 				return done(null, dbuser);
 			});
 			// return done(null, profile);
