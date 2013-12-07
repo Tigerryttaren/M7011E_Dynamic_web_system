@@ -39,29 +39,29 @@ function addcontent(lvl, parent, content, callback){
 		switch(lvl){
 			case 0:
 				current = new lvl0({
-					name : content.name;
-					rating : content.rating;
-					picture : content.picture;
-					soundslike : {};
-					info : content.info;
+					name : content.name,
+					rating : content.rating,
+					picture : content.picture,
+					soundslike : {},
+					info : content.info
 				});
 			case 1:
 				current = new lvl1({
-					name : content.name;
-					rating : content.rating;
-					picture : content.picture;
-					soundslike : {};
-					info : content.info;
-					parent : content.parent;
+					name : content.name,
+					rating : content.rating,
+					picture : content.picture,
+					soundslike : {},
+					info : content.info,
+					parent : content.parent
 				});
 			case 2:
 				current = new lvl2({
-					name : content.name;
-					rating : content.rating;
-					picture : content.picture;
-					soundslike : {};
-					info : content.info;
-					parent : content.parent;
+					name : content.name,
+					rating : content.rating,
+					picture : content.picture,
+					soundslike : {},
+					info : content.info,
+					parent : content.parent,
 				});
 			default:
 				callback('invalid level', null);
