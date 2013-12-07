@@ -3,11 +3,11 @@ var express = require('express'),
 	fs = require('fs'), //file system
 	this_port = 8081; //choose port of the program
 
-app.use('/css', express.static(__dirname + '/dist/css'));
-app.use('/images/fake/', express.static(__dirname + '/dist/images/fake/'));
+app.use('/css', express.static(__dirname + '/views/css'));
+app.use('/images/fake/', express.static(__dirname + '/views/images/fake/'));
 
 app.get('/', function(req,res){
-	fs.readFile('./dist/index.html', function(err, file) {  
+	fs.readFile('./views/index.html', function(err, file) {  
 		if(err) {return;}  
 		res.writeHead(200, { 'Content-Type': 'text/html' });  
 		res.end(file, "utf-8");  
@@ -16,7 +16,7 @@ app.get('/', function(req,res){
 });
 
 app.get('/results.html', function(req,res){
-	fs.readFile('./dist/results.html', function(err, file) {  
+	fs.readFile('./views/results.html', function(err, file) {  
 		if(err) {return;}  
 		res.writeHead(200, { 'Content-Type': 'text/html' });  
 		res.end(file, "utf-8");  
@@ -25,7 +25,7 @@ app.get('/results.html', function(req,res){
 });
 
 app.get('/artist.html', function(req,res){
-	fs.readFile('./dist/artist.html', function(err, file) {  
+	fs.readFile('./views/artist.html', function(err, file) {  
 		if(err) {return;}  
 		res.writeHead(200, { 'Content-Type': 'text/html' });  
 		res.end(file, "utf-8");  

@@ -15,7 +15,12 @@ app.configure(function() {
   //these 2 sets the views to ejs files, can be used 
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-
+  
+  app.use('/css', express.static(__dirname + '/views/css'));
+  app.use('/images/fake/', express.static(__dirname + '/views/images/fake/'));
+  app.use('/fonts', express.static(__dirname + '/views/fonts'));
+  app.use('/js', express.static(__dirname + '/views/js'));
+  
   //logs, parses cookies and other
   app.use(express.logger());
   app.use(express.cookieParser());
@@ -117,6 +122,34 @@ app.get('/', function(req,res){
 	// });
   res.render('index', { title: 'The index page!' });
 });
+
+app.get('/album', function(req,res){
+	// fs.readFile('./basetest.html', function(err, file) {  
+		// if(err) {return;}  
+			// res.writeHead(200, { 'Content-Type': 'text/html' });  
+			// res.end(file, "utf-8");  
+	// });
+  res.render('album', { title: 'The index page!' });
+});
+
+app.get('/results', function(req,res){
+	// fs.readFile('./basetest.html', function(err, file) {  
+		// if(err) {return;}  
+			// res.writeHead(200, { 'Content-Type': 'text/html' });  
+			// res.end(file, "utf-8");  
+	// });
+  res.render('results', { title: 'The index page!' });
+});
+
+app.get('/artist', function(req,res){
+	// fs.readFile('./basetest.html', function(err, file) {  
+		// if(err) {return;}  
+			// res.writeHead(200, { 'Content-Type': 'text/html' });  
+			// res.end(file, "utf-8");  
+	// });
+  res.render('artists', { title: 'The index page!' });
+});
+
 
 // I Believe these are unneeded since google authentication takes care of it
 
