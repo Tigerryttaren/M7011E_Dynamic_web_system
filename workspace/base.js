@@ -1,7 +1,7 @@
 var express = require('express'), 
 	app = module.exports = express(),
 	fs = require('fs'), //file system
-	this_port = 8082, //choose port of the program
+	this_port = 8081, //choose port of the program
 	ejs = require('ejs');
 var passport = require('passport'), 
 	GoogleStrategy = require('passport-google').Strategy;
