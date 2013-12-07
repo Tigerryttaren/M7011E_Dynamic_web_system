@@ -7,7 +7,7 @@ var passport = require('passport'),
 	GoogleStrategy = require('passport-google').Strategy;
 	
 //local dependencies
-// var db = require('./database');
+var db = require('./database2');
 var sessionsalt = JSON.parse(fs.readFileSync(__dirname+'/sessionsalt.dontsave')).secret,
 	dbsalt = JSON.parse(fs.readFileSync(__dirname+'/dbsalt.dontsave')).secret;
 
