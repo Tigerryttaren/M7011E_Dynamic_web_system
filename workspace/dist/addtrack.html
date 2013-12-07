@@ -7,7 +7,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>Soundslike</title>
+		<title>Soundslike - Add track</title>
 		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/soundslike.css" rel="stylesheet">
 		
@@ -18,6 +18,7 @@
 		
 	</head>
 	<body>
+
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
@@ -31,25 +32,50 @@
 	</div>
 	<div class="collapse navbar-collapse">
 		<ul class="nav navbar-nav pull-right">
-			<li><a href="addartist.html">Add</a></li>
 			<li><a href="#signin">Sign In</a></li>
+			
 		</ul>
 	</div>
 	</div>
 	</div>
 
-	<div clas="center-container"> 
-	<div class="absolute-center">
-		<h1 class="logo">Soundslike</h1>
 
-		<div class="input-group soundslike-home-searchbar">
-            		<input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-            		<div class="input-group-btn">
-                		<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-            		</div>
-			
-        	</div>
-		<br><a href="results.html">DEMO: search for "Pink Floyd"</a></br>
+ 	<div class="center-buttons">	
+		<div class="btn-group-lg">
+  			<a class="btn btn-default" href="addartist.html">Artist</a>
+  			<a class="btn btn-default" href="addalbum.html">Album</a>
+  			<a class="btn btn-default active" href="addtrack.html">Track</a>
+		</div>
+	</div>
+
+	<div clas="center-container"> 
+	<div class="absolute-center-buttons">
+		
+	</div>
+
+	<div class="absolute-center-add-track">
+
+		<h1 class="logo">Add Track</h1>
+
+		<div class="input-group">
+ 			<span class="input-group-addon">Artist</span>
+  			<input type="text" class="form-control" placeholder="enter artist name">
+		</div>
+		<br />
+		<div class="input-group">
+ 			<span class="input-group-addon">Album</span>
+  			<input type="text" class="form-control" placeholder="enter album name">
+		</div>
+		<br />
+		<div class="input-group">
+ 			<span class="input-group-addon">Year</span>
+  			<input type="text" class="form-control" placeholder="enter release year">
+		</div>
+		<br />
+		<p><a class="btn btn-primary btn" role="button">Add Track</a></p>
+
+
+        </div>
 	</div>
 	</div>
 
