@@ -7,11 +7,18 @@ School project for the course M7011E at Luleå technical University, Sweden.
 
 npm install *
 
-*=
+* =
+
 express
+
 fs
+
 ejs
+
 mongoose-schema-extend
+
 passport
+
 passport-google
+
 swig
