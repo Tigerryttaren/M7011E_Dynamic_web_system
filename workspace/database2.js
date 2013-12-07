@@ -30,7 +30,7 @@ var lvl  = db.model('lvl' , lvlSchema),
 	lvl0 = db.model('lvl0', lvl0Schema), 
 	lvl1 = db.model('lvl1', lvlxSchema),
 	lvl2 = db.model('lvl2', lvlxSchema),
-	User = db.model('user', userSchema);
+	user = db.model('user', userSchema);
 
 function addcontent(lvl, parent, content, callback){
 	//if not in db:
@@ -119,19 +119,22 @@ function findUser(id, callback){ //receives salted id
 //Callback(err, res)
 function findOrCreate(openId, salt, callback){ 
 	var saltedid = crypt.hash(openId,salt);
+	
+	console.log('saltedid: '+saltedid);
+	
 	db.once("open", function(){
 		var user = db.model("users",userSchema);
+		console.log('finding...');
 		user.find({openID:saltedid}, function(err, res){
 			if (err){
-				//console.log(err);
+				console.log('\nERR: userfind:'+err);
 				callback(err, null);
 			}
 			else if (res[0]){
-				//console.log("in callback res "+res);
+				console.log("in callback res "+res);
 				callback(err, res[0]._id);
-
 			} else {
-				//console.log("in make new user");
+				console.log("in make new user");
 				var newUser = new user({openID:saltedid});
 				newUser.save(function(errs){
 					if (errs) {
