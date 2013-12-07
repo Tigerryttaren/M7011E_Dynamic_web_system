@@ -1,14 +1,15 @@
 var express = require('express'), 
 	app = module.exports = express(),
 	fs = require('fs'), //file system
-	this_port = 8080; //choose port of the program
-	
+	this_port = 8080, //choose port of the program
+	ejs = require('ejs');
 var passport = require('passport'), 
 	GoogleStrategy = require('passport-google').Strategy;
 	
 //local dependencies
 // var db = require('./database');
-var salt = JSON.parse(fs.readFileSync(__dirname+'/salt.dontsave'));
+var sessionsalt = JSON.parse(fs.readFileSync(__dirname+'/sessionsalt.dontsave')).secret,
+	dbsalt = JSON.parse(fs.readFileSync(__dirname+'/dbsalt.dontsave')).secret;
 
 app.configure(function() {
   //these 2 sets the views to ejs files, can be used 
@@ -24,7 +25,7 @@ app.configure(function() {
   app.use(express.methodOverride());
   
   //set the secret to a string, makes it harder to hijack sessions when salt is used
-  app.use(express.session({secret : salt.secret}));
+  app.use(express.session({secret : sessionsalt}));
   
   // Initialize Passport! Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
@@ -56,29 +57,30 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	returnURL: 'http://54.200.238.200:8080/auth/google/return',
-	realm: 'http://54.200.238.200:8080/'
+	// returnURL: 'http://54.200.238.200:8080/auth/google/return',
+	returnURL: 'http://localhost:8080/auth/google/return',
+	// realm: 'http://54.200.238.200:8080/'
+	realm: 'http://localhost:8080/'
 	},
 
 	function(identifier, profile, done) {
 		process.nextTick(function () {
 			//when the user logins: inser to database or check if they exist
-
 			// User.findOrCreate({ openId: identifier }, function(err, user) {
 				// done(err, user);
 			// });
 
-				// To keep the example simple, the user's Google profile is returned to
-				// represent the logged-in user. In a typical application, you would want
-				// to associate the Google account with a user record in your database,
-				// and return that user instead.
-			db.findOrCreate(profile, salt);
+
+			// profile.identifier = identifier;
 			console.log("\n");
 			console.log(profile);
-			console.log("\nHello mr " + profile.name.familyName);
 			console.log("\n");
-			profile.identifier = identifier;
-			return done(null, profile);
+
+			db.findOrCreate(identifier, dbsalt, function(err, dbuser){
+				if (err) {return null;}
+				return done(null, dbuser);
+			});
+			// return done(null, profile);
 		});
 	}
 ));
@@ -108,64 +110,61 @@ app.get('/auth/google/return',
 
 
 app.get('/', function(req,res){
-	fs.readFile('./basetest.html', function(err, file) {  
-	if(err) {return;}  
-		res.writeHead(200, { 'Content-Type': 'text/html' });  
-		res.end(file, "utf-8");  
-	});
+	// fs.readFile('./basetest.html', function(err, file) {  
+		// if(err) {return;}  
+			// res.writeHead(200, { 'Content-Type': 'text/html' });  
+			// res.end(file, "utf-8");  
+	// });
+  res.render('index', { title: 'The index page!' });
 });
 
-app.post('/api/user/register', function(req,res){
-	console.log("\n");
-	console.log("POST register");
-	console.log(req.body.username);
-	console.log(req.body.email);
-	console.log(req.body.password);
-	console.log("\n");
-	res.send('uname='+ req.body.username +', mail= ' + req.body.email + ', pass='+req.body.password);
-});
+// I Believe these are unneeded since google authentication takes care of it
 
-app.post('/api/user/login', function(req,res){
-	console.log("\n");
-	console.log("POST login");
-	console.log(req.body.username);
-	console.log(req.body.password);
-	console.log("\n");
-	res.send('uname='+ req.body.username + ', pass='+req.body.password);
+// app.post('/api/user/register', function(req,res){
+	// console.log("\n");
+	// console.log("POST register");
+	// console.log(req.body.username);
+	// console.log(req.body.email);
+	// console.log(req.body.password);
+	// console.log("\n");
+	// res.send('uname='+ req.body.username +', mail= ' + req.body.email + ', pass='+req.body.password);
+// });
+
+// app.post('/api/user/login', function(req,res){
+	// console.log("\n");
+	// console.log("POST login");
+	// console.log(req.body.username);
+	// console.log(req.body.password);
+	// console.log("\n");
+	// res.send('uname='+ req.body.username + ', pass='+req.body.password);
 	
-});
+// });
 
 app.get('/api/user/me',ensureAuthenticated, function(req,res){
 	console.log("\n");
 	console.log("GET me");
 	console.log("\n");
-	res.send(200 + ' ok');
+	res.send('Here you are :)');
 });
 
-app.post('/api/db/content/add',ensureAuthenticated, function(req,res){
-	console.log("\n");
-	console.log("POST add");
-	console.log(req.body.token);
-	console.log(req.body.level);
-	console.log(req.body.parent);
-	console.log(req.body.content);
-	console.log("\n");
-	res.send('level='+ req.body.level +', parent='+ req.body.parent+', content='+req.body.content);
+app.post('/api/db/content/add',ensureAuthenticated, function(req,res){ 
+	db.addcontent(req.body.level, req.body.parent, req.body.content, function(err, response){
+		if (err) {console.log('\nERR: content/add: '+ err);}
+		console.log(response);
+	});
+	res.send(200); // answer is sync
 });
 
-app.get('/api/db/content/link', function(req,res){
-	console.log("\n");
-	console.log("GET link");
-	console.log(req.body.token);
-	console.log(req.body.key);
-	console.log("\n");
-	res.send('token= '+ req.body.token +' key= '+req.body.key);
+app.get('/api/db/content/link', function(req,res){ //atm only response is the sent artist
+	db.getcontent(req.body.key, function(err, response){
+		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+		res.send(response); //answer is sync
+	});
 });
 
 app.post('/api/db/content/link', function(req,res){
 	console.log("\n");
 	console.log("POST link");
-	console.log(req.body.token);
 	console.log(req.body.key1);
 	console.log(req.body.key2);
 	console.log("\n");
@@ -173,11 +172,10 @@ app.post('/api/db/content/link', function(req,res){
 });
 
 app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?$/, function(req, res){
-	console.log("\n");
-	console.log("GET db/content/<c>");
-	var	c = req.params[0];
-	console.log('<c>='+c);
-	res.send('c= '+c);
+	db.getcontent(req.params[0], function(err, response){
+		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+		res.send(response); //answer is sync
+	});
 });
 
 app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/edit$/, function(req, res){
@@ -199,7 +197,6 @@ app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/rate$/, function(req, res){
 	console.log(req.body.value);
 	console.log("\n");
 	res.send('c = '+req.params[0]+' token= '+ req.body.token +' value= '+req.body.value);
-	
 });
 
 app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/review$/, function(req, res){
@@ -214,17 +211,12 @@ app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/review$/, function(req, res)
 
 
 
-//Below are functions usable in the other functions
 
 
-// error handling middleware. Because it's
-// below our routes, you will be able to
-// "intercept" errors, otherwise Connect
-// will respond with 500 "Internal Server Error".
+
+// error handling middleware.
 app.use(function(err, req, res, next){
   // special-case 404s,
-  // remember you could
-  // render a 404 template here
   if (404 == err.status) {
     res.statusCode = 404;
     res.send('Cant find that file, sorry!');
@@ -233,7 +225,9 @@ app.use(function(err, req, res, next){
   }
 });
 
-function ensureAuthenticated(req, res, next) {
+//Below are functions usable in the other functions
+
+function ensureAuthenticated(req, res, next) { //this should probably be changed to if db.findUser(req.user).unsalt.isauthenticated , but i will test first
   if (req.isAuthenticated()) { return next(); }
   console.log("Failed authentication");
   res.redirect('/login');

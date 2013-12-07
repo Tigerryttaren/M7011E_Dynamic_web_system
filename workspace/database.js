@@ -1,4 +1,14 @@
+// i want a find user for endpoint  /api/user/me, prob a search for what the findorcreate function returned, but need to do some testing first
+
+// some nod in the functionnames to tell me which functions handle users and which handle content is neccessary if you want to keep everything in one document
+
+//shall we generate a username when user is created?
+
+// added function addcontent
+
+
 var mongoose = require("mongoose");
+
 var db = mongoose.createConnection("localhost", "soundslike");
 var crypt = require("./crypt");
 //var schemas = require("./initSchemas");
@@ -49,7 +59,7 @@ var userSchema = new mongoose.Schema({
 //This Method finds openId and returns 
 //call with
 //Callback(err, res)
-function findOrCreate(openId, salt, callback){
+function findOrCreate(openId, salt, callback){ 
 	var saltedid = crypt.hash(openId,salt);
 	db.once("open", function(){
 		var user = db.model("users",userSchema);
@@ -87,12 +97,12 @@ function getbyname(num, Name, callback){
 		getbynameHelper(lvl0, Name,function(err, res){
 			callback(err,res);});
 	}
-	if (num==1) {
+	else if (num==1) {
 		var lvl1 = db.model("lvl1",lvl1Schema);
 		getbynameHelper(lvl1, Name,function(err, res){
 			callback(err,res);})
 	}
-	if (num==2) {
+	else if (num==2) {
 		var lvl2 = db.model("lvl2",lvl2Schema);
 		getbynameHelper(lvl2, Name,function(err, res){
 			callback(err,res);
@@ -121,7 +131,18 @@ function getbyidHelper(lvl, what, Name, callback){
 
 
 
-
+function addcontent(lvl, parent, content, callback){
+	switch(lvl){
+		case 0:
+			addlvl0(content, callback);
+		case 1:
+			addlvl1(parent, content, callback);
+		case 2:
+			addlvl2(parent, content, callback);
+		default:
+			callback('invalid level', null);
+	}
+}
 
 function getlvl0(artistName, callback){
 	db.once("open", function(){
