@@ -118,11 +118,12 @@ function findUser(id, callback){ //receives salted id
 //call with
 //Callback(err, res)
 function findOrCreate(openId, salt, callback){ 
+
+	console.log('in database2.js; ');
 	var saltedid = crypt.hash(openId,salt);
-	
 	console.log('saltedid: '+saltedid);
 	
-	db.once("open", function(){
+	db.once("open", function(){ //GETS STUCK
 		var user = db.model("users",userSchema);
 		console.log('finding...');
 		user.find({openID:saltedid}, function(err, res){
