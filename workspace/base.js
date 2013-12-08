@@ -250,7 +250,12 @@ app.use(function(err, req, res, next){
   if (404 == err.status) {
     res.statusCode = 404;
     res.send('Cant find that file, sorry!');
-  } else {
+  } 
+  else if (500 == err.status) {
+    res.statusCode = 500;
+    res.send(500 internal server error, see console);
+  }
+  else {
     next(err);
   }
 });
