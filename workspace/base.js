@@ -138,7 +138,7 @@ app.get('/results', function(req,res){
 			// res.writeHead(200, { 'Content-Type': 'text/html' });  
 			// res.end(file, "utf-8");  
 	// });
-  res.render('results', { title: 'The index page!' });
+  res.render('results', { artists : [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], albums : [ {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ] } );
 });
 
 app.get('/artist', function(req,res){
@@ -147,7 +147,7 @@ app.get('/artist', function(req,res){
 			// res.writeHead(200, { 'Content-Type': 'text/html' });  
 			// res.end(file, "utf-8");  
 	// });
-  res.render('artist', { title: 'The index page!' });
+  res.render('artist', { name: 'Raubtier', children: [ {name : 'Från Norrland Till Helvetets Port', year : '2012'}, {name: 'Skriet Från Vildmarken', year: '2010'}, {name: 'Det Finns Bara Krig', year: '2009'} ], rating: '* * * * *', soundslike : [{name : 'Rammstein'},{name : 'Rammstein'},{name : 'Rammstein'}, {name : 'Sabaton'}, {name : 'Rammstein'}], toptracks : [ {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'} ] });
 });
 
 
