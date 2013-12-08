@@ -9,9 +9,9 @@ var db = mongoose.createConnection("localhost", "soundslike");
 var crypt = require("./crypt");
 
 exports.findOrCreate = findOrCreate;
-exports.addcontent(lvl, parent, content, callback);
-exports.getcontent(key, callback);
-exports.findcontent(key, callback);
+exports.addcontent;
+exports.getcontent;
+exports.findcontent;
 
 var lvlSchema = new Schema({
 	name: String,
@@ -30,7 +30,7 @@ var lvl  = db.model('lvl' , lvlSchema),
 	lvl0 = db.model('lvl0', lvl0Schema), 
 	lvl1 = db.model('lvl1', lvlxSchema),
 	lvl2 = db.model('lvl2', lvlxSchema),
-	User = db.model('user', UserSchema);
+	user = db.model('user', userSchema);
 
 function addcontent(lvl, parent, content, callback){
 	//if not in db:
@@ -39,29 +39,29 @@ function addcontent(lvl, parent, content, callback){
 		switch(lvl){
 			case 0:
 				current = new lvl0({
-					name = content.name;
-					rating = content.rating;
-					picture = content.picture;
-					soundslike = {};
-					info = content.info;
+					name : content.name,
+					rating : content.rating,
+					picture : content.picture,
+					soundslike : {},
+					info : content.info
 				});
 			case 1:
 				current = new lvl1({
-					name = content.name;
-					rating = content.rating;
-					picture = content.picture;
-					soundslike = {};
-					info = content.info;
-					parent = content.parent;
+					name : content.name,
+					rating : content.rating,
+					picture : content.picture,
+					soundslike : {},
+					info : content.info,
+					parent : content.parent
 				});
 			case 2:
 				current = new lvl2({
-					name = content.name;
-					rating = content.rating;
-					picture = content.picture;
-					soundslike = {};
-					info = content.info;
-					parent = content.parent;
+					name : content.name,
+					rating : content.rating,
+					picture : content.picture,
+					soundslike : {},
+					info : content.info,
+					parent : content.parent,
 				});
 			default:
 				callback('invalid level', null);
@@ -118,20 +118,24 @@ function findUser(id, callback){ //receives salted id
 //call with
 //Callback(err, res)
 function findOrCreate(openId, salt, callback){ 
+
+	console.log('in database2.js; ');
 	var saltedid = crypt.hash(openId,salt);
-	db.once("open", function(){
+	console.log('saltedid: '+saltedid);
+	
+	db.once("open", function(){ //GETS STUCK
 		var user = db.model("users",userSchema);
+		console.log('finding...');
 		user.find({openID:saltedid}, function(err, res){
 			if (err){
-				//console.log(err);
+				console.log('\nERR: userfind:'+err);
 				callback(err, null);
 			}
 			else if (res[0]){
-				//console.log("in callback res "+res);
+				console.log("in callback res "+res);
 				callback(err, res[0]._id);
-
 			} else {
-				//console.log("in make new user");
+				console.log("in make new user");
 				var newUser = new user({openID:saltedid});
 				newUser.save(function(errs){
 					if (errs) {

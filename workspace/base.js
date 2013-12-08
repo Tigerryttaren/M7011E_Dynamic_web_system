@@ -1,13 +1,13 @@
 var express = require('express'), 
 	app = module.exports = express(),
 	fs = require('fs'), //file system
-	this_port = 8080, //choose port of the program
+	this_port = 8081, //choose port of the program
 	ejs = require('ejs');
 var passport = require('passport'), 
 	GoogleStrategy = require('passport-google').Strategy;
 	
 //local dependencies
-// var db = require('./database');
+var db = require('./database2');
 var sessionsalt = JSON.parse(fs.readFileSync(__dirname+'/sessionsalt.dontsave')).secret,
 	dbsalt = JSON.parse(fs.readFileSync(__dirname+'/dbsalt.dontsave')).secret;
 
@@ -16,6 +16,7 @@ app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   
+  //overwrite filepaths
   app.use('/css', express.static(__dirname + '/views/css'));
   app.use('/images/fake/', express.static(__dirname + '/views/images/fake/'));
   app.use('/fonts', express.static(__dirname + '/views/fonts'));
@@ -62,10 +63,10 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	// returnURL: 'http://54.200.238.200:8080/auth/google/return',
-	returnURL: 'http://localhost:8080/auth/google/return',
-	// realm: 'http://54.200.238.200:8080/'
-	realm: 'http://localhost:8080/'
+	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	// returnURL: 'http://localhost:8080/auth/google/return',
+	realm: 'http://54.200.238.200:'+this_port+'/'
+	// realm: 'http://localhost:8080/'
 	},
 
 	function(identifier, profile, done) {
@@ -82,7 +83,7 @@ passport.use(new GoogleStrategy({
 			console.log("\n");
 
 			db.findOrCreate(identifier, dbsalt, function(err, dbuser){
-				if (err) {return null;}
+				if (err) {console.log('\nErr: error in passport auth: '+err);return null;}
 				return done(null, dbuser);
 			});
 			// return done(null, profile);
@@ -149,6 +150,22 @@ app.get('/artist', function(req,res){
 	// });
   res.render('artist', { name: 'Raubtier', children: [ {name : 'Från Norrland Till Helvetets Port', year : '2012'}, {name: 'Skriet Från Vildmarken', year: '2010'}, {name: 'Det Finns Bara Krig', year: '2009'} ], rating: '* * * * *', soundslike : [{name : 'Rammstein'},{name : 'Rammstein'},{name : 'Rammstein'}, {name : 'Sabaton'}, {name : 'Rammstein'}], toptracks : [ {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'} ] });
 });
+
+app.get('/link', function(req,res){
+	// fs.readFile('./basetest.html', function(err, file) {  
+		// if(err) {return;}  
+			// res.writeHead(200, { 'Content-Type': 'text/html' });  
+			// res.end(file, "utf-8");  
+	// });
+  res.render('link', { 
+  sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
+  soundslikelist: [
+					{name: 'Anton side of the moon', parent: 'Antons mamma', imgurl: 'http://img.laget.se/2692915.jpg'},
+					{name: 'Dark side of Anton', parent: 'Antons pappa', imgurl: 'https://pbs.twimg.com/profile_images/378800000695072052/973895f817ea5419ad1ed101374c5991.jpeg'},
+					{name: 'Dark Anton of the moon', parent: 'Antons bror', imgurl: 'https://pbs.twimg.com/profile_images/3622800908/def779d8ce92eb727bc7f62491c3d3f5.jpeg'}]
+	});
+});
+
 
 
 // I Believe these are unneeded since google authentication takes care of it
