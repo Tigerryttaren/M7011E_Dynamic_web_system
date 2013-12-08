@@ -27,7 +27,7 @@
 			<span class="icon-bar"></span>
  			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="index.html">Soundslike</a>
+		<a class="navbar-brand" href="index">Soundslike</a>
 	</div>
 	<div class="collapse navbar-collapse">
 
@@ -39,7 +39,7 @@
           	</form>
 
 		<ul class="nav navbar-nav pull-right">
-			<li><a href="addartist.html">Add</a></li>
+			<li><a href="addartist">Add</a></li>
 			<li><a href="#signin">Sign In</a></li>
 		</ul>
 	</div>
@@ -52,13 +52,7 @@
 
 
 
-
-
-
-
-
 <!-- begin ARTISTS -->
-
 <div class="container ">
     <div class="col-md-12">
         <h4>Artists</h4>
@@ -67,283 +61,125 @@
                 
                 <!-- Carousel items -->
                 <div class="carousel-inner">
-                    <div class="item active">
-                        <div class="row">
+                   		<% var spinner_artist=1 %>
+				<% var flag_artist=1 %>
+				<% for (var i=0; i<artists.length; i++) { %>
+					<% if(spinner_artist == 1) { %>
+						<% if (flag_artist == 1) { %>
+							<div class="item active">
+							<div class="row">
+						<% } else { %>
+							<div class="item">
+							<div class="row">
+						<% } %>
+		
+						<div class="col-sm-3"><a class="soundslike-link-image" href="artist"><img src="<%= artists[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="artist"><h4><%= artists[i].name %></h4></a>
+						</div>	
 
-				<!-- For a small white border on the image add "class="thumbnail" to "a href..." -->
+					<% } else if(spinner_artist == 4) { %>
+						<% spinner_artist=0 %>
+					
+						<div class="col-sm-3"><a class="soundslike-link-image" href="artist"><img src="<%= artists[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="artist"><h4><%= artists[i].name %></h4></a>
+                            			</div>
+	
+						</div>
+						</div>
+
+					<% } else { %>
+
+						<div class="col-sm-3"><a class="soundslike-link-image" href="artist"><img src="<%= artists[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="artist"><h4><%= artists[i].name %></h4></a>	
+						</div>
+						
+					<% } %>
+					<% if(i == (artists.length-1)) { %>
+						</div>
+						</div>
+					<% } %>
+
+					<% spinner_artist=spinner_artist+1 %>
+					<% flag_artist=flag_artist+1 %>
 				
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>	
-                            </div>
-				
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="artist.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="artist"><h4>Pink Floyd</h4></a>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
+				<% } %>
                 </div>
                 <!--/carousel-inner--> <a class="left carousel-control" href="#carousel-artists" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
 
                 <a class="right carousel-control" href="#carousel-artists" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </div>
-            <!--/myCarousel-->
+            <!--/Carousel-->
         </div>
         <!--/well-->
     </div>
 </div>
-
 <!-- end ARTISTS -->
 
-
 <!-- begin ALBUMS -->
-
 <div class="container ">
     <div class="col-md-12">
-        <h4>Albums</h4>
+        <h4>Artists</h4>
         <div class="well">
             <div id="carousel-albums" class="carousel slide" data-interval="false">
                 
                 <!-- Carousel items -->
                 <div class="carousel-inner">
-                    <div class="item active">
-                        <div class="row">
+                   		<% var spinner_albums=1 %>
+				<% var flag_albums=1 %>
+				<% for (var i=0; i<albums.length; i++) { %>
+					<% if(spinner_albums == 1) { %>
+						<% if (flag_albums == 1) { %>
+							<div class="item active">
+							<div class="row">
+						<% } else { %>
+							<div class="item">
+							<div class="row">
+						<% } %>
+		
+						<div class="col-sm-3"><a class="soundslike-link-image" href="album"><img src="<%= albums[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="album"><h4><%= albums[i].name %></h4></a>
+						<a class="soundslike-link-text" href="artist"><h5><%= albums[i].parent %></h5></a>	
+						</div>	
 
-				<!-- For a small white border on the image add "class="thumbnail" to "a href..." -->
+					<% } else if(spinner_albums == 4) { %>
+						<% spinner_albums=0 %>
+					
+						<div class="col-sm-3"><a class="soundslike-link-image" href="album"><img src="<%= albums[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="album"><h4><%= albums[i].name %></h4></a>
+						<a class="soundslike-link-text" href="artist"><h5><%= albums[i].parent %></h5></a>
+                            			</div>
+	
+						</div>
+						</div>
+
+					<% } else { %>
+
+						<div class="col-sm-3"><a class="soundslike-link-image" href="album"><img src="<%= albums[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="album"><h4><%= albums[i].name %></h4></a>	
+						<a class="soundslike-link-text" href="artist"><h5><%= albums[i].parent %></h5></a>
+						</div>
+						
+					<% } %>
+					<% if(i == (albums.length-1)) { %>
+						</div>
+						</div>
+					<% } %>
+
+					<% spinner_albums=spinner_albums+1 %>
+					<% flag_albums=flag_albums+1 %>
 				
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist.html"><h5>Pink Floyd</h5></a>	
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist.html"><h5>Pink Floyd</h5></a>	
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album.html"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album.html"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-				
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                            <div class="col-sm-3"><a class="soundslike-link-image" href="album.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<a class="soundslike-link-text" href="album"><h4>Dark Side Of The Moon</h4></a>
-				<a class="soundslike-link-text" href="artist"><h5>Pink Floyd</h5></a>	
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
+				<% } %>
                 </div>
                 <!--/carousel-inner--> <a class="left carousel-control" href="#carousel-albums" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
 
                 <a class="right carousel-control" href="#carousel-albums" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </div>
-            <!--/myCarousel-->
+            <!--/Carousel-->
         </div>
         <!--/well-->
     </div>
 </div>
-
 <!-- end ALBUMS -->
-  
-<!-- begin TRACKS -->
-
-<div class="container ">
-    <div class="col-md-12">
-        <h4>Tracks</h4>
-        <div class="well">
-            <div id="carousel-tracks" class="carousel slide" data-interval="false">
-                
-                <!-- Carousel items -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <div class="row">
-
-				<!-- For a small white border on the image add "class="thumbnail" to "a href..." -->
-				
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3"><a href="index.html"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>	
-                            </div>
-				
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                            <div class="col-sm-3"><a href="#x"><img src="images/fake/darkside.jpg" alt="Image" class="img-responsive"></a>
-				<h4>Any Colour You Like</h4>
-				<h5>Dark Side Of The Moon</h5>
-				<h6>Pink Floyd</h6>
-                            </div>
-                        </div>
-                        <!--/row-->
-                    </div>
-                    <!--/item-->
-                </div>
-                <!--/carousel-inner--> <a class="left carousel-control" href="#carousel-tracks" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-
-                <a class="right carousel-control" href="#carousel-tracks" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
-            </div>
-            <!--/myCarousel-->
-        </div>
-        <!--/well-->
-    </div>
-</div>
-
-<!-- end TRACKS -->
-
-
-
-
-
-
-
-
 
 
 	</div>
