@@ -3,11 +3,7 @@ M7011E_Dynamic_web_system
 
 School project for the course M7011E at Luleå technical University, Sweden.
 
-#Dependencies
-
-npm install *
-
-* =
+#Dependent on the following nodejs modules
 
 express
 
@@ -24,3 +20,6 @@ passport-google
 mongoose
 
 crypto
+
+#Use
+npm install *module*
