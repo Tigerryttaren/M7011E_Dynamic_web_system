@@ -7,7 +7,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>Soundsike - Search results</title>
+		<title>Soundslike - Search results</title>
 		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/soundslike.css" rel="stylesheet">
 		
@@ -15,7 +15,6 @@
  			body {padding-top: 50px;}
 		</style>
 
-		
 	</head>
 	<body>
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -27,7 +26,7 @@
 			<span class="icon-bar"></span>
  			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="index">Soundslike</a>
+		<a class="navbar-brand" href="/">Soundslike</a>
 	</div>
 	<div class="collapse navbar-collapse">
 
@@ -48,9 +47,6 @@
 
 	<div clas=""> 
 	<div class="">
-
-
-
 
 <!-- begin ARTISTS -->
 <div class="container ">
@@ -118,7 +114,7 @@
 <!-- begin ALBUMS -->
 <div class="container ">
     <div class="col-md-12">
-        <h4>Artists</h4>
+        <h4>Albums</h4>
         <div class="well">
             <div id="carousel-albums" class="carousel slide" data-interval="false">
                 
@@ -180,6 +176,77 @@
     </div>
 </div>
 <!-- end ALBUMS -->
+
+
+<!-- begin TRACKS -->
+<div class="container ">
+    <div class="col-md-12">
+        <h4>Tracks</h4>
+        <div class="well">
+            <div id="carousel-tracks" class="carousel slide" data-interval="false">
+                
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+                   		<% var spinner_tracks=1 %>
+				<% var flag_tracks=1 %>
+				<% for (var i=0; i<tracks.length; i++) { %>
+					<% if(spinner_tracks == 1) { %>
+						<% if (flag_tracks == 1) { %>
+							<div class="item active">
+							<div class="row">
+						<% } else { %>
+							<div class="item">
+							<div class="row">
+						<% } %>
+		
+						<div class="col-sm-3"><a class="soundslike-link-image" href="track"><img src="<%= tracks[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="track"><h4><%= tracks[i].name %></h4></a>
+						<a class="soundslike-link-text" href="track"><h5><%= tracks[i].album %></h5></a>	
+						<a class="soundslike-link-text" href="track"><h6><%= tracks[i].artist %></h6></a>
+						</div>	
+
+					<% } else if(spinner_tracks == 4) { %>
+						<% spinner_tracks=0 %>
+					
+						<div class="col-sm-3"><a class="soundslike-link-image" href="track"><img src="<%= tracks[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="track"><h4><%= tracks[i].name %></h4></a>
+						<a class="soundslike-link-text" href="track"><h5><%= tracks[i].album %></h5></a>
+						<a class="soundslike-link-text" href="track"><h6><%= tracks[i].artist %></h6></a>
+                            			</div>
+	
+						</div>
+						</div>
+
+					<% } else { %>
+
+						<div class="col-sm-3"><a class="soundslike-link-image" href="track"><img src="<%= tracks[i].pic %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="album"><h4><%= tracks[i].name %></h4></a>	
+						<a class="soundslike-link-text" href="track"><h5><%= tracks[i].album %></h5></a>
+						<a class="soundslike-link-text" href="track"><h6><%= tracks[i].artist %></h6></a>
+						</div>
+						
+					<% } %>
+					<% if(i == (tracks.length-1)) { %>
+						</div>
+						</div>
+					<% } %>
+
+					<% spinner_tracks=spinner_tracks+1 %>
+					<% flag_tracks=flag_tracks+1 %>
+				
+				<% } %>
+                </div>
+                <!--/carousel-inner--> <a class="left carousel-control" href="#carousel-tracks" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+
+                <a class="right carousel-control" href="#carousel-tracks" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+            </div>
+            <!--/Carousel-->
+        </div>
+        <!--/well-->
+    </div>
+</div>
+<!-- end TRACKS -->
+
 
 
 	</div>
