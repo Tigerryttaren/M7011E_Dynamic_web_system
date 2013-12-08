@@ -53,21 +53,36 @@
 
 		<div class="input-group">
  			<span class="input-group-addon">Artist</span>
-  			<input type="text" class="form-control" placeholder="artist name">
+  			<input id="artistf" type="text" class="form-control" placeholder="artist name">
 		</div>
 		<br />
 		<div class="input-group">
  			<span class="input-group-addon">Picture</span>
-  			<input type="text" class="form-control" placeholder="link to picture">
+  			<input id="picturef" type="text" class="form-control" placeholder="link to picture">
 		</div>
 		<br />
-		<p><a class="btn btn-soundslike" role="button">Add Artist</a></p>
+		<p><a class="btn btn-soundslike" role="button" onclick="send(
+		document.getElementById('artistf').value,
+		document.getElementById('picturef').value)">Add Artist</a></p>
 
 
         </div>
 	</div>
 	</div>
 
+	<script> 
+		function send(ar, pic){
+			xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("POST", "/api/db/content/add", true);
+			xmlhttp.setRequestHeader('Content-Type', 'application/json');
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+					window.location.replace("/api/db/content/"+ar);
+				}
+			}
+			xmlhttp.send(JSON.stringify({ "level": "0", "content":{ "name": ar, "picture": pic }  }));
+		}
+	</script>
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	</body>

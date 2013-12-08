@@ -58,27 +58,37 @@
 		<h1 class="logo">Add Track</h1>
 
 		<div class="input-group">
- 			<span class="input-group-addon">Artist</span>
-  			<input type="text" class="form-control" placeholder="enter artist name">
+ 			<span class="input-group-addon">Track</span>
+  			<input id="trackf" type="text" class="form-control" placeholder="enter track name">
 		</div>
 		<br />
 		<div class="input-group">
  			<span class="input-group-addon">Album</span>
-  			<input type="text" class="form-control" placeholder="enter album name">
+  			<input id="albumf" type="text" class="form-control" placeholder="enter album name">
 		</div>
 		<br />
-		<div class="input-group">
- 			<span class="input-group-addon">Year</span>
-  			<input type="text" class="form-control" placeholder="enter release year">
-		</div>
-		<br />
-		<p><a class="btn btn-soundslike" role="button">Add Track</a></p>
+		<p><a class="btn btn-soundslike" role="button" onclick="send(
+		document.getElementById('trackf').value,
+		document.getElementById('albumf').value)">Add Track</a></p>
 
 
         </div>
 	</div>
 	</div>
 
+	<script> 
+		function send(tr, al){
+			xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("POST", "/api/db/content/add", true);
+			xmlhttp.setRequestHeader('Content-Type', 'application/json');
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+					window.location.replace("/api/db/content/"+tr);
+				}
+			}
+			xmlhttp.send(JSON.stringify({ "level": "2", "content":{ "name": tr, "parent": al }  }));
+		}
+	</script>
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	</body>

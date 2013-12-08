@@ -18,11 +18,10 @@ var lvlSchema = new Schema({
 	rating: Number,
 	picture: String, //picture should end on .png/.jpg and is web address
 	soundslike: {},
-	info: String
 }, {collection : 'content', discriminatorKey : '_type'});
 
 var lvl0Schema = lvlSchema.extend({}),
-	lvlxSchema = lvlSchema.extend({ parent: Number });
+	lvlxSchema = lvlSchema.extend({ parent: String });
 var userSchema = new Schema({ openID: String });
 
 //shall this be db.model or mongoose.model, example said mongoose.model
@@ -32,7 +31,7 @@ var lvl  = db.model('lvl' , lvlSchema),
 	lvl2 = db.model('lvl2', lvlxSchema),
 	user = db.model('user', userSchema);
 
-function addcontent(lvl, parent, content, callback){
+function addcontent(lvl, content, callback){
 	//if not in db:
 	db.once('open', function(){
 		var current;
@@ -40,27 +39,24 @@ function addcontent(lvl, parent, content, callback){
 			case 0:
 				current = new lvl0({
 					name : content.name,
-					rating : content.rating,
+					rating : 0,
 					picture : content.picture,
-					soundslike : {},
-					info : content.info
+					soundslike : [],
 				});
 			case 1:
 				current = new lvl1({
 					name : content.name,
-					rating : content.rating,
+					rating : 0,
 					picture : content.picture,
-					soundslike : {},
-					info : content.info,
+					soundslike : [],
 					parent : content.parent
 				});
 			case 2:
 				current = new lvl2({
 					name : content.name,
-					rating : content.rating,
-					picture : content.picture,
-					soundslike : {},
-					info : content.info,
+					rating : 0,
+					picture : "",
+					soundslike : [],
 					parent : content.parent,
 				});
 			default:

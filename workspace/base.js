@@ -7,7 +7,7 @@ var passport = require('passport'),
 	GoogleStrategy = require('passport-google').Strategy;
 	
 //local dependencies
-var db = require('./database2');
+// var db = require('./database2');
 var sessionsalt = JSON.parse(fs.readFileSync(__dirname+'/sessionsalt.dontsave')).secret,
 	dbsalt = JSON.parse(fs.readFileSync(__dirname+'/dbsalt.dontsave')).secret;
 
@@ -63,10 +63,10 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
-	// returnURL: 'http://localhost:8080/auth/google/return',
-	realm: 'http://54.200.238.200:'+this_port+'/'
-	// realm: 'http://localhost:8080/'
+	// returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	returnURL: 'http://localhost:'+this_port+'/auth/google/return',
+	// realm: 'http://54.200.238.200:'+this_port+'/'
+	realm: 'http://localhost:'+this_port+'/'
 	},
 
 	function(identifier, profile, done) {
@@ -133,6 +133,7 @@ app.get('/album', function(req,res){
   res.render('album', { title: 'The index page!' });
 });
 
+
 app.get('/results', function(req,res){
 	// fs.readFile('./basetest.html', function(err, file) {  
 		// if(err) {return;}  
@@ -167,6 +168,10 @@ app.get('/link', function(req,res){
 });
 
 
+app.get('/addalbum',  function(req,res){ res.render('addalbum');  });
+app.get('/addartist', function(req,res){ res.render('addartist'); });
+app.get('/addtrack',  function(req,res){ res.render('addtrack');  });
+
 
 // I Believe these are unneeded since google authentication takes care of it
 
@@ -197,11 +202,12 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 	res.send('Here you are :)');
 });
 
-app.post('/api/db/content/add',ensureAuthenticated, function(req,res){ 
-	db.addcontent(req.body.level, req.body.parent, req.body.content, function(err, response){
-		if (err) {console.log('\nERR: content/add: '+ err);}
-		console.log(response);
-	});
+app.post('/api/db/content/add', function(req,res){ 
+	// db.addcontent(req.body.level, req.body.parent, req.body.content, function(err, response){
+		// if (err) {console.log('\nERR: content/add: '+ err);}
+		// console.log(response);
+	// });
+	console.log("\n\n"+req.body.level +" "+req.body.content.name+" "+req.body.content.parent+" "+req.body.content.picture+" "+req.body.content+"\n");
 	res.send(200); // answer is sync
 });
 
@@ -222,10 +228,12 @@ app.post('/api/db/content/link', function(req,res){
 });
 
 app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?$/, function(req, res){
-	db.getcontent(req.params[0], function(err, response){
-		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-		res.send(response); //answer is sync
-	});
+	// db.getcontent(req.params[0], function(err, response){
+		// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+		// res.send(response); //answer is sync
+	// });
+	console.log("\nhej");
+	res.send();
 });
 
 app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/edit$/, function(req, res){
