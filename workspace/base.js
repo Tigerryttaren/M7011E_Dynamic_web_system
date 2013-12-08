@@ -260,7 +260,7 @@ app.use(function(err, req, res, next){
 function ensureAuthenticated(req, res, next) { //this should probably be changed to if db.findUser(req.user).unsalt.isauthenticated , but i will test first
   if (req.isAuthenticated()) { return next(); }
   console.log("Failed authentication");
-  res.redirect('/login');
+  res.redirect('/auth/google');
 }
 
 //code to make this module listen to a port if no parents use this as a module
