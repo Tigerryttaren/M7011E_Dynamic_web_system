@@ -132,6 +132,7 @@ app.get('/results', function(req,res){
 });
 
 app.get('/link', function(req,res){
+  var sac = db.
   res.render('link', { 
   sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
   soundslikelist: [
@@ -180,6 +181,7 @@ app.post('/api/db/content/add', function(req,res){
 	// db.addcontent(req.body.level, req.body.parent, req.body.content, function(err, response){
 		// if (err) {console.log('\nERR: content/add: '+ err);}
 		// console.log(response);
+		// res.send(200);
 	// });
 	console.log("\n\n"+req.body.level +" "+req.body.content.name+" "+req.body.content.parent+" "+req.body.content.picture+" "+req.body.content+"\n");
 	res.send(200); // answer is sync
@@ -253,7 +255,7 @@ app.use(function(err, req, res, next){
   } 
   else if (500 == err.status) {
     res.statusCode = 500;
-    res.send(500 internal server error, see console);
+    res.send(500 +' internal server error, see console');
   }
   else {
     next(err);

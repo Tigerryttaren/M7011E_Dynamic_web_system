@@ -13,29 +13,30 @@ var db = mongoose.createConnection("localhost", "soundslike");
 var crypt = require("./crypt");
 //var schemas = require("./initSchemas");
 //schemas.init();
-exports.getlvl0 = getlvl0;
+
 exports.addlvl0 = addlvl0;
-exports.getlvl1 = getlvl1;
 exports.addlvl1 = addlvl1;
-exports.getlvl2 = getlvl2;
 exports.addlvl2 = addlvl2;
 exports.findOrCreate = findOrCreate;
 exports.getbyname= getbyname;
-exports.getany=getany;
+exports.getbyid = getbyid;
+exports.getsoundslike = getsoundslike;
+exports.soundslike = soundslike;
+
 
 var lvl0Schema = new mongoose.Schema({
 		name: String,
 		rating: Number,
 		//picture should end on .png/.jpg and is web address
 		picture: String,
-		soundslike: {},
+		soundslike: [],
 		info: {}
 	});
 var lvl1Schema = new mongoose.Schema({
 		name: String,
 		rating: Number,
 		picture: String,
-		soundslike: {},
+		soundslike: [],
 		parent: Number,
 		info: {}
 	});
@@ -43,7 +44,7 @@ var lvl2Schema = new mongoose.Schema({
 		name: String,
 		rating: Number,
 		picture: String,
-		soundslike: {},
+		soundslike: [],
 		parent: Number,
 		info: {}
 	});
@@ -113,95 +114,185 @@ function getbynameHelper(lvl, Name, callback){
 			callback(err, res);
 })})}
 
-function getany(num, what, ID, callback){
-if (num==0) {
+function getbyid(num, Name, callback){
+	if (num==0) {
 		var lvl0 = db.model("lvl0",lvl0Schema);
-		getbyidHelper(lvl0, what, ID,function(err, res){
-			callback(err,res);
-		});
+		getbyidHelper(lvl0, Name,function(err, res){
+			callback(err,res);});
 	}
-}
-function getbyidHelper(lvl, what, Name, callback){
+	else if (num==1) {
+		var lvl1 = db.model("lvl1",lvl1Schema);
+		getbyidHelper(lvl1, Name,function(err, res){
+			callback(err,res);})
+	}
+	else if (num==2) {
+		var lvl2 = db.model("lvl2",lvl2Schema);
+		getbyidHelper(lvl2, Name,function(err, res){
+			callback(err,res);
+})}}
+function getbyidHelper(lvl, Name, callback){
 	db.once("open", function(){
-		lvl.find({what:Name}, function(err, res){
+		lvl.find({_id:Name}, function(err, res){
 			callback(err, res);
 })})}
 
-
-
-
-
-function addcontent(lvl, parent, content, callback){
-	switch(lvl){
-		case 0:
-			addlvl0(content, callback);
-		case 1:
-			addlvl1(parent, content, callback);
-		case 2:
-			addlvl2(parent, content, callback);
-		default:
-			callback('invalid level', null);
-	}
-}
-
-function getlvl0(artistName, callback){
+function addlvl0(name, rating, picture, soundslike, info, callback){
 	db.once("open", function(){
 		var lvl0 = db.model("lvl0",lvl0Schema);
-		lvl0.find({name:artistName}, function(err, res){
-			callback(err, res);
-		})
-	});
-}
-
-function addlvl0(artistName, arg2, callback){
-	db.once("open", function(){
-		var lvl0 = db.model("lvl0",lvl0Schema);
-		var newlvl0 = new lvl0({name:artistName, info:arg2 });
+		var newlvl0 = new lvl0({
+			name: name,
+			rating: rating,
+			picture: picture,
+			soundslike: soundslike,
+			info: info
+		});
 		newlvl0.save(function(err){
 			if (err){callback(err);}
-			else{callback(null)}
+			else{callback("success")}
 		});
 	});
 }
 
-
-
-function getlvl1(albumName, callback){
-	db.once("open", function(){
-		var lvl1 = db.model("lvl1",albumSchema);
-		lvl1.find({name:albumName}, function(err, res){
-			callback(err, res);
-		})
-	});
-}
-function addlvl1(albumName, callback){
+function addlvl1(name, rating, picture, soundslike, parent, info, callback){
 	db.once("open", function(){
 		var lvl1 = db.model("lvl1",lvl1Schema);
-		var metallica = new lvl1({name:"Niklas"}, {info:["Niklas", "hej"]});
-		metallica.save(function(err){
-			if (err){callback(err);}
-			else{callback(null)}
+		var newlvl1 = new lvl1({
+			name: name,
+			rating: rating,
+			picture: picture,
+			soundslike: soundslike,
+			parent: parent,
+			info: info
 		});
-		
+		newlvl1.save(function(err){
+			if (err){callback(err);}
+			else{callback("success")}
+		});
 	});
 }
 
-function getlvl2(trackName, callback){
-	db.once("open", function(){
-		var lvl2 = db.model("lvl2",trackSchema);
-		lvl2.find({name:trackName}, function(err, res){
-			callback(err, res);
-		})
-	});
-}
-function addlvl2(trackName, callback){
+function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 	db.once("open", function(){
 		var lvl2 = db.model("lvl2",lvl2Schema);
-		var metallica = new lvl2({name:"Niklas"}, {info:["Niklas", "hej"]});
-		metallica.save(function(err){
-			if (err){callback(err);}
-			else{callback(null)}
+		var newlvl2 = new lvl2({
+			name: name,
+			rating: rating,
+			picture: picture,
+			soundslike: soundslike,
+			parent: parent,
+			info: info
 		});
-		
+		newlvl2.save(function(err){
+			if (err){callback(err);}
+			else{callback("success")}
+		});
 	});
+}
+
+function getsoundslike(soundslikeJSON, callback){
+	
+	db.once("open", function(){
+		console.log(soundslikeJSON);
+		var lvl0 = db.model("lvl0",lvl0Schema);
+		var array = [];
+		var count = 0;
+		console.log(soundslikeJSON.length);
+		if (soundslikeJSON.length == 0) {
+			callback([]);
+		}
+		if (soundslikeJSON.length == 1) {
+			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
+				callback(res);
+			})
+		}
+		if (soundslikeJSON.length == 2) {
+			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
+				lvl0.find({_id:soundslikeJSON[1]._id}, function(err, res1){
+					res.push(res1[0]);
+					callback(res);
+				})
+				
+			})
+		};
+		if (soundslikeJSON.length == 3) {
+			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
+				lvl0.find({_id:soundslikeJSON[1]._id}, function(err, res1){
+					res.push(res1[0]);
+					lvl0.find({_id:soundslikeJSON[2]._id}, function(err, res2){
+						res.push(res2[0]);
+						callback(res);
+					})
+					
+				})
+				
+			})
+		};
+		if (soundslikeJSON.length == 4) {
+			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
+				lvl0.find({_id:soundslikeJSON[1]._id}, function(err, res1){
+					res.push(res1[0]);
+					lvl0.find({_id:soundslikeJSON[2]._id}, function(err, res2){
+						res.push(res2[0]);
+						
+						lvl0.find({_id:soundslikeJSON[3]._id}, function(err, res3){
+							res.push(res3[0]);
+							callback(res);
+						})
+					})
+					
+				})
+				
+			})
+		};
+		if (soundslikeJSON.length > 4) {
+			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
+				lvl0.find({_id:soundslikeJSON[1]._id}, function(err, res1){
+					res.push(res1[0]);
+					lvl0.find({_id:soundslikeJSON[2]._id}, function(err, res2){
+						res.push(res2[0]);
+						lvl0.find({_id:soundslikeJSON[3]._id}, function(err, res3){
+							res.push(res3[0]);
+							lvl0.find({_id:soundslikeJSON[4]._id}, function(err, res4){
+								res.push(res4[0]);
+								callback(res);
+							})
+						})
+					})
+				})	
+			})
+		};
+	});
+}
+
+function soundslike(num, id1, id2, callback){
+	if (num==0) {
+		var lvl0 = db.model("lvl0",lvl0Schema);
+		soundslikeHelper(lvl0, id1, id2,function(err, res){
+			callback(err,res);});
+	}
+	else if (num==1) {
+		var lvl1 = db.model("lvl1",lvl1Schema);
+		soundslikeHelper(lvl1, id1, id2,function(err, res){
+			callback(err,res);})
+	}
+	else if (num==2) {
+		var lvl2 = db.model("lvl2",lvl2Schema);
+		soundslikeHelper(lvl2, id1, id2,function(err, res){
+			callback(err,res);
+})}}
+function soundslikeHelper(lvl, id1, id2, callback){
+	db.once("open", function(){
+		lvl.find({_id:id1}, function(err, res1){
+			lvl.find({_id:id2}, function(err, res2){
+				var soundsLIKE = res1[0]._id;
+				console.log(soundsLIKE);
+				//soundsLIKE.push(res2._id);
+				console.log(res2._id);
+				console.log(res1);
+				console.log(res2);
+				callback(null);
+			})
+			
+		})
+	})
 }
