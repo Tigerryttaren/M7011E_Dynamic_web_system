@@ -29,153 +29,56 @@
 		<a class="navbar-brand" href="/">Soundslike</a>
 	</div>
 	<div class="collapse navbar-collapse">
+		<form class="navbar-form navbar-right" action="/results" method="post">
+            		<div class="form-group">
+              			<input type="text" placeholder="Search" class="form-control" id="srch" name="srch">
+            		</div>
+            		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+          	</form>
 		<ul class="nav navbar-nav pull-right">
 			<li><a href="addartist">Add</a></li>
-			<li><a href="#signin">Sign In</a></li>
+			<li><a href="/auth/google">Sign In</a></li>
 		</ul>
 	</div>
 	</div>
 	</div>
 
-
-
 	<div> 
 	<div class="media-container">
 		<div class="artist-header-container">
 			<div class="artist-image-container">
-				<img class="album-profile-image" src="images/fake/darkside.jpg"> 
+				<img class="album-profile-image" src="<%= pic %>"> 
 			</div>			
 			<div class="artist-info-text">
-				<span class="album-header-text-size">The Dark Side Of The Moon</span></br>
-				<a class="soundslike-link-text" href="artist"><span class="album-header-text-size-artist">Pink Floyd</span></a></br>
-				<span class="artist-header-text-size">* * * * *</span></br>
+				<span class="album-header-text-size"><%= name %></span></br>
+				<a class="soundslike-link-text" href="artist"><span class="album-header-text-size-artist"><%= parent %></span></a></br>
 				<button class="btn btn-soundslike" type="button">Soundslike</button>
 			</div> 
 		</div>
-		
+
 		<div class="toptracks-container">
-			<span class="toptracks-title">Track Listing</span><br/>
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">1</div>
-				</div>
-				<a class="soundslike-link-text" href="track"><span class="toptrack-title">Speak To Me</span></a></br>
-				<a class="soundslike-link-text" href="album"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">2</div>
-				</div>
-				<a class="soundslike-link-text" href="track"><span class="toptrack-title">Breathe In The Air</span></a></br>
-				<a class="soundslike-link-text" href="album"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">3</div>
-				</div>
-				<a class="soundslike-link-text" href="track"><span class="toptrack-title">On The Run</span></a></br>
-				<a class="soundslike-link-text" href="album"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">4</div>
-				</div>
-				<a class="soundslike-link-text" href="track.html"><span class="toptrack-title">Time</span></a></br>
-				<a class="soundslike-link-text" href="album.html"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">5</div>
-				</div>
-				<a class="soundslike-link-text" href="track.html"><span class="toptrack-title">The Great Gig In The Sky</span></a></br>
-				<a class="soundslike-link-text" href="album.html"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">6</div>
-				</div>
-				<a class="soundslike-link-text" href="track.html"><span class="toptrack-title">Money</span></a></br>
-				<a class="soundslike-link-text" href="album.html"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">7</div>
-				</div>
-				<a class="soundslike-link-text" href="track.html"><span class="toptrack-title">Us And Them</span></a></br>
-				<a class="soundslike-link-text" href="album.html"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">8</div>
-				</div>
-				<a class="soundslike-link-text" href="track.html"><span class="toptrack-title">Any Colour You Like</span></a></br>
-				<a class="soundslike-link-text" href="album.html"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			<!-- begin item -->
-			<div class="toptrack-container">
-				<div class="toptrack-number-box">
-					<div class="toptrack-number">9</div>
-				</div>
-				<a class="soundslike-link-text" href="track.html"><span class="toptrack-title">Eclipse</span></a></br>
-				<a class="soundslike-link-text" href="album.html"><span class="toptrack-from-album">The Dark Side Of The Moon</span></a></br>
-			</div>
-			<!-- end item -->
-			
-		
+			<span class="toptracks-title">Top Tracks</span><br/>
 
-
-
-
-
-
+			<% for (var i = 0; i < tracks.length; i++) { %>
+			<div class="toptrack-container">
+				<div class="toptrack-number-box">
+					<div class="toptrack-number"><%= i+1 %></div>
+				</div>
+				<span class="toptrack-title"><%= tracks[i].name %></span></br>
+				<span class="toptrack-from-album"><%= name %></span></br>
+			</div>	
+			<% } %>	
 		</div>
-		
+
 		<div class="soundslike-container">
 			<span class="soundslike-title">Sounds Like</span>
-			<div class="soundslike-item-container">
-				<a class="soundslike-link-image" href="album.html"><img class="soundslike-item-image" src="images/fake/darkside.jpg"></a>
-				<a class="soundslike-link-text" href="album.html"><span class="soundslike-item-title-album">The Dark Side Of The Moon</span></a></br>
-				<a class="soundslike-link-text" href="artist.html"><span class="soundslike-item-title-artist">Pink Floyd</span></a>
-			</div>
-			<div class="soundslike-item-container">
-				<a class="soundslike-link-image" href="album.html"><img class="soundslike-item-image" src="images/fake/darkside.jpg"></a>
-				<a class="soundslike-link-text" href="album.html"><span class="soundslike-item-title-album">The Dark Side Of The Moon</span></a></br>
-				<a class="soundslike-link-text" href="artist.html"><span class="soundslike-item-title-artist">Pink Floyd</span></a>
-			</div>	
-			<div class="soundslike-item-container">
-				<a class="soundslike-link-image" href="album.html"><img class="soundslike-item-image" src="images/fake/darkside.jpg"></a>
-				<a class="soundslike-link-text" href="album.html"><span class="soundslike-item-title-album">The Dark Side Of The Moon</span></a></br>
-				<a class="soundslike-link-text" href="artist.html"><span class="soundslike-item-title-artist">Pink Floyd</span></a>
-			</div>
-			<div class="soundslike-item-container">
-				<a class="soundslike-link-image" href="album.html"><img class="soundslike-item-image" src="images/fake/darkside.jpg"></a>
-				<a class="soundslike-link-text" href="album.html"><span class="soundslike-item-title-album">The Dark Side Of The Moon</span></a></br>
-				<a class="soundslike-link-text" href="artist.html"><span class="soundslike-item-title-artist">Pink Floyd</span></a>
-			</div>
-			<div class="soundslike-item-container">
-				<a class="soundslike-link-image" href="album.html"><img class="soundslike-item-image" src="images/fake/darkside.jpg"></a>
-				<a class="soundslike-link-text" href="album.html"><span class="soundslike-item-title-album">The Dark Side Of The Moon</span></a></br>
-				<a class="soundslike-link-text" href="artist.html"><span class="soundslike-item-title-artist">Pink Floyd</span></a>
-			</div>	
-
-
-
+				<% for (var i = 0; i < soundslike.length; i++) { %>
+					<div class="soundslike-item-container">
+						<a class="soundslike-link-image" href="album"><img class="soundslike-item-image" src="<%= soundslike[i].pic %>"></a>
+						<a class="soundslike-link-text" href="album"><span class="soundslike-item-title-artist"><%= soundslike[i].name%></span></a><br />
+						<a class="soundslike-link-text" href="artist"><span class="soundslike-item-title-artist"><%= soundslike[i].parent%></span></a>
+					</div>
+				<% } %>	
 		</div>
 
 	</div>
