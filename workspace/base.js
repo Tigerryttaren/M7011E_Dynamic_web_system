@@ -143,7 +143,6 @@ app.post('/link', function(req,res){
 				if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
 				res.render('link', {sacrifice: response1[0] , soundslikelist: response});
 			});
-			
 		} 
 		else{
 			res.render('link', {sacrifice: response1[0] , soundslikelist: [] });
@@ -160,8 +159,9 @@ app.post('/link', function(req,res){
 });
 
 
-app.get('/addalbum',  function(req,res){ res.render('addalbum');  });
+
 app.get('/addartist', function(req,res){ res.render('addartist'); });
+app.get('/addalbum',  function(req,res){ res.render('addalbum');  });
 app.get('/addtrack',  function(req,res){ res.render('addtrack');  });
 
 
@@ -195,13 +195,14 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 });
 
 app.post('/api/db/content/add', function(req,res){ 
-	// db.addcontent(req.body.level, req.body.parent, req.body.content, function(err, response){
-		// if (err) {console.log('\nERR: content/add: '+ err);}
-		// console.log(response);
-		// res.send(200);
-	// });
-	console.log("\n\n"+req.body.level +" "+req.body.content.name+" "+req.body.content.parent+" "+req.body.content.picture+" "+req.body.content+"\n");
-	res.send(200); // answer is sync
+	console.log(req.body.level + " " + req.body.content + " " +req.body)
+	db.add(parseInt(req.body.level), req.body.content, function(err, response){
+		if (err) {console.log('\nERR: content/add: '+ err);}
+		console.log(response);
+		res.send(200);
+	});
+	// console.log("\n\n"+req.body.level +" "+req.body.content.name+" "+req.body.content.parent+" "+req.body.content.picture+" "+req.body.content+"\n");
+	// res.send(200); // answer is sync
 });
 
 app.get('/api/db/content/link', function(req,res){ //atm only response is the sent artist
@@ -220,13 +221,32 @@ app.post('/api/db/content/link', function(req,res){
 	res.send(' key1= '+req.body.key1 +' key2= '+req.body.key2);
 });
 
-app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?$/, function(req, res){
-	// db.getcontent(req.params[0], function(err, response){
-		// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/d$/, function(req, res){
+	db.getbyname(req.params.[1], req.params[0], function(err, response){
+		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+		
 		// res.send(response); //answer is sync
-	// });
-	console.log("\nWelcome to content/something");
-	res.send();
+		switch(req.params.[1]){
+			case 0:
+				//TODO getbyparent
+				res.render('artist', { 
+					name: response[0].name,
+					children: [response2.forEach(function(entry){entry.name})],
+					soundslike: response[0].soundslike,
+					});
+				});
+				break;
+			case 1:
+				res.render('album',  {});
+				break;
+			case 2:
+				res.render('track',  {});
+				break;
+		}
+		res.render('');
+	});
+	// console.log("\nWelcome to content/something");
+	// res.send();
 });
 
 app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/edit$/, function(req, res){

@@ -1,9 +1,9 @@
 var mongoose = require("mongoose");
-var db = mongoose.createConnection("localhost", "soundslike");
+//var db = mongoose.createConnection("localhost", "soundslike");
 var database = require("./database");
 //var schemas = require("./initSchemas");
 //schemas.init();
-var database = require("./database");
+//var database = require("./database");
 //initi();
 //addlvl0("Niklas", function(err, res){});
 //Find

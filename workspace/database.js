@@ -11,6 +11,7 @@ var mongoose = require("mongoose");
 
 var db = mongoose.createConnection("localhost", "soundslike");
 var crypt = require("./crypt");
+
 //var schemas = require("./initSchemas");
 //schemas.init();
 
@@ -29,23 +30,23 @@ var lvl0Schema = new mongoose.Schema({
 		//picture should end on .png/.jpg and is web address
 		picture: String,
 		soundslike: [],
-		info: {}
+		info: String
 	});
 var lvl1Schema = new mongoose.Schema({
 		name: String,
 		rating: Number,
 		picture: String,
 		soundslike: [],
-		parent: Number,
-		info: {}
+		parent: String,
+		info: String
 	});
 var lvl2Schema = new mongoose.Schema({
 		name: String,
 		rating: Number,
 		picture: String,
 		soundslike: [],
-		parent: Number,
-		info: {}
+		parent: String,
+		info: String
 	});
 var userSchema = new mongoose.Schema({
 	openID: String
@@ -138,7 +139,7 @@ function getbyidHelper(lvl, Name, callback){
 })})}
 
 function addlvl0(name, rating, picture, soundslike, info, callback){
-	db.once("open", function(){
+	//db.once("open", function(){
 		var lvl0 = db.model("lvl0",lvl0Schema);
 		var newlvl0 = new lvl0({
 			name: name,
@@ -151,12 +152,16 @@ function addlvl0(name, rating, picture, soundslike, info, callback){
 			if (err){callback(err);}
 			else{callback("success")}
 		});
-	});
+	//});
 }
 
 function addlvl1(name, rating, picture, soundslike, parent, info, callback){
-	db.once("open", function(){
-		var lvl1 = db.model("lvl1",lvl1Schema);
+	
+	var lvl1 = db.model("lvl1",lvl1Schema);
+	//db.once("open", function(){
+	
+	
+		
 		var newlvl1 = new lvl1({
 			name: name,
 			rating: rating,
@@ -169,11 +174,11 @@ function addlvl1(name, rating, picture, soundslike, parent, info, callback){
 			if (err){callback(err);}
 			else{callback("success")}
 		});
-	});
+	//});
 }
 
 function addlvl2(name, rating, picture, soundslike, parent, info, callback){
-	db.once("open", function(){
+	//db.once("open", function(){
 		var lvl2 = db.model("lvl2",lvl2Schema);
 		var newlvl2 = new lvl2({
 			name: name,
@@ -187,7 +192,7 @@ function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 			if (err){callback(err);}
 			else{callback("success")}
 		});
-	});
+	//});
 }
 
 function getsoundslike(soundslikeJSON, callback){
@@ -282,45 +287,36 @@ function soundslike(num, id1, id2, callback){
 			callback(err,res);
 })}}
 function soundslikeHelper(lvl, id1, id2, callback){
-	db.once("open", function(){
-		lvl.find({_id:id1}, function(err, res1){
-			lvl.find({_id:id2}, function(err, res2){
-				//res1[0].soundslike.push(res2[0]._id);
-				lvl.update({_id:id2}, {$push: {soundslike: [{_id:res1[0]._id}]}}, function(err, res3){
-					console.log(res1[0].name);
-					//res2[0].soundslike.push(res1[0]._id);
-					
-					
-					
-					
+
+	
+	lvl.find({_id:id1}, function(err, res){
+		lvl.find({_id:id2}, function(err, res1){
+			var id1name = res[0].soundslike;
+			id1name.push(res1[0].name);
+			lvl.update({_id:id1}, {$set: {soundslike: id1name}}, {upsert: true}, function(err, res3){
+				var id2name = res1[0].soundslike;
+				id2name.push(res[0].name);
+				lvl.update({_id:id2}, {$set: {soundslike: id2name}}, {upsert: true}, function(err, res4){
 				})
-				lvl.update({_id:id1}, {$push: {soundslike: [{_id:res2[0]._id}]}}, function(err, res4){
-					console.log(res2[0].name);
-					//res2[0].soundslike.push(res1[0]._id);
-					
-					
-					
-					
-				})
-					 
-				
 			})
-			
-		})
-	})
+	})})
 }
 
 function add(lvl, content, callback){
+	console.log(lvl +""+ (1===lvl));
        switch(lvl){
                case 0:
-                       addlvl0(content.name, 0, content.picture, [], "", callback);
-               case 1:
-                       addlvl1(content.name, 0, content.picture, [], content.parent, "", callback);
+                       	addlvl0(content.name, 0, content.picture, [], "", callback);
+                       	break;
+               case 1: 
+               			addlvl1(content.name, 0, content.picture, [], content.parent, "", callback);
+               			break;
                case 2:
-                       addlvl2(content.name, 0, content.picture, [], content.parent, "", callback);
+                       	addlvl2(content.name, 0, "", [], content.parent, "", callback);
+                       	break;
                default:
-                       callback('invalid level', null);
-                       return
+                       	callback('invalid level', null);
+                       	return;
        }
        console.log('\ERR: db.add '+ lvl + content + callback);
 }
