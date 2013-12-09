@@ -285,18 +285,23 @@ function soundslikeHelper(lvl, id1, id2, callback){
 	db.once("open", function(){
 		lvl.find({_id:id1}, function(err, res1){
 			lvl.find({_id:id2}, function(err, res2){
-				res1[0].soundslike.push(res2[0]._id);
-				lvl.update({_id:id2},{$set: {soundslike: [{_id:res1[0].soundslike[1]}]}}, function(err, res3){
-					//console.log(res1[0].soundslike[1]);
+				//res1[0].soundslike.push(res2[0]._id);
+				lvl.update({_id:id2}, {$push: {soundslike: [{_id:res1[0]._id}]}}, function(err, res3){
+					console.log(res1[0].name);
 					//res2[0].soundslike.push(res1[0]._id);
 					
 					
 					
 					
 				})
-				lvl.update({_id:id1},{$set: {soundslike: [{_id:res2[0].soundslike[1]}]}}, function(err, res4){
-						callback("done");
-					})
+				lvl.update({_id:id1}, {$push: {soundslike: [{_id:res2[0]._id}]}}, function(err, res4){
+					console.log(res2[0].name);
+					//res2[0].soundslike.push(res1[0]._id);
+					
+					
+					
+					
+				})
 					 
 				
 			})

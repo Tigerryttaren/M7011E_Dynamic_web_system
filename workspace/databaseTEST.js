@@ -59,7 +59,7 @@ if (arg0[0]=="testsoundslike") {
 }
 if (arg0[0]=="soundslike") {
 	//soundslike(num, id1, id2, callback){
-	database.soundslike(0, "52a5a96e77fb512573000001", "52a5a96e77fb512573000001", function(res){
+	database.soundslike(0, "52a5a96e77fb512573000001", "52a5a97026794e3573000001", function(res){
 	
 		console.log(res);
 		process.exit();

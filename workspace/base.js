@@ -136,18 +136,25 @@ app.get('/link', function(req,res){
 	//info that i needs:
 	//lvl
 	//sacrificename
-	// var sac = db.getbyid(req.body.level, req.body.search, function(){
-		// console.log('\nERR: /link getbyid' + req.body.level + req.body.search);
-		// res.send(500);
-	// });
-	// if 
-  res.render('link', { 
-  sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
-  soundslikelist: [
-					{name: 'Anton side of the moon', parent: 'Antons mamma', imgurl: 'http://img.laget.se/2692915.jpg'},
-					{name: 'Dark side of Anton', parent: 'Antons pappa', imgurl: 'https://pbs.twimg.com/profile_images/378800000695072052/973895f817ea5419ad1ed101374c5991.jpeg'},
-					{name: 'Dark Anton of the moon', parent: 'Antons bror', imgurl: 'https://pbs.twimg.com/profile_images/3622800908/def779d8ce92eb727bc7f62491c3d3f5.jpeg'}]
+	var sac = db.getbyname(req.body.sacrifice.level, req.body.sacrifice.name, function(err, response){
+		if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
 	});
+	if  (req.body.alike){
+		var sali= db.getbyname(req.body.sacrifice.level, req.body.alike), function(err, response){
+			if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
+		}
+		res.render('link', {sacrifice: { sac }, soundslikelist: sali});
+	} else{
+		res.render('link', {sacrifice: { sac }, soundslikelist: [] });
+	}
+//===================================
+  // res.render('link', {
+  // sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
+  // soundslikelist: [
+					// {name: 'Anton side of the moon', parent: 'Antons mamma', imgurl: 'http://img.laget.se/2692915.jpg'},
+					// {name: 'Dark side of Anton', parent: 'Antons pappa', imgurl: 'https://pbs.twimg.com/profile_images/378800000695072052/973895f817ea5419ad1ed101374c5991.jpeg'},
+					// {name: 'Dark Anton of the moon', parent: 'Antons bror', imgurl: 'https://pbs.twimg.com/profile_images/3622800908/def779d8ce92eb727bc7f62491c3d3f5.jpeg'}]
+	// });
 });
 
 
@@ -216,7 +223,7 @@ app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?$/, function(req, res){
 		// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
 		// res.send(response); //answer is sync
 	// });
-	console.log("\nhej");
+	console.log("\nWelcome to content/something");
 	res.send();
 });
 
