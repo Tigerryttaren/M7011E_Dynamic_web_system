@@ -127,12 +127,20 @@ app.get('/artist', function(req,res){
   res.render('artist', { name: 'Raubtier', children: [ {name : 'Från Norrland Till Helvetets Port', year : '2012'}, {name: 'Skriet Från Vildmarken', year: '2010'}, {name: 'Det Finns Bara Krig', year: '2009'} ], rating: '* * * * *', soundslike : [{name : 'Rammstein'},{name : 'Rammstein'},{name : 'Rammstein'}, {name : 'Sabaton'}, {name : 'Rammstein'}], toptracks : [ {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'} ] });
 });
 
-app.get('/results', function(req,res){
+app.post('/results', function(req,res){
+	console.log(req.body.srch-term);
   res.render('results', { artists : [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], albums : [ {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ], tracks : [ { name : 'Any Colour You Like', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'The Great Gig In The Sky', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Time', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Breathe In The Air', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Money', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Eclipse', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Speak To Me', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' } ] }  );
 });
 
 app.get('/link', function(req,res){
-  var sac = db.
+	//info that i needs:
+	//lvl
+	//sacrificename
+	// var sac = db.getbyid(req.body.level, req.body.search, function(){
+		// console.log('\nERR: /link getbyid' + req.body.level + req.body.search);
+		// res.send(500);
+	// });
+	// if 
   res.render('link', { 
   sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
   soundslikelist: [

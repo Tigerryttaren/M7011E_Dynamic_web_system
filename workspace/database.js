@@ -14,9 +14,8 @@ var crypt = require("./crypt");
 //var schemas = require("./initSchemas");
 //schemas.init();
 
-exports.addlvl0 = addlvl0;
-exports.addlvl1 = addlvl1;
-exports.addlvl2 = addlvl2;
+
+exports.add = add;
 exports.findOrCreate = findOrCreate;
 exports.getbyname= getbyname;
 exports.getbyid = getbyid;
@@ -54,7 +53,9 @@ var userSchema = new mongoose.Schema({
 
 //lvl01Schema.methods.sayName = function(){
 //		console.log("This name: "+this.name);};
-
+//var lvl0 = db.model("lvl0",lvl0Schema);
+//var lvl1 = db.model("lvl1",lvl1Schema);
+//var lvl2 = db.model("lvl2",lvl2Schema);
 
 
 //This Method finds openId and returns 
@@ -284,15 +285,35 @@ function soundslikeHelper(lvl, id1, id2, callback){
 	db.once("open", function(){
 		lvl.find({_id:id1}, function(err, res1){
 			lvl.find({_id:id2}, function(err, res2){
-				var soundsLIKE = res1[0]._id;
-				console.log(soundsLIKE);
-				//soundsLIKE.push(res2._id);
-				console.log(res2._id);
-				console.log(res1);
-				console.log(res2);
-				callback(null);
+				res1[0].soundslike.push(res2[0]._id);
+				lvl.update({_id:id2},{$set: {soundslike: [{_id:res1[0].soundslike[1]}]}}, function(err, res3){
+					//console.log(res1[0].soundslike[1]);
+					lvl.update({_id:id1},{$set: {soundslike: [{_id:res2[0].soundslike[1]}]}}, function(err, res4){
+						callback("done");
+					})
+					
+					
+					
+				})
+					 
+				
 			})
 			
 		})
 	})
+}
+
+function add(lvl, content, callback){
+       switch(lvl){
+               case 0:
+                       addlvl0(content.name, 0, content.picture, [], "", callback);
+               case 1:
+                       addlvl1(content.name, 0, content.picture, [], content.parent, "", callback);
+               case 2:
+                       addlvl2(content.name, 0, content.picture, [], content.parent, "", callback);
+               default:
+                       callback('invalid level', null);
+                       return
+       }
+       console.log('\ERR: db.add '+ lvl + content + callback);
 }

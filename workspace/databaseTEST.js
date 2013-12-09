@@ -62,6 +62,7 @@ if (arg0[0]=="soundslike") {
 	database.soundslike(0, "52a5a96e77fb512573000001", "52a5a96e77fb512573000001", function(res){
 	
 		console.log(res);
+		process.exit();
 	})
 }
 	
