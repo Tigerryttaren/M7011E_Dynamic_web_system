@@ -8,7 +8,7 @@ var passport = require('passport'),
 	
 //local dependencies
 
-//var db = require('./database2');
+var db = require('./database');
 var sessionsalt = JSON.parse(fs.readFileSync(__dirname+'/sessionsalt.dontsave')).secret,
 	dbsalt = JSON.parse(fs.readFileSync(__dirname+'/dbsalt.dontsave')).secret;
 
@@ -132,21 +132,23 @@ app.post('/results', function(req,res){
   res.render('results', { artists : [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], albums : [ {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ], tracks : [ { name : 'Any Colour You Like', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'The Great Gig In The Sky', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Time', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Breathe In The Air', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Money', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Eclipse', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Speak To Me', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' } ] }  );
 });
 
-app.get('/link', function(req,res){
+app.post('/link', function(req,res){
 	//info that i needs:
 	//lvl
 	//sacrificename
-	var sac = db.getbyname(req.body.sacrifice.level, req.body.sacrifice.name, function(err, response){
-		if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
-	});
-	if  (req.body.alike){
-		var sali= db.getbyname(req.body.sacrifice.level, req.body.alike), function(err, response){
-			if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
+	db.getbyname(req.body.sacrifice.level, req.body.sacrifice.name, function(err1, response1){
+		if (err1) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
+		else if  (req.body.alike){
+			db.getbyname(req.body.sacrifice.level, req.body.alike, function(err, response){
+				if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
+				res.render('link', {sacrifice: response1[0] , soundslikelist: response});
+			});
+			
+		} 
+		else{
+			res.render('link', {sacrifice: response1[0] , soundslikelist: [] });
 		}
-		res.render('link', {sacrifice: { sac }, soundslikelist: sali});
-	} else{
-		res.render('link', {sacrifice: { sac }, soundslikelist: [] });
-	}
+	});
 //===================================
   // res.render('link', {
   // sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
@@ -154,7 +156,7 @@ app.get('/link', function(req,res){
 					// {name: 'Anton side of the moon', parent: 'Antons mamma', imgurl: 'http://img.laget.se/2692915.jpg'},
 					// {name: 'Dark side of Anton', parent: 'Antons pappa', imgurl: 'https://pbs.twimg.com/profile_images/378800000695072052/973895f817ea5419ad1ed101374c5991.jpeg'},
 					// {name: 'Dark Anton of the moon', parent: 'Antons bror', imgurl: 'https://pbs.twimg.com/profile_images/3622800908/def779d8ce92eb727bc7f62491c3d3f5.jpeg'}]
-	// });
+	 //});
 });
 
 
