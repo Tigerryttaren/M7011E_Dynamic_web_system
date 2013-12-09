@@ -8,7 +8,7 @@ var passport = require('passport'),
 	
 //local dependencies
 
-//var db = require('./database2');
+var db = require('./database');
 var sessionsalt = JSON.parse(fs.readFileSync(__dirname+'/sessionsalt.dontsave')).secret,
 	dbsalt = JSON.parse(fs.readFileSync(__dirname+'/dbsalt.dontsave')).secret;
 
@@ -135,27 +135,36 @@ app.post('/results', function(req,res){
   res.render('results', { artists : [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], albums : [ {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ], tracks : [ { name : 'Any Colour You Like', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'The Great Gig In The Sky', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Time', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Breathe In The Air', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Money', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Eclipse', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Speak To Me', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' } ] }  );
 });
 
-app.get('/link', function(req,res){
+app.post('/link', function(req,res){
 	//info that i needs:
 	//lvl
 	//sacrificename
-	// var sac = db.getbyid(req.body.level, req.body.search, function(){
-		// console.log('\nERR: /link getbyid' + req.body.level + req.body.search);
-		// res.send(500);
-	// });
-	// if 
-  res.render('link', { 
-  sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
-  soundslikelist: [
-					{name: 'Anton side of the moon', parent: 'Antons mamma', imgurl: 'http://img.laget.se/2692915.jpg'},
-					{name: 'Dark side of Anton', parent: 'Antons pappa', imgurl: 'https://pbs.twimg.com/profile_images/378800000695072052/973895f817ea5419ad1ed101374c5991.jpeg'},
-					{name: 'Dark Anton of the moon', parent: 'Antons bror', imgurl: 'https://pbs.twimg.com/profile_images/3622800908/def779d8ce92eb727bc7f62491c3d3f5.jpeg'}]
+	db.getbyname(req.body.sacrifice.level, req.body.sacrifice.name, function(err1, response1){
+		if (err1) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
+		else if  (req.body.alike){
+			db.getbyname(req.body.sacrifice.level, req.body.alike, function(err, response){
+				if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
+				res.render('link', {sacrifice: response1[0] , soundslikelist: response});
+			});
+		} 
+		else{
+			res.render('link', {sacrifice: response1[0] , soundslikelist: [] });
+		}
 	});
+//===================================
+  // res.render('link', {
+  // sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
+  // soundslikelist: [
+					// {name: 'Anton side of the moon', parent: 'Antons mamma', imgurl: 'http://img.laget.se/2692915.jpg'},
+					// {name: 'Dark side of Anton', parent: 'Antons pappa', imgurl: 'https://pbs.twimg.com/profile_images/378800000695072052/973895f817ea5419ad1ed101374c5991.jpeg'},
+					// {name: 'Dark Anton of the moon', parent: 'Antons bror', imgurl: 'https://pbs.twimg.com/profile_images/3622800908/def779d8ce92eb727bc7f62491c3d3f5.jpeg'}]
+	 //});
 });
 
 
-app.get('/addalbum',  function(req,res){ res.render('addalbum');  });
+
 app.get('/addartist', function(req,res){ res.render('addartist'); });
+app.get('/addalbum',  function(req,res){ res.render('addalbum');  });
 app.get('/addtrack',  function(req,res){ res.render('addtrack');  });
 
 
@@ -189,13 +198,14 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 });
 
 app.post('/api/db/content/add', function(req,res){ 
-	// db.addcontent(req.body.level, req.body.parent, req.body.content, function(err, response){
-		// if (err) {console.log('\nERR: content/add: '+ err);}
-		// console.log(response);
-		// res.send(200);
-	// });
-	console.log("\n\n"+req.body.level +" "+req.body.content.name+" "+req.body.content.parent+" "+req.body.content.picture+" "+req.body.content+"\n");
-	res.send(200); // answer is sync
+	console.log(req.body.level + " " + req.body.content + " " +req.body)
+	db.add(parseInt(req.body.level), req.body.content, function(err, response){
+		if (err) {console.log('\nERR: content/add: '+ err);}
+		console.log(response);
+		res.send(200);
+	});
+	// console.log("\n\n"+req.body.level +" "+req.body.content.name+" "+req.body.content.parent+" "+req.body.content.picture+" "+req.body.content+"\n");
+	// res.send(200); // answer is sync
 });
 
 app.get('/api/db/content/link', function(req,res){ //atm only response is the sent artist
@@ -214,13 +224,32 @@ app.post('/api/db/content/link', function(req,res){
 	res.send(' key1= '+req.body.key1 +' key2= '+req.body.key2);
 });
 
-app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?$/, function(req, res){
-	// db.getcontent(req.params[0], function(err, response){
-		// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/d$/, function(req, res){
+	db.getbyname(req.params.[1], req.params[0], function(err, response){
+		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+		
 		// res.send(response); //answer is sync
-	// });
-	console.log("\nhej");
-	res.send();
+		switch(req.params.[1]){
+			case 0:
+				//TODO getbyparent
+				res.render('artist', { 
+					name: response[0].name,
+					children: [response2.forEach(function(entry){entry.name})],
+					soundslike: response[0].soundslike,
+					});
+				});
+				break;
+			case 1:
+				res.render('album',  {});
+				break;
+			case 2:
+				res.render('track',  {});
+				break;
+		}
+		res.render('');
+	});
+	// console.log("\nWelcome to content/something");
+	// res.send();
 });
 
 app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/edit$/, function(req, res){
