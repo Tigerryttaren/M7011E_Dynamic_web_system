@@ -7,15 +7,9 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>Soundslike - Add</title>
+		<title>Soundslike - Add album</title>
 		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/soundslike.css" rel="stylesheet">
-		
-		<style>
- 			body {padding-top: 50px;}
-		</style>
-
-		
 	</head>
 	<body>
 
@@ -38,7 +32,7 @@
             		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
           	</form>
 		<ul class="nav navbar-nav pull-right">
-			<li><a href="#signin">Sign In</a></li>
+			<li><a href="/auth/google">Sign In</a></li>
 			
 		</ul>
 	</div>
@@ -101,7 +95,7 @@
 			xmlhttp.send(JSON.stringify({ "level": "1", "content": {"name": al, "parent": ar, "picture": pic}  }));
 		}
 	</script>
-	
+	<script type="text/javascript" src="js/ejs_production.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	</body>

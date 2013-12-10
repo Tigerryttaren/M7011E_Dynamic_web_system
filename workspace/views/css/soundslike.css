@@ -2,6 +2,10 @@
 	margin: auto;
 }
 
+body {
+	padding-top: 50px;
+}
+
 .center-container {
 	/*background: #e5e500;*/
   	position: relative;
@@ -58,30 +62,30 @@
 }
 
 .absolute-center-link {
-	background: #DC143C;
+	/*background: #DC143C;*/
   	width: 70%;
   	height: 80%;
   	overflow: auto;
   	margin: auto;
   	position: absolute;
-  	top: 100; left: 0; bottom: 0; right: 0;
+  	top: 0; left: 0; bottom: 0; right: 0;
 }
 
 .link-item-top {
+	/*background: #e5e500;*/
 	position: relative;
   	margin: auto;
 	overflow: visible;
-	background: #e5e500;
 	width: 100%;
 }
 
 .link-item-bottom {
+	/*background: #e5e500;*/
 	float: right;
 	text-align: right;
 	position: relative;
   	margin: auto;
 	overflow: visible;
-	background: #e5e500;
 	width: 100%;
 }
 
