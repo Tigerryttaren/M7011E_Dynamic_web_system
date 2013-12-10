@@ -18,10 +18,10 @@ if (arg0[0]=="Addlvl0") {
 	database.addlvl0(arg0[1], x, function(){console.log("item added?");});
 	
 };
-if (arg0[0]=="testgetbyname0") {
+if (arg0[0]=="getbyname0") {
 	database.getbyname(0, arg0[1],function(err, res){
 		console.log(res);
-		var x = res[0]._id;
+		//var x = res[0]._id;
 		console.log(x);
 	})
 	}
@@ -84,7 +84,7 @@ if (arg0[0]=="ratecontent") {
 //addlvl1(name, rating, picture, soundslike, parent, info, callback)
 if (arg0[0]=="getbyparent") {
 	//database.addlvl1("newalbum",5,".png",{},"cooltband","",function(err,res){
-		database.getbyparent("cooltband", function(err, res1){
+		database.getbyparent("newalbum", function(err, res1){
 			console.log(res1);
 			process.exit();
 		})

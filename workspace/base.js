@@ -224,30 +224,53 @@ app.post('/api/db/content/link', function(req,res){
 	res.send(' key1= '+req.body.key1 +' key2= '+req.body.key2);
 });
 
-app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/d$/, function(req, res){
-	db.getbyname(req.params.[1], req.params[0], function(err, response){
+
+// app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/\d$/, function(req, res){
+app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){
+	console.log('\nWELCOME TO CONTENT\n');
+	
+	db.getbyname(req.params.dig, req.params.content, function(err, response){
 		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
 		
 		// res.send(response); //answer is sync
-		switch(req.params.[1]){
+		switch(parseInt(req.params.dig)){
 			case 0:
-				//TODO getbyparent
-				res.render('artist', { 
-					name: response[0].name,
-					pic: response[0].picture,
-					children: [response_child.forEach(function(entry){entry.name})],
-					soundslike: response[0].soundslike
+				db.getbyparent(response[0].name, function(err_child, response_child){
+					var child_child= [];
+
+					response_child[0].forEach( function(entry){
+						db.getbyparent(entry.name, function(err_child_child, response_child_child){
+							response_child_child[1].forEach(function(response_child_child_child){
+								console.log('fe rcc:'+response_child_child_child);
+								child_child.push(response_child_child_child.name);
+								console.log('\nchild_child'+child_child);
+							});
+						});
+					});
+					
+					console.log('hej hej hej:'+child_child);
+					
+						res.render('artist', { 
+							name: response[0].name,
+							pic: response[0].picture,
+							children: response_child[0],
+							toptracks: child_child,
+							soundslike: response[0].soundslike
 					});
 				});
 				break;
 			case 1:
-				//TODO getbyparent
 				db.getbyparent(response[0].name, function(err_child, response_child){
+					console.log('response_child: '+ response_child); console.log('\n');
+					console.log('r_c[1]: '+response_child[1]); console.log('\n');
+					console.log('r_c[1][0]:'+response_child[1][0]); console.log('\n');
+					console.log('r_c[1][1]:'+response_child[1][1]); console.log('\n');
+					
 					res.render('album',  {
 						name: response[0].name,
 						parent: response[0].parent,
 						pic : response[0].picture,
-						tracks: [response_child[0][1].forEach(function(entry){entry.name})],
+						tracks: response_child[1],
 						soundslike: response[0].soundslike
 					});
 				});
@@ -257,14 +280,16 @@ app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/d$/, function(req, res){
 					res.render('track',  {
 						name: response[0].name,
 						parent: response[0].parent,
-						grandparent: response_parent[0].name,
+						grandparent: response_parent[0].parent,
 						pic: response_parent[0].picture,
 						soundslike: response[0].soundslike
 					});
-				}
+				});
+				break;
+			default:
+				console.log('fail');
 				break;
 		}
-		res.render('');
 	});
 	// console.log("\nWelcome to content/something");
 	// res.send();

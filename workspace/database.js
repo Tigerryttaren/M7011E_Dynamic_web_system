@@ -24,6 +24,7 @@ exports.soundslike = soundslike;
 exports.ratecontent=ratecontent;
 exports.getbyparent=getbyparent;
 exports.addlvl1=addlvl1;
+exports.getALLbyparent=getALLbyparent;
 
 
 var lvl0Schema = new mongoose.Schema({
@@ -156,7 +157,7 @@ function addlvl0(name, rating, picture, soundslike, info, callback){
 		});
 		newlvl0.save(function(err){
 			if (err){callback(err);}
-			else{callback("success")}
+			else{callback(null, "success")}
 		});
 	//});
 	}
@@ -178,13 +179,17 @@ function addlvl1(name, rating, picture, soundslike, parent, info, callback){
 		});
 		newlvl1.save(function(err){
 			if (err){callback(err);}
-			else{callback("success")}
+			else{callback(null, "success")}
 		});
 	//});
 	}
 
 function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 	//db.once("open", function(){
+	var lvl1 = db.model("lvl1",lvl1Schema);
+	lvl1.find({name:parent}, function(err, res){
+		if (res  ) {};
+	})
 		var lvl2 = db.model("lvl2",lvl2Schema);
 		var newlvl2 = new lvl2({
 			name: name,
@@ -196,7 +201,7 @@ function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 		});
 		newlvl2.save(function(err){
 			if (err){callback(err);}
-			else{callback("success")}
+			else{callback(null, "success")}
 		});
 	//});
 	}
@@ -325,7 +330,7 @@ function soundslikeHelper(lvl, id1, id2, callback){
 	}
 
 function add(lvl, content, callback){
-	console.log(lvl +""+ (1===lvl));
+	console.log("in add");//lvl +""+ (1===lvl));
        switch(lvl){
                case 0:
                        	addlvl0(content.name, 0, content.picture, [], "", callback);
@@ -340,7 +345,7 @@ function add(lvl, content, callback){
                        	callback('invalid level', null);
                        	return;
        }
-       console.log('\ERR: db.add '+ lvl + content + callback);
+       //console.log('\ERR: db.add '+ lvl + content + callback);
 	}
 
 function ratecontent(lvl, name, rating, callback){
@@ -378,3 +383,25 @@ function getbyparent(parent, callback){
 		})
 	})
 	}
+
+function getALLbyparent(parent, callback){
+	var returnarray = [];
+	var lvl1 = db.model("lvl1",lvl1Schema);
+	var lvl2 = db.model("lvl2",lvl2Schema);
+	console.log(parent);
+	lvl1.find({parent:parent}, function(err, res){
+		returnarray.push(res);
+		lvl2.find({parent:parent}, function(err,res1){
+			returnarray.push(res1);
+			callback(err, returnarray);
+			for (var i = res.length - 1; i >= 0; i--) {
+				lvl2.find({name:res[i].name}, function(err, res2){
+					returnarray.push(res2);
+					if (i == -1) {callback(err, returnarray)};
+				});
+
+			};
+		})
+	})
+}
+}
