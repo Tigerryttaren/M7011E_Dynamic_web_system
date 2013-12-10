@@ -22,9 +22,9 @@ exports.getbyid = getbyid;
 exports.getsoundslike = getsoundslike;
 exports.soundslike = soundslike;
 exports.ratecontent=ratecontent;
-exports.getbyparent=getbyparent;
+exports.getbyparentlvl0=getbyparentlvl0;
 exports.addlvl1=addlvl1;
-exports.getALLbyparent=getALLbyparent;
+exports.getbyparentlvl1=getbyparentlvl1;
 
 
 var lvl0Schema = new mongoose.Schema({
@@ -370,38 +370,46 @@ function ratecontent(lvl, name, rating, callback){
 	callback("error in ratecontent",null);
 	}
 
-function getbyparent(parent, callback){
+function getbyparentlvl1(parent, callback){
 	var returnarray = [];
 	var lvl1 = db.model("lvl1",lvl1Schema);
 	var lvl2 = db.model("lvl2",lvl2Schema);
 	console.log(parent);
-	lvl1.find({parent:parent}, function(err, res){
-		returnarray.push(res);
+	//lvl1.find({parent:parent}, function(err, res){
+		//returnarray.push(res);
 		lvl2.find({parent:parent}, function(err,res1){
 			returnarray.push(res1);
 			callback(err, returnarray);
 		})
-	})
+	//})
 	}
 
-function getALLbyparent(parent, callback){
+function getbyparentlvl0(parent, callback){
 	var returnarray = [];
 	var lvl1 = db.model("lvl1",lvl1Schema);
 	var lvl2 = db.model("lvl2",lvl2Schema);
 	console.log(parent);
 	lvl1.find({parent:parent}, function(err, res){
 		returnarray.push(res);
-		lvl2.find({parent:parent}, function(err,res1){
-			returnarray.push(res1);
-			callback(err, returnarray);
+		//lvl2.find({parent:parent}, function(err,res1){
+			//returnarray.push(res1);
+			//callback(err, returnarray);
 			for (var i = res.length - 1; i >= 0; i--) {
-				lvl2.find({name:res[i].name}, function(err, res2){
-					returnarray.push(res2);
-					if (i == -1) {callback(err, returnarray)};
+				console.log(res[i].name);
+				var j=0
+				var x = [];
+				lvl2.find({parent:res[i].name}, function(err, res2){
+					res2.forEach(function(foreach){
+						x.push(foreach);
+					})
+					j++;
+					
+					if (j == res.length) {
+						returnarray.push(x);
+						callback(err, returnarray)};
 				});
 
 			};
-		})
+		//})
 	})
-}
 }

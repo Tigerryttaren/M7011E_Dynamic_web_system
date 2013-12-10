@@ -235,42 +235,29 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){
 		// res.send(response); //answer is sync
 		switch(parseInt(req.params.dig)){
 			case 0:
-				db.getbyparent(response[0].name, function(err_child, response_child){
-					var child_child= [];
-
-					response_child[0].forEach( function(entry){
-						db.getbyparent(entry.name, function(err_child_child, response_child_child){
-							response_child_child[1].forEach(function(response_child_child_child){
-								console.log('fe rcc:'+response_child_child_child);
-								child_child.push(response_child_child_child.name);
-								console.log('\nchild_child'+child_child);
-							});
-						});
-					});
+				db.getbyparentlvl0(response[0].name, function(err_child, response_child){
 					
-					console.log('hej hej hej:'+child_child);
-					
-						res.render('artist', { 
-							name: response[0].name,
-							pic: response[0].picture,
-							children: response_child[0],
-							toptracks: child_child,
-							soundslike: response[0].soundslike
+					res.render('artist', { 
+						name: response[0].name,
+						pic: response[0].picture,
+						children: response_child[0],
+						toptracks: response_child[1],
+						soundslike: response[0].soundslike
 					});
 				});
 				break;
 			case 1:
-				db.getbyparent(response[0].name, function(err_child, response_child){
-					console.log('response_child: '+ response_child); console.log('\n');
-					console.log('r_c[1]: '+response_child[1]); console.log('\n');
-					console.log('r_c[1][0]:'+response_child[1][0]); console.log('\n');
-					console.log('r_c[1][1]:'+response_child[1][1]); console.log('\n');
+				db.getbyparentlvl1(response[0].name, function(err_child, response_child){
+					// console.log('response_child: '+ response_child); console.log('\n');
+					// console.log('r_c[0]: '+response_child[0]); console.log('\n');
+					// console.log('r_c[0][0]:'+response_child[0][0]); console.log('\n');
+					// console.log('r_c[0][1]:'+response_child[0][1]); console.log('\n');
 					
 					res.render('album',  {
 						name: response[0].name,
-						parent: response[0].parent,
+						album: response[0].parent,
 						pic : response[0].picture,
-						tracks: response_child[1],
+						tracks: response_child[0],
 						soundslike: response[0].soundslike
 					});
 				});

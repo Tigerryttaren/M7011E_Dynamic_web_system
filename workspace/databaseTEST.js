@@ -84,7 +84,7 @@ if (arg0[0]=="ratecontent") {
 //addlvl1(name, rating, picture, soundslike, parent, info, callback)
 if (arg0[0]=="getbyparent") {
 	//database.addlvl1("newalbum",5,".png",{},"cooltband","",function(err,res){
-		database.getbyparent("newalbum", function(err, res1){
+		database.getbyparentlvl1("newalbum", function(err, res1){
 			console.log(res1);
 			process.exit();
 		})
@@ -93,5 +93,17 @@ if (arg0[0]=="getbyparent") {
 if (arg0[0]=="testgetbyname1") {
 	database.getbyname(1, "newalbum",function(err, res){
 		console.log(res);
+	})
+	}
+
+	
+
+if (arg0[0]=="getALLbyparent") {
+	database.getbyparentlvl0("cooltband",function(err, res){
+
+		console.log(res);
+		//var x = res[2]+res[3];
+		//console.log(x);
+
 	})
 	}
