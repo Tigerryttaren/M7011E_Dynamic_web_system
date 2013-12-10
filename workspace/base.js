@@ -78,14 +78,14 @@ passport.use(new GoogleStrategy({
 			// });
 
 
-			// profile.identifier = identifier;
+			profile.identifier = identifier;
 			console.log("\n");
 			console.log(profile); // i want something like profile.email[0]?
 			console.log("\n");
 
 			db.findOrCreate(identifier, dbsalt, function(err, dbuser){
 				if (err) {console.log('\nErr: error in passport auth: '+err);return null;}
-				return done(null, dbuser);
+				return done(null, profile);
 			});
 			// return done(null, profile);
 		});
