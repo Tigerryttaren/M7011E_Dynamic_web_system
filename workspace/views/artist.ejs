@@ -10,10 +10,6 @@
 		<title>Soundsike - Artist</title>
 		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/soundslike.css" rel="stylesheet">
-		
-		<style>
- 			body {padding-top: 50px;}
-		</style>
 	</head>
 	<body>
 
@@ -66,7 +62,7 @@
 			<% } %>	
 		</div>
 		<div class="toptracks-container">
-			<span class="toptracks-title">Top Tracks</span><br/>
+			<span class="toptracks-title">Tracks</span><br/>
 
 			<% for (var i = 0; i < toptracks.length; i++) { %>
 			<div class="toptrack-container">
@@ -74,7 +70,7 @@
 					<div class="toptrack-number"><%= i+1 %></div>
 				</div>
 				<span class="toptrack-title"><%= toptracks[i].name %></span></br>
-				<span class="toptrack-from-album"><%= toptracks[i].album %></span></br>
+				<span class="toptrack-from-album"><%= toptracks[i].parent %></span></br>
 			</div>	
 			<% } %>	
 		</div>
@@ -84,7 +80,7 @@
 				<% for (var i = 0; i < soundslike.length; i++) { %>
 					<div class="soundslike-item-container">
 						<a class="soundslike-link-image" href="artist"><img class="soundslike-item-image" src="images/fake/pinkfloyd.jpg"></a>
-						<a class="soundslike-link-text" href="artist"><span class="soundslike-item-title-artist"><%= soundslike[i].name%></span></a>
+						<a class="soundslike-link-text" href="artist"><span class="soundslike-item-title-artist"><%= soundslike[i].name %></span></a>
 					</div>
 				<% } %>	
 		</div>
