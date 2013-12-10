@@ -242,13 +242,15 @@ app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/d$/, function(req, res){
 				break;
 			case 1:
 				//TODO getbyparent
-				res.render('album',  {
-					name: response[0].name,
-					parent: response[0].parent,
-					pic : response[0].picture,
-					tracks: [response_child.forEach(function(entry){entry.name})],
-					soundslike: response[0].soundslike
+				db.getbyparent(response[0].name, function(err_child, response_child){
+					res.render('album',  {
+						name: response[0].name,
+						parent: response[0].parent,
+						pic : response[0].picture,
+						tracks: [response_child[0][1].forEach(function(entry){entry.name})],
+						soundslike: response[0].soundslike
 					});
+				});
 				break;
 			case 2:
 				db.getbyname(response.parent, 1, function(errParent, response_parent){

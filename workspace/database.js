@@ -21,8 +21,9 @@ exports.getbyname= getbyname;
 exports.getbyid = getbyid;
 exports.getsoundslike = getsoundslike;
 exports.soundslike = soundslike;
-exports.getparent=getparent;
 exports.ratecontent=ratecontent;
+exports.getbyparent=getbyparent;
+exports.addlvl1=addlvl1;
 
 
 var lvl0Schema = new mongoose.Schema({
@@ -342,23 +343,6 @@ function add(lvl, content, callback){
        console.log('\ERR: db.add '+ lvl + content + callback);
 	}
 
-function getparent(lvl, name, callback){
-	if (lvl == 1) {
-		var lvl0 = db.model("lvl0",lvl0Schema);
-		lvl0.find({name:name}, function(err, res){
-			callback(err, res);
-		})
-	}
-	else if (lvl == 2) {
-		var lvl1 = db.model("lvl1",lvl1Schema);
-		lvl1.find({name:name}, function(err, res){
-			callback(err, res);
-		})
-	} else {
-		callback("Could not find parent lvl", null);
-	}
-	}
-
 function ratecontent(lvl, name, rating, callback){
 	if (lvl == 0) {
 		var lvl0 = db.model("lvl0",lvl0Schema);
@@ -366,4 +350,31 @@ function ratecontent(lvl, name, rating, callback){
 			callback(err, res);
 		})
 	}
-}
+	if (lvl == 1) {
+		var lvl1 = db.model("lvl1",lvl1Schema);
+		lvl1.update({name:name}, {$set: {rating:rating}},function(err, res){
+			callback(err, res);
+		})
+	}
+	if (lvl == 2) {
+		var lvl2 = db.model("lvl2",lvl2Schema);
+		lvl2.update({name:name}, {$set: {rating:rating}},function(err, res){
+			callback(err, res);
+		})
+	}
+	callback("error in ratecontent",null);
+	}
+
+function getbyparent(parent, callback){
+	var returnarray = [];
+	var lvl1 = db.model("lvl1",lvl1Schema);
+	var lvl2 = db.model("lvl2",lvl2Schema);
+	console.log(parent);
+	lvl1.find({parent:parent}, function(err, res){
+		returnarray.push(res);
+		lvl2.find({parent:parent}, function(err,res1){
+			returnarray.push(res1);
+			callback(err, returnarray);
+		})
+	})
+	}
