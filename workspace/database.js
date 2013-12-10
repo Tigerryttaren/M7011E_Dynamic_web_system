@@ -15,13 +15,14 @@ var crypt = require("./crypt");
 //var schemas = require("./initSchemas");
 //schemas.init();
 
-
 exports.add = add;
 exports.findOrCreate = findOrCreate;
 exports.getbyname= getbyname;
 exports.getbyid = getbyid;
 exports.getsoundslike = getsoundslike;
 exports.soundslike = soundslike;
+exports.getparent=getparent;
+exports.ratecontent=ratecontent;
 
 
 var lvl0Schema = new mongoose.Schema({
@@ -64,7 +65,7 @@ var userSchema = new mongoose.Schema({
 //Callback(err, res)
 function findOrCreate(openId, salt, callback){ 
 	var saltedid = crypt.hash(openId,salt);
-	db.once("open", function(){
+	//db.once("open", function(){
 		var user = db.model("users",userSchema);
 		user.find({openID:saltedid}, function(err, res){
 			if (err){
@@ -91,8 +92,8 @@ function findOrCreate(openId, salt, callback){
 				});
 			}
 		});
-	})
-}
+	//})
+	}
 //num = what lvl
 function getbyname(num, Name, callback){
 	if (num==0) {
@@ -109,12 +110,14 @@ function getbyname(num, Name, callback){
 		var lvl2 = db.model("lvl2",lvl2Schema);
 		getbynameHelper(lvl2, Name,function(err, res){
 			callback(err,res);
-})}}
+	})}}
+
 function getbynameHelper(lvl, Name, callback){
-	db.once("open", function(){
+	//db.once("open", function(){
 		lvl.find({name:Name}, function(err, res){
 			callback(err, res);
-})})}
+		})}
+	//})
 
 function getbyid(num, Name, callback){
 	if (num==0) {
@@ -131,12 +134,14 @@ function getbyid(num, Name, callback){
 		var lvl2 = db.model("lvl2",lvl2Schema);
 		getbyidHelper(lvl2, Name,function(err, res){
 			callback(err,res);
-})}}
+	})}}
+
 function getbyidHelper(lvl, Name, callback){
-	db.once("open", function(){
+	//db.once("open", function(){
 		lvl.find({_id:Name}, function(err, res){
 			callback(err, res);
-})})}
+	//})
+	})}
 
 function addlvl0(name, rating, picture, soundslike, info, callback){
 	//db.once("open", function(){
@@ -153,7 +158,7 @@ function addlvl0(name, rating, picture, soundslike, info, callback){
 			else{callback("success")}
 		});
 	//});
-}
+	}
 
 function addlvl1(name, rating, picture, soundslike, parent, info, callback){
 	
@@ -175,7 +180,7 @@ function addlvl1(name, rating, picture, soundslike, parent, info, callback){
 			else{callback("success")}
 		});
 	//});
-}
+	}
 
 function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 	//db.once("open", function(){
@@ -193,82 +198,96 @@ function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 			else{callback("success")}
 		});
 	//});
-}
+	}
 
-function getsoundslike(soundslikeJSON, callback){
+function getsoundslike(name, callback){
 	
-	db.once("open", function(){
-		console.log(soundslikeJSON);
-		var lvl0 = db.model("lvl0",lvl0Schema);
-		var array = [];
-		var count = 0;
-		console.log(soundslikeJSON.length);
+	//db.once("open", function(){
+		
+	var lvl0 = db.model("lvl0",lvl0Schema);
+	lvl0.find({name:name}, function(err, ras){
+		var soundslikeJSON =ras[0].soundslike
+		//console.log(ras[0].soundslike)
+		
+		//console.log(soundslikeJSON);
+		//var array = [];
+		////var count = 0;
+		//console.log(soundslikeJSON.length);
+		var newarray=[];
 		if (soundslikeJSON.length == 0) {
 			callback([]);
 		}
 		if (soundslikeJSON.length == 1) {
-			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
-				callback(res);
+			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+				newarray.push(res[0]);
+				
+				callback(newarray);
 			})
 		}
 		if (soundslikeJSON.length == 2) {
-			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
-				lvl0.find({_id:soundslikeJSON[1]._id}, function(err, res1){
-					res.push(res1[0]);
-					callback(res);
-				})
-				
-			})
-		};
-		if (soundslikeJSON.length == 3) {
-			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
-				lvl0.find({_id:soundslikeJSON[1]._id}, function(err, res1){
-					res.push(res1[0]);
-					lvl0.find({_id:soundslikeJSON[2]._id}, function(err, res2){
-						res.push(res2[0]);
-						callback(res);
-					})
+			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+				newarray.push(res[0]);
+				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
+					newarray.push(res1[0]);
 					
+					callback(newarray);
 				})
-				
+			})
+		}
+		if (soundslikeJSON.length == 3) {
+			
+			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+				newarray.push(res[0]);
+				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
+					newarray.push(res1[0]);
+					lvl0.find({name:soundslikeJSON[2]}, function(err, res2){
+						newarray.push(res2[0]);
+						callback(newarray);
+					})	
+				})	
 			})
 		};
 		if (soundslikeJSON.length == 4) {
-			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
-				lvl0.find({_id:soundslikeJSON[1]._id}, function(err, res1){
-					res.push(res1[0]);
-					lvl0.find({_id:soundslikeJSON[2]._id}, function(err, res2){
-						res.push(res2[0]);
+			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+				newarray.push(res[0]);
+				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
+					newarray.push(res1[0]);
+					lvl0.find({name:soundslikeJSON[2]}, function(err, res2){
+						newarray.push(res2[0]);
 						
-						lvl0.find({_id:soundslikeJSON[3]._id}, function(err, res3){
-							res.push(res3[0]);
-							callback(res);
+						
+						lvl0.find({name:soundslikeJSON[3]}, function(err, res3){
+							newarray.push(res3[0]);
+							callback(newarray);
 						})
 					})
-					
 				})
-				
 			})
 		};
 		if (soundslikeJSON.length > 4) {
-			lvl0.find({_id:soundslikeJSON[0]._id}, function(err, res){
-				lvl0.find({_id:soundslikeJSON[1]._id}, function(err, res1){
-					res.push(res1[0]);
-					lvl0.find({_id:soundslikeJSON[2]._id}, function(err, res2){
-						res.push(res2[0]);
-						lvl0.find({_id:soundslikeJSON[3]._id}, function(err, res3){
-							res.push(res3[0]);
-							lvl0.find({_id:soundslikeJSON[4]._id}, function(err, res4){
-								res.push(res4[0]);
-								callback(res);
+			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+				newarray.push(res[0]);
+				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
+					newarray.push(res1[0]);
+					lvl0.find({name:soundslikeJSON[2]}, function(err, res2){
+						newarray.push(res2[0]);
+						
+						
+						lvl0.find({name:soundslikeJSON[3]}, function(err, res3){
+							newarray.push(res3[0]);
+							
+							lvl0.find({name:soundslikeJSON[4]}, function(err, res4){
+								newarray.push(res4[0]);
+								callback(newarray);
 							})
 						})
 					})
 				})	
 			})
 		};
-	});
-}
+	//});
+	})
+	}
 
 function soundslike(num, id1, id2, callback){
 	if (num==0) {
@@ -285,22 +304,24 @@ function soundslike(num, id1, id2, callback){
 		var lvl2 = db.model("lvl2",lvl2Schema);
 		soundslikeHelper(lvl2, id1, id2,function(err, res){
 			callback(err,res);
-})}}
+	})}}
+
 function soundslikeHelper(lvl, id1, id2, callback){
 
 	
-	lvl.find({_id:id1}, function(err, res){
-		lvl.find({_id:id2}, function(err, res1){
+	lvl.find({name:id1}, function(err, res){
+		lvl.find({name:id2}, function(err, res1){
 			var id1name = res[0].soundslike;
 			id1name.push(res1[0].name);
-			lvl.update({_id:id1}, {$set: {soundslike: id1name}}, {upsert: true}, function(err, res3){
+			lvl.update({name:id1}, {$set: {soundslike: id1name}}, {upsert: true}, function(err, res3){
 				var id2name = res1[0].soundslike;
 				id2name.push(res[0].name);
-				lvl.update({_id:id2}, {$set: {soundslike: id2name}}, {upsert: true}, function(err, res4){
+				lvl.update({name:id2}, {$set: {soundslike: id2name}}, {upsert: true}, function(err, res4){
+					callback("success");
 				})
 			})
 	})})
-}
+	}
 
 function add(lvl, content, callback){
 	console.log(lvl +""+ (1===lvl));
@@ -319,4 +340,30 @@ function add(lvl, content, callback){
                        	return;
        }
        console.log('\ERR: db.add '+ lvl + content + callback);
+	}
+
+function getparent(lvl, name, callback){
+	if (lvl == 1) {
+		var lvl0 = db.model("lvl0",lvl0Schema);
+		lvl0.find({name:name}, function(err, res){
+			callback(err, res);
+		})
+	}
+	else if (lvl == 2) {
+		var lvl1 = db.model("lvl1",lvl1Schema);
+		lvl1.find({name:name}, function(err, res){
+			callback(err, res);
+		})
+	} else {
+		callback("Could not find parent lvl", null);
+	}
+	}
+
+function ratecontent(lvl, name, rating, callback){
+	if (lvl == 0) {
+		var lvl0 = db.model("lvl0",lvl0Schema);
+		lvl0.update({name:name}, {$set: {rating:rating}},function(err, res){
+			callback(err, res);
+		})
+	}
 }

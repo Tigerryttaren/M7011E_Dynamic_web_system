@@ -80,7 +80,7 @@ passport.use(new GoogleStrategy({
 
 			// profile.identifier = identifier;
 			console.log("\n");
-			console.log(profile);
+			console.log(profile); // i want something like profile.email[0]?
 			console.log("\n");
 
 			db.findOrCreate(identifier, dbsalt, function(err, dbuser){
@@ -234,16 +234,32 @@ app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/d$/, function(req, res){
 				//TODO getbyparent
 				res.render('artist', { 
 					name: response[0].name,
-					children: [response2.forEach(function(entry){entry.name})],
-					soundslike: response[0].soundslike,
+					pic: response[0].picture,
+					children: [response_child.forEach(function(entry){entry.name})],
+					soundslike: response[0].soundslike
 					});
 				});
 				break;
 			case 1:
-				res.render('album',  {});
+				//TODO getbyparent
+				res.render('album',  {
+					name: response[0].name,
+					parent: response[0].parent,
+					pic : response[0].picture,
+					tracks: [response_child.forEach(function(entry){entry.name})],
+					soundslike: response[0].soundslike
+					});
 				break;
 			case 2:
-				res.render('track',  {});
+				db.getbyname(response.parent, 1, function(errParent, response_parent){
+					res.render('track',  {
+						name: response[0].name,
+						parent: response[0].parent,
+						grandparent: response_parent[0].name,
+						pic: response_parent[0].picture,
+						soundslike: response[0].soundslike
+					});
+				}
 				break;
 		}
 		res.render('');

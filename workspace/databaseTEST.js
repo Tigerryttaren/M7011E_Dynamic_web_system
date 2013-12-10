@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-//var db = mongoose.createConnection("localhost", "soundslike");
+// var db = mongoose.createConnection("localhost", "soundslike");
 var database = require("./database");
 //var schemas = require("./initSchemas");
 //schemas.init();
@@ -45,24 +45,38 @@ if (arg0[0]=="testaddlvl0") {
 		console.log(res);
 	})
 	}
-if (arg0[0]=="testsoundslike") {
-	//getsoundslike(lvl, soundslikeJSON, callback){
-	//database.getbyname(0, arg0[1],function(err, res){
-		//console.log(res);
-		//var x = res[0].soundslike;
-		//console.log(x);
-		database.getsoundslike([{_id:"52a5867f29ae46496a000001"},{_id:"52a5867f29ae46496a000001"},{_id:"52a5867f29ae46496a000001"},{_id:"52a5867f29ae46496a000001"},{_id:"52a5867f29ae46496a000001"},{_id:"52a5867f29ae46496a000001"}],function(res){
-			//console.log(arg0[1]);
-			console.log(res);
-		});
-	//});
-}
+
 if (arg0[0]=="soundslike") {
 	//soundslike(num, id1, id2, callback){
-	database.soundslike(0, "52a5a96e77fb512573000001", "52a5a97026794e3573000001", function(res){
+		//52a5a97026794e3573000001
+	database.soundslike(0, "cooltband", "cooltband", function(res){
 	
 		console.log(res);
 		process.exit();
 	})
 }
 	
+if (arg0[0]=="whosoundslike") {
+	//soundslike(num, id1, id2, callback){
+		//"52a5a96e77fb512573000001"
+	//database.getbyname(0, "cooltband", function(err, res){
+		database.getsoundslike("cooltband", function(res){
+			console.log(res);
+			process.exit();
+		})
+		
+		
+	//})
+}
+if (arg0[0]=="getparent") {
+		database.getparent(1,"cooltband", function(err, res){
+			console.log(res);
+			process.exit();
+		})
+}
+if (arg0[0]=="ratecontent") {
+		database.ratecontent(0,"cooltband", 1, function(err, res){
+			console.log(res);
+			process.exit();
+		})
+}
