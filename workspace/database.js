@@ -117,6 +117,9 @@ function getbyname(num, Name, callback){
 function getbynameHelper(lvl, Name, callback){
 	//db.once("open", function(){
 		lvl.find({name:Name}, function(err, res){
+			//console.log(res.length);
+			console.log('res: '+res);
+			if(res.length==0){callback("error: is empty", null)}
 			callback(err, res);
 		})}
 	//})

@@ -107,3 +107,16 @@ if (arg0[0]=="getALLbyparent") {
 
 	})
 	}
+
+if (arg0[0]=="williamtest") {
+	database.getbyname(0, "cooltband", function(err, response){
+		console.log("HEJ WILLIAM");
+		if (err) {
+			console.log('\nERR: content/c: '+err); 
+			console.log('nopass');
+			res.send(400);
+		}else{ console.log('lolpass');
+
+	}
+	})
+	}

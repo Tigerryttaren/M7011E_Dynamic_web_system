@@ -226,56 +226,69 @@ app.post('/api/db/content/link', function(req,res){
 
 
 // app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/\d$/, function(req, res){
-app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){
+app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS ON WRONG ADRESS
 	console.log('\nWELCOME TO CONTENT\n');
 	
 	db.getbyname(req.params.dig, req.params.content, function(err, response){
-		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-		
-		// res.send(response); //answer is sync
-		switch(parseInt(req.params.dig)){
-			case 0:
-				db.getbyparentlvl0(response[0].name, function(err_child, response_child){
-					
-					res.render('artist', { 
-						name: response[0].name,
-						pic: response[0].picture,
-						children: response_child[0],
-						toptracks: response_child[1],
-						soundslike: response[0].soundslike
+		console.log("HEJ WILLIAM");
+		if (err) {
+			console.log('\nERR: content/c: '+err); 
+			console.log('nopass');
+			res.send(400);
+		}
+		else{ 
+			console.log('lolpass');
+			// res.send(response); //answer is sync
+			switch(parseInt(req.params.dig)){
+				case 0:
+					db.getbyparentlvl0(response[0].name, function(err_child, response_child){
+						if(err_child){console.log('\nERR content/c/0 '+err); res.send(400);}
+						console.log(response_child+'n'+response_child[1]);
+						res.render('artist', { 
+							name: response[0].name,
+							pic: response[0].picture,
+							children: response_child[0],
+							toptracks: response_child[1],
+							soundslike: response[0].soundslike
+						});
 					});
-				});
-				break;
-			case 1:
-				db.getbyparentlvl1(response[0].name, function(err_child, response_child){
-					// console.log('response_child: '+ response_child); console.log('\n');
-					// console.log('r_c[0]: '+response_child[0]); console.log('\n');
-					// console.log('r_c[0][0]:'+response_child[0][0]); console.log('\n');
-					// console.log('r_c[0][1]:'+response_child[0][1]); console.log('\n');
-					
-					res.render('album',  {
-						name: response[0].name,
-						album: response[0].parent,
-						pic : response[0].picture,
-						tracks: response_child[0],
-						soundslike: response[0].soundslike
+					break;
+				case 1:
+					db.getbyparentlvl1(response[0].name, function(err_child, response_child){
+						// console.log('response_child: '+ response_child); console.log('\n');
+						// console.log('r_c[0]: '+response_child[0]); console.log('\n');
+						// console.log('r_c[0][0]:'+response_child[0][0]); console.log('\n');
+						// console.log('r_c[0][1]:'+response_child[0][1]); console.log('\n');
+						
+						res.render('album',  {
+							name: response[0].name,
+							parent: response[0].parent,
+							pic : response[0].picture,
+							tracks: response_child[0],
+							soundslike: response[0].soundslike
+						});
 					});
-				});
-				break;
-			case 2:
-				db.getbyname(response.parent, 1, function(errParent, response_parent){
-					res.render('track',  {
-						name: response[0].name,
-						parent: response[0].parent,
-						grandparent: response_parent[0].parent,
-						pic: response_parent[0].picture,
-						soundslike: response[0].soundslike
+					break;
+				case 2:
+					db.getbyname(1,	response[0].parent,  function(errParent, response_parent){
+						db.getbyname(0,	response_parent[0].parent,  function(errParent, response_grandparent){
+							console.log(response_parent[0].name);
+							console.log(response_parent);
+							console.log(response_grandparent);
+							res.render('track',  {
+								name: response[0].name,
+								parent: response_parent[0].name,
+								grandparent: response_grandparent[0].name,
+								pic: response_parent[0].picture,
+								soundslike: response[0].soundslike
+							});
+						});
 					});
-				});
-				break;
-			default:
-				console.log('fail');
-				break;
+					break;
+				default:
+					console.log('fail');
+					break;
+			}
 		}
 	});
 	// console.log("\nWelcome to content/something");
