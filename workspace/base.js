@@ -270,8 +270,11 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 					});
 					break;
 				case 2:
+
+console.log(response[0].parent);
 					db.getbyname(1,	response[0].parent,  function(errParent, response_parent){
-						db.getbyname(0,	response_parent[0].parent,  function(errParent, response_grandparent){
+						console.log(response_parent);
+						db.getbyname(0,	response_parent[0].parent,  function(errgrandParent, response_grandparent){
 							console.log(response_parent[0].name);
 							console.log(response_parent);
 							console.log(response_grandparent);

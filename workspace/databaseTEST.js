@@ -120,3 +120,22 @@ if (arg0[0]=="williamtest") {
 	}
 	})
 	}
+
+
+if (arg0[0]=="testaddlvl2") {
+	//addlvl0(name, rating, picture, soundslike, parent, info, callback)
+	
+	database.addlvl1("williamalbum", 5, "http://i.imgur.com/C899nMf.gif", [], "cooltband", null,function(err,res){
+		//console.log(arg0[1]);
+		console.log(res);
+	})
+	}
+
+if (arg0[0]=="testaddlvl3") {
+	//addlvl0(name, rating, picture, soundslike, parent, info, callback)
+	
+	database.addlvl2("antonsong", 5, "http://i.imgur.com/C899nMf.gif", [], "williamalbum", null, function(err,res){
+		//console.log(arg0[1]);
+		console.log(res);
+	})
+	}
