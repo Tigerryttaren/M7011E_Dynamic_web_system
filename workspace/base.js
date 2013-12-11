@@ -240,14 +240,17 @@ app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
 });
 
 app.post('/api/db/content/link/add:dig(\\d+)', function(req,res){
-	
+	db.soundslike(req.params.dig, req.params.key, req.params.key2, function(err, response){
+		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+		res.redirect('/api/db/content/'+req.params.key+'/'+req.params.dig);
+	});
 
-	console.log("\n");
-	console.log("POST link");
-	console.log(req.body.key1);
-	console.log(req.body.key2);
-	console.log("\n");
-	res.send(' key1= '+req.body.key1 +' key2= '+req.body.key2);
+	// console.log("\n");
+	// console.log("POST link");
+	// console.log(req.body.key1);
+	// console.log(req.body.key2);
+	// console.log("\n");
+	// res.send(' key1= '+req.body.key1 +' key2= '+req.body.key2);
 });
 
 
