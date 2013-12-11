@@ -32,7 +32,11 @@
             		</div>
             		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
           	</form>
-			<li><a href="/addartist">Add</a></li>
+			<li><a href="/addartist">
+				<%if (typeof login !== "undefined") {%>
+				<%='Add'%>
+				<%}%>
+			</a></li>
 			<li><a href="/auth/google">
 				<% if (typeof login !== "undefined") { %>
 					<%= login %>
@@ -64,7 +68,7 @@
 
 			<% for (var i = 0; i < children.length; i++) { %>
 				<div class="album-container">
-					<a  class="soundslike-link-image" href="/api/db/content/<%= children[i].name %>/1" class="" ><img class="albums-list-image" src="<%= children[i].picture %>"></a>
+					<a class="soundslike-link-image" href="/api/db/content/<%= children[i].name %>/1"><img class="albums-list-image" src="<%= children[i].picture %>"></a>
 					<a class="soundslike-link-text" href="/api/db/content/<%= children[i].name %>/1"><span class="album-title"><%= children[i].name %></span></a><br>
 
 				</div>
@@ -83,7 +87,7 @@
 			</div>	
 			<% } %>	
 		</div>
-		
+
 		<div class="soundslike-container">
 			<span class="soundslike-title">Sounds Like</span>
 				<% for (var i = 0; i < soundslike.length; i++) { %>
