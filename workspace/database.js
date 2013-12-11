@@ -26,6 +26,7 @@ exports.getbyparentlvl0=getbyparentlvl0;
 exports.addlvl1=addlvl1;
 exports.getbyparentlvl1=getbyparentlvl1;
 exports.addlvl2=addlvl2;
+exports.addlvl0=addlvl0;
 
 
 var lvl0Schema = new mongoose.Schema({
@@ -229,7 +230,7 @@ function getsoundslike(name, callback){
 		
 	var lvl0 = db.model("lvl0",lvl0Schema);
 	lvl0.find({name:name}, function(err, ras){
-		var soundslikeJSON =ras[0].soundslike
+		var soundslikeJSON = ras[0].soundslike
 		//console.log(ras[0].soundslike)
 		
 		//console.log(soundslikeJSON);
@@ -238,13 +239,13 @@ function getsoundslike(name, callback){
 		//console.log(soundslikeJSON.length);
 		var newarray=[];
 		if (soundslikeJSON.length == 0) {
-			callback([]);
+			callback(null,newarray);
 		}
 		if (soundslikeJSON.length == 1) {
 			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
 				newarray.push(res[0]);
 				
-				callback(newarray);
+				callback(null,newarray);
 			})
 		}
 		if (soundslikeJSON.length == 2) {
@@ -253,7 +254,7 @@ function getsoundslike(name, callback){
 				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
 					newarray.push(res1[0]);
 					
-					callback(newarray);
+					callback(null,newarray);
 				})
 			})
 		}
@@ -265,7 +266,7 @@ function getsoundslike(name, callback){
 					newarray.push(res1[0]);
 					lvl0.find({name:soundslikeJSON[2]}, function(err, res2){
 						newarray.push(res2[0]);
-						callback(newarray);
+						callback(null,newarray);
 					})	
 				})	
 			})
@@ -281,7 +282,7 @@ function getsoundslike(name, callback){
 						
 						lvl0.find({name:soundslikeJSON[3]}, function(err, res3){
 							newarray.push(res3[0]);
-							callback(newarray);
+							callback(null,newarray);
 						})
 					})
 				})
@@ -301,7 +302,7 @@ function getsoundslike(name, callback){
 							
 							lvl0.find({name:soundslikeJSON[4]}, function(err, res4){
 								newarray.push(res4[0]);
-								callback(newarray);
+								callback(null,newarray);
 							})
 						})
 					})
@@ -312,20 +313,20 @@ function getsoundslike(name, callback){
 	})
 	}
 
-function soundslike(num, id1, id2, callback){
+function soundslike(num, name1, name2, callback){
 	if (num==0) {
 		var lvl0 = db.model("lvl0",lvl0Schema);
-		soundslikeHelper(lvl0, id1, id2,function(err, res){
+		soundslikeHelper(lvl0, name1, name2,function(err, res){
 			callback(err,res);});
 	}
 	else if (num==1) {
 		var lvl1 = db.model("lvl1",lvl1Schema);
-		soundslikeHelper(lvl1, id1, id2,function(err, res){
+		soundslikeHelper(lvl1, name1, name2,function(err, res){
 			callback(err,res);})
 	}
 	else if (num==2) {
 		var lvl2 = db.model("lvl2",lvl2Schema);
-		soundslikeHelper(lvl2, id1, id2,function(err, res){
+		soundslikeHelper(lvl2, name1, name2,function(err, res){
 			callback(err,res);
 	})}}
 
@@ -407,6 +408,7 @@ function getbyparentlvl0(parent, callback){
 	var lvl2 = db.model("lvl2",lvl2Schema);
 	console.log(parent);
 	lvl1.find({parent:parent}, function(err, res){
+		//if (res.length == 0) {callback(err, returnarray)};
 		returnarray.push(res);
 		//lvl2.find({parent:parent}, function(err,res1){
 			//returnarray.push(res1);
@@ -416,6 +418,7 @@ function getbyparentlvl0(parent, callback){
 				var j=0
 				var x = [];
 				lvl2.find({parent:res[i].name}, function(err, res2){
+					
 					res2.forEach(function(foreach){
 						x.push(foreach);
 					})
@@ -427,6 +430,7 @@ function getbyparentlvl0(parent, callback){
 				});
 
 			};
+			if (res.length == 0) {returnarray.push([]);callback(null, returnarray)};
 		//})
 	})
 }
