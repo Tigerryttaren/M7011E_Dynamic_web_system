@@ -64,10 +64,10 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	//returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
-	//realm: 'http://54.200.238.200:'+this_port+'/'
-	 returnURL: 'http://localhost:'+this_port+'/auth/google/return',
-	 realm: 'http://localhost:'+this_port+'/'
+	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	realm: 'http://54.200.238.200:'+this_port+'/'
+	 // returnURL: 'http://localhost:'+this_port+'/auth/google/return',
+	 // realm: 'http://localhost:'+this_port+'/'
 	},
 
 	function(identifier, profile, done) {
