@@ -80,7 +80,7 @@
 			xmlhttp.setRequestHeader('Content-Type', 'application/json');
 			xmlhttp.onreadystatechange=function(){
 				if (xmlhttp.readyState==4 && xmlhttp.status==200){
-					window.location.replace("/api/db/content/"+ar);
+					window.location.replace("/api/db/content/"+ar+"/0");
 				}
 			}
 			xmlhttp.send(JSON.stringify({ "level": "0", "content":{ "name": ar, "picture": pic }  }));

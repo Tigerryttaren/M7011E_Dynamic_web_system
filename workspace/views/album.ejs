@@ -31,7 +31,7 @@
             		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
           	</form>
 		<ul class="nav navbar-nav pull-right">
-			<li><a href="addartist">Add</a></li>
+			<li><a href="/addartist">Add</a></li>
 			<li><a href="/auth/google">
 				<% if (typeof login !== "undefined") { %>
 					<%= login %>
@@ -51,7 +51,7 @@
 			</div>			
 			<div class="artist-info-text">
 				<span class="album-header-text-size"><%= name %></span><br>
-				<a class="soundslike-link-text" href="/api/db/content/<%= parent %>/1"><span class="album-header-text-size-artist"><%= parent %></span></a><br>
+				<a class="soundslike-link-text" href="/api/db/content/<%= parent %>/0"><span class="album-header-text-size-artist"><%= parent %></span></a><br>
 				<form action="/api/db/content/link/1" method="post">	
 					<input type="hidden" name="key1" id="key1" value="<%= name %>">	
 					<button class="btn btn-soundslike" type="submit">Soundslike</button>
