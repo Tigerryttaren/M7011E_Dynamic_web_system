@@ -81,7 +81,7 @@
 			xmlhttp.setRequestHeader('Content-Type', 'application/json');
 			xmlhttp.onreadystatechange=function(){
 				if (xmlhttp.readyState==4 && xmlhttp.status==200){
-					window.location.replace("/api/db/content/"+tr);
+					window.location.replace("/api/db/content/"+tr+"/2");
 				}
 			}
 			xmlhttp.send(JSON.stringify({ "level": "2", "content":{ "name": tr, "parent": al }  }));
