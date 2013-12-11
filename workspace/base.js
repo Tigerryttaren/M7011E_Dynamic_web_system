@@ -138,7 +138,7 @@ app.post('/results', function(req,res){
 			//if (err1) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
 			db.getbyname(2, req.body.srch, function(err2, response2){
 				//if (err2) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
-					res.render('results', {artists : response0 , albums : response1, tracks : response2});
+					res.render('results', {artists : response0 , albums : response1, tracks : response2, login : authname(req) });
 			});
 		});
 	});
@@ -161,11 +161,11 @@ app.post('/link', function(req,res){
 		else if  (req.body.alike){
 			db.getbyname(req.body.sacrifice.level, req.body.alike, function(err, response){
 				if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
-				res.render('link', {sacrifice: response1[0] , soundslikelist: response});
+				res.render('link', {sacrifice: response1[0] , soundslikelist: response, login : authname(req)});
 			});
 		} 
 		else{
-			res.render('link', {sacrifice: response1[0] , soundslikelist: [] });
+			res.render('link', {sacrifice: response1[0] , soundslikelist: [] , login : authname(req)});
 		}
 	});
 //===================================
@@ -180,9 +180,9 @@ app.post('/link', function(req,res){
 
 
 
-app.get('/addartist', function(req,res){ res.render('addartist'); });
-app.get('/addalbum',  function(req,res){ res.render('addalbum');  });
-app.get('/addtrack',  function(req,res){ res.render('addtrack');  });
+app.get('/addartist', function(req,res){ res.render('addartist', {login : authname(req)} );  });
+app.get('/addalbum',  function(req,res){ res.render('addalbum',  {login : authname(req)} );  });
+app.get('/addtrack',  function(req,res){ res.render('addtrack',  {login : authname(req)} );  });
 
 
 // I Believe these are unneeded since google authentication takes care of it
@@ -233,10 +233,10 @@ app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
 			//if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
 			if(req.body.key2){
 				db.getbyname(req.params.dig, req.body.key2, function(err2, response2){
-					res.render('link', {sacrifice: response[0], soundslikelist : response2, lvl : req.params.dig});
+					res.render('link', {sacrifice: response[0], soundslikelist : response2, lvl : req.params.dig, login : authname(req)});
 				});
 			}else{
-				res.render('link', {sacrifice: response[0] , soundslikelist: [], lvl : req.params.dig });
+				res.render('link', {sacrifice: response[0] , soundslikelist: [], lvl : req.params.dig, login : authname(req) });
 			}
 		});
 		
@@ -307,7 +307,8 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 								picture: response[0].picture,
 								children: response_child[0],
 								tracks: response_child[1],
-								soundslike: response_soundslike
+								soundslike: response_soundslike, 
+								login : authname(req)
 							});
 						})
 					});
@@ -324,7 +325,9 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 							parent: response[0].parent,
 							picture : response[0].picture,
 							tracks: response_child[0],
-							soundslike: response[0].soundslike
+							soundslike: response[0].soundslike, 
+							login : authname(req)
+							
 						});
 					});
 					break;
@@ -342,7 +345,8 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 								parent: response_parent[0].name,
 								grandparent: response_grandparent[0].name,
 								picture: response_parent[0].picture,
-								soundslike: response[0].soundslike
+								soundslike: response[0].soundslike, 
+								login : authname(req)
 							});
 						});
 					});
