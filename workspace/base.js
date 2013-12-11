@@ -118,21 +118,38 @@ app.get('/auth/google/return',
 
 app.get('/', function(req,res){ res.render('index'); });
 
-app.get('/album', function(req,res){ 
-  res.render('album', { name : 'The Dark Side Of The Moon', parent : 'Pink Floyd', pic : 'images/fake/darkside.jpg', tracks : [ { name : 'Eclipse'}, { name : 'Breathe In The Air'}, { name : 'Any Colour You Like'} ], soundslike : [ { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'The Art Of War', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Attero Dominatus', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Primo Victoria', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'} ] } ); });
+// app.get('/album', function(req,res){ 
+  // res.render('album', { name : 'The Dark Side Of The Moon', parent : 'Pink Floyd', pic : 'images/fake/darkside.jpg', tracks : [ { name : 'Eclipse'}, { name : 'Breathe In The Air'}, { name : 'Any Colour You Like'} ], soundslike : [ { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'The Art Of War', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Attero Dominatus', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Primo Victoria', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'} ] } ); });
 
-app.get('/track', function(req,res){ res.render('album'); });
-
-
+// app.get('/track', function(req,res){ res.render('album'); });
 
 
-app.get('/artist', function(req,res){
-  res.render('artist', { name: 'Raubtier', pic : 'images/fake/pinkfloyd.jpg', children: [ {name : 'Från Norrland Till Helvetets Port', pic : 'images/fake/darkside.jpg'}, { name: 'Skriet Från Vildmarken', pic : 'images/fake/darkside.jpg'}, { name: 'Det Finns Bara Krig', pic : 'images/fake/darkside.jpg'} ], rating: '* * * * *', soundslike : [{name : 'Rammstein'},{name : 'Rammstein'},{name : 'Rammstein'}, {name : 'Sabaton'}, {name : 'Rammstein'}], toptracks : [ {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'} ] });
-});
+
+
+// app.get('/artist', function(req,res){
+  // res.render('artist', { name: 'Raubtier', pic : 'images/fake/pinkfloyd.jpg', children: [ {name : 'Från Norrland Till Helvetets Port', pic : 'images/fake/darkside.jpg'}, { name: 'Skriet Från Vildmarken', pic : 'images/fake/darkside.jpg'}, { name: 'Det Finns Bara Krig', pic : 'images/fake/darkside.jpg'} ], rating: '* * * * *', soundslike : [{name : 'Rammstein'},{name : 'Rammstein'},{name : 'Rammstein'}, {name : 'Sabaton'}, {name : 'Rammstein'}], toptracks : [ {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'} ] });
+// });
 
 app.post('/results', function(req,res){
 	console.log(req.body.srch);
-  res.render('results', { artists : [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], albums : [ {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ], tracks : [ { name : 'Any Colour You Like', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'The Great Gig In The Sky', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Time', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Breathe In The Air', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Money', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Eclipse', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Speak To Me', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' } ] }  );
+	db.getbyname(0, req.body.srch, function(err0, response0){
+		if (err0) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+		db.getbyname(0, req.body.srch, function(err1, response1){
+			if (err1) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+			db.getbyname(0, req.body.srch, function(err2, response2){
+				if (err2) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+					res.render('results', {artists : response0 , albums : response1, tracks : response3});
+			});
+		});
+	});
+
+  // res.render('results', { artists : 
+  // [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], 
+  // albums : 
+  // [{ name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ], 
+  // tracks : 
+  // [ { name : 'Any Colour You Like', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'The Great Gig In The Sky', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Time', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Breathe In The Air', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Money', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Eclipse', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Speak To Me', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' } ]
+  // }  );
 });
 
 app.post('/link', function(req,res){
@@ -275,7 +292,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 						console.log("got by parent");
 						//console.log(response[0].name);
 						//niklas test
-						db.getsoundslike(response[0].name, function(err, response_soundslike){
+						db.getsoundslike(0,response[0].name, function(err, response_soundslike){
 							console.log("got soundslike");
 							if(err_child){console.log('\nERR content/c/0 '+err); res.send(400);}
 							console.log(response[0].name);
