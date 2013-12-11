@@ -31,9 +31,14 @@
               			<input type="text" placeholder="Search" class="form-control" id="srch" name="srch">
             		</div>
             		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
-          		</form>
+          	</form>
 			<li><a href="/addartist">Add</a></li>
-			<li><a href="/auth/google">Sign In</a></li>
+			<li><a href="/auth/google">
+				<% if (typeof login !== "undefined") { %>
+					<%= login %>
+				<% } else { %>
+					<%= "Sign in" %>
+				<%}%></a></li>
 		</ul>
 	</div>
 	</div>

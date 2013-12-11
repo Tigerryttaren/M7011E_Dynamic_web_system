@@ -64,10 +64,10 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
-	// returnURL: 'http://localhost:'+this_port+'/auth/google/return',
-	realm: 'http://54.200.238.200:'+this_port+'/'
-	// realm: 'http://localhost:'+this_port+'/'
+	//returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	//realm: 'http://54.200.238.200:'+this_port+'/'
+	 returnURL: 'http://localhost:'+this_port+'/auth/google/return',
+	 realm: 'http://localhost:'+this_port+'/'
 	},
 
 	function(identifier, profile, done) {
@@ -116,23 +116,40 @@ app.get('/auth/google/return',
 
 
 
-app.get('/', function(req,res){ res.render('index'); });
+app.get('/', function(req,res){ res.render('index', {login : authname(req) }); });
 
-app.get('/album', function(req,res){ 
-  res.render('album', { name : 'The Dark Side Of The Moon', parent : 'Pink Floyd', pic : 'images/fake/darkside.jpg', tracks : [ { name : 'Eclipse'}, { name : 'Breathe In The Air'}, { name : 'Any Colour You Like'} ], soundslike : [ { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'The Art Of War', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Attero Dominatus', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Primo Victoria', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'} ] } ); });
+// app.get('/album', function(req,res){ 
+  // res.render('album', { name : 'The Dark Side Of The Moon', parent : 'Pink Floyd', pic : 'images/fake/darkside.jpg', tracks : [ { name : 'Eclipse'}, { name : 'Breathe In The Air'}, { name : 'Any Colour You Like'} ], soundslike : [ { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'The Art Of War', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Attero Dominatus', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Primo Victoria', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'} ] } ); });
 
-app.get('/track', function(req,res){ res.render('album'); });
-
-
+// app.get('/track', function(req,res){ res.render('album'); });
 
 
-app.get('/artist', function(req,res){
-  res.render('artist', { name: 'Raubtier', pic : 'images/fake/pinkfloyd.jpg', children: [ {name : 'Från Norrland Till Helvetets Port', pic : 'images/fake/darkside.jpg'}, { name: 'Skriet Från Vildmarken', pic : 'images/fake/darkside.jpg'}, { name: 'Det Finns Bara Krig', pic : 'images/fake/darkside.jpg'} ], rating: '* * * * *', soundslike : [{name : 'Rammstein'},{name : 'Rammstein'},{name : 'Rammstein'}, {name : 'Sabaton'}, {name : 'Rammstein'}], toptracks : [ {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'} ] });
-});
+
+
+// app.get('/artist', function(req,res){
+  // res.render('artist', { name: 'Raubtier', pic : 'images/fake/pinkfloyd.jpg', children: [ {name : 'Från Norrland Till Helvetets Port', pic : 'images/fake/darkside.jpg'}, { name: 'Skriet Från Vildmarken', pic : 'images/fake/darkside.jpg'}, { name: 'Det Finns Bara Krig', pic : 'images/fake/darkside.jpg'} ], rating: '* * * * *', soundslike : [{name : 'Rammstein'},{name : 'Rammstein'},{name : 'Rammstein'}, {name : 'Sabaton'}, {name : 'Rammstein'}], toptracks : [ {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'} ] });
+// });
 
 app.post('/results', function(req,res){
 	console.log(req.body.srch);
-  res.render('results', { artists : [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], albums : [ {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ], tracks : [ { name : 'Any Colour You Like', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'The Great Gig In The Sky', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Time', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Breathe In The Air', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Money', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Eclipse', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Speak To Me', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' } ] }  );
+	db.getbyname(0, req.body.srch, function(err0, response0){
+		//if (err0) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+		db.getbyname(1, req.body.srch, function(err1, response1){
+			//if (err1) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+			db.getbyname(2, req.body.srch, function(err2, response2){
+				//if (err2) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+					res.render('results', {artists : response0 , albums : response1, tracks : response2, login : authname(req) });
+			});
+		});
+	});
+
+  // res.render('results', { artists : 
+  // [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], 
+  // albums : 
+  // [{ name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ], 
+  // tracks : 
+  // [ { name : 'Any Colour You Like', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'The Great Gig In The Sky', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Time', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Breathe In The Air', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Money', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Eclipse', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Speak To Me', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' } ]
+  // }  );
 });
 
 app.post('/link', function(req,res){
@@ -144,11 +161,11 @@ app.post('/link', function(req,res){
 		else if  (req.body.alike){
 			db.getbyname(req.body.sacrifice.level, req.body.alike, function(err, response){
 				if (err) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
-				res.render('link', {sacrifice: response1[0] , soundslikelist: response});
+				res.render('link', {sacrifice: response1[0] , soundslikelist: response, login : authname(req)});
 			});
 		} 
 		else{
-			res.render('link', {sacrifice: response1[0] , soundslikelist: [] });
+			res.render('link', {sacrifice: response1[0] , soundslikelist: [] , login : authname(req)});
 		}
 	});
 //===================================
@@ -163,9 +180,9 @@ app.post('/link', function(req,res){
 
 
 
-app.get('/addartist', function(req,res){ res.render('addartist'); });
-app.get('/addalbum',  function(req,res){ res.render('addalbum');  });
-app.get('/addtrack',  function(req,res){ res.render('addtrack');  });
+app.get('/addartist', function(req,res){ res.render('addartist', {login : authname(req)} );  });
+app.get('/addalbum',  function(req,res){ res.render('addalbum',  {login : authname(req)} );  });
+app.get('/addtrack',  function(req,res){ res.render('addtrack',  {login : authname(req)} );  });
 
 
 // I Believe these are unneeded since google authentication takes care of it
@@ -197,7 +214,7 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 	res.send('Here you are :)');
 });
 
-app.post('/api/db/content/add', function(req,res){ 
+app.post('/api/db/content/add',ensureAuthenticated, function(req,res){ 
 	console.log(req.body.level + " " + req.body.content + " " +req.body)
 	db.add(parseInt(req.body.level), req.body.content, function(err, response){
 		if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
@@ -208,14 +225,18 @@ app.post('/api/db/content/add', function(req,res){
 });
 
 app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
-		db.getbyname(req.params.dig, req.params.key, function(err, response){
-			if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-			else if(req.params.key2){
-				db.getbyname(req.params.dig, req.params.key2, function(err2, response2){
-					res.render('link', {sacrifice: response[0], soundslikelist : response2});
+		db.getbyname(req.params.dig, req.body.key1, function(err, response){
+			console.log(req.params.dig);
+			console.log(req.params);
+			console.log(req.body.key1);
+			console.log(response);
+			//if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+			if(req.body.key2){
+				db.getbyname(req.params.dig, req.body.key2, function(err2, response2){
+					res.render('link', {sacrifice: response[0], soundslikelist : response2, lvl : req.params.dig, login : authname(req)});
 				});
 			}else{
-				res.render('link', {sacrifice: response[0] , soundslikelist: [] });
+				res.render('link', {sacrifice: response[0] , soundslikelist: [], lvl : req.params.dig, login : authname(req) });
 			}
 		});
 		
@@ -239,10 +260,10 @@ app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
 		// res.send(response); //answer is sync
 });
 
-app.post('/api/db/content/link/add:dig(\\d+)', function(req,res){
-	db.soundslike(req.params.dig, req.params.key, req.params.key2, function(err, response){
-		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-		res.redirect('/api/db/content/'+req.params.key+'/'+req.params.dig);
+app.post('/api/db/content/link/add/:dig(\\d+)', function(req,res){
+	db.soundslike(req.params.dig, req.body.key1, req.body.key2, function(err, response){
+		if (err) {console.log('\nERR: link/add: '+err); res.send(400);}
+		res.redirect('/api/db/content/'+req.body.key1+'/'+req.params.dig);
 	});
 
 	// console.log("\n");
@@ -275,7 +296,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 						console.log("got by parent");
 						//console.log(response[0].name);
 						//niklas test
-						db.getsoundslike(response[0].name, function(err, response_soundslike){
+						db.getsoundslike(0,response[0].name, function(err, response_soundslike){
 							console.log("got soundslike");
 							if(err_child){console.log('\nERR content/c/0 '+err); res.send(400);}
 							console.log(response[0].name);
@@ -286,7 +307,8 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 								picture: response[0].picture,
 								children: response_child[0],
 								tracks: response_child[1],
-								soundslike: response_soundslike
+								soundslike: response_soundslike,
+								login : authname(req)
 							});
 						})
 					});
@@ -297,31 +319,39 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 						// console.log('r_c[0]: '+response_child[0]); console.log('\n');
 						// console.log('r_c[0][0]:'+response_child[0][0]); console.log('\n');
 						// console.log('r_c[0][1]:'+response_child[0][1]); console.log('\n');
-						
-						res.render('album',  {
-							name: response[0].name,
-							parent: response[0].parent,
-							picture : response[0].picture,
-							tracks: response_child[0],
-							soundslike: response[0].soundslike
+						db.getsoundslike(1,response[0].name, function(err_soundslike, response_soundslike){
+							console.log(response[0].name);
+							console.log(response_soundslike);
+							res.render('album',  {
+								name: response[0].name,
+								parent: response[0].parent,
+								picture : response[0].picture,
+								tracks: response_child[0],
+								soundslike: response_soundslike, 
+								login : authname(req)
+							});
 						});
 					});
 					break;
 				case 2:
 
-					console.log(response[0].parent);
+					//console.log(response[0].parent);
 					db.getbyname(1,	response[0].parent,  function(errParent, response_parent){
-						console.log(response_parent);
+						//console.log(response_parent);
 						db.getbyname(0,	response_parent[0].parent,  function(errgrandParent, response_grandparent){
-							console.log(response_parent[0].name);
-							console.log(response_parent);
-							console.log(response_grandparent);
-							res.render('track',  {
-								name: response[0].name,
-								parent: response_parent[0].name,
-								grandparent: response_grandparent[0].name,
-								picture: response_parent[0].picture,
-								soundslike: response[0].soundslike
+							//console.log(response_parent[0].name);
+							//console.log(response_parent);
+							//console.log(response_grandparent);
+							db.getsoundslike(2,response[0].name, function(err_soundslike, response_soundslike){
+								console.log(response_soundslike);
+								res.render('track',  {
+									name: response[0].name,
+									parent: response_parent[0].name,
+									grandparent: response_grandparent[0].name,
+									picture: response_parent[0].picture,
+									soundslike: response_soundslike, 
+									login : authname(req)
+								});
 							});
 						});
 					});
@@ -392,6 +422,12 @@ function ensureAuthenticated(req, res, next) { //this should probably be changed
   if (req.isAuthenticated()) { return next(); }
   console.log("Failed authentication");
   res.redirect('/auth/google');
+}
+
+function authname(req){
+	console.log(req.user);
+	if (req.isAuthenticated()) {return req.user.displayName}
+	else {return}
 }
 
 //code to make this module listen to a port if no parents use this as a module

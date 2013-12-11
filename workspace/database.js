@@ -130,7 +130,7 @@ function getbynameHelper(lvl, Name, callback){
 		lvl.find({name:Name}, function(err, res){
 			//console.log(res.length);
 			//console.log('res: '+res);
-			if(res.length==0){callback("error: is empty", null)}
+			if(res.length==0){callback("error: is empty", [])}
 			callback(err, res);
 		})}
 	//})
@@ -224,12 +224,18 @@ function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 	//});
 	}
 
-function getsoundslike(name, callback){
-	
+function getsoundslike(lvl, name, callback){
+	var lvl;
 	//db.once("open", function(){
-		
-	var lvl0 = db.model("lvl0",lvl0Schema);
-	lvl0.find({name:name}, function(err, ras){
+	if (lvl == 0){
+		lvl = db.model("lvl0",lvl0Schema);
+	} else if (lvl ==1){
+ 		lvl = db.model("lvl1",lvl1Schema);
+	} else {
+		lvl = db.model("lvl2",lvl2Schema);
+	}
+	
+	lvl.find({name:name}, function(err, ras){
 		var soundslikeJSON = ras[0].soundslike
 		//console.log(ras[0].soundslike)
 		
@@ -242,16 +248,16 @@ function getsoundslike(name, callback){
 			callback(null,newarray);
 		}
 		if (soundslikeJSON.length == 1) {
-			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+			lvl.find({name:soundslikeJSON[0]}, function(err, res){
 				newarray.push(res[0]);
 				
 				callback(null,newarray);
 			})
 		}
 		if (soundslikeJSON.length == 2) {
-			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+			lvl.find({name:soundslikeJSON[0]}, function(err, res){
 				newarray.push(res[0]);
-				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
+				lvl.find({name:soundslikeJSON[1]}, function(err, res1){
 					newarray.push(res1[0]);
 					
 					callback(null,newarray);
@@ -260,11 +266,11 @@ function getsoundslike(name, callback){
 		}
 		if (soundslikeJSON.length == 3) {
 			
-			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+			lvl.find({name:soundslikeJSON[0]}, function(err, res){
 				newarray.push(res[0]);
-				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
+				lvl.find({name:soundslikeJSON[1]}, function(err, res1){
 					newarray.push(res1[0]);
-					lvl0.find({name:soundslikeJSON[2]}, function(err, res2){
+					lvl.find({name:soundslikeJSON[2]}, function(err, res2){
 						newarray.push(res2[0]);
 						callback(null,newarray);
 					})	
@@ -272,15 +278,15 @@ function getsoundslike(name, callback){
 			})
 		};
 		if (soundslikeJSON.length == 4) {
-			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+			lvl.find({name:soundslikeJSON[0]}, function(err, res){
 				newarray.push(res[0]);
-				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
+				lvl.find({name:soundslikeJSON[1]}, function(err, res1){
 					newarray.push(res1[0]);
-					lvl0.find({name:soundslikeJSON[2]}, function(err, res2){
+					lvl.find({name:soundslikeJSON[2]}, function(err, res2){
 						newarray.push(res2[0]);
 						
 						
-						lvl0.find({name:soundslikeJSON[3]}, function(err, res3){
+						lvl.find({name:soundslikeJSON[3]}, function(err, res3){
 							newarray.push(res3[0]);
 							callback(null,newarray);
 						})
@@ -289,18 +295,18 @@ function getsoundslike(name, callback){
 			})
 		};
 		if (soundslikeJSON.length > 4) {
-			lvl0.find({name:soundslikeJSON[0]}, function(err, res){
+			lvl.find({name:soundslikeJSON[0]}, function(err, res){
 				newarray.push(res[0]);
-				lvl0.find({name:soundslikeJSON[1]}, function(err, res1){
+				lvl.find({name:soundslikeJSON[1]}, function(err, res1){
 					newarray.push(res1[0]);
-					lvl0.find({name:soundslikeJSON[2]}, function(err, res2){
+					lvl.find({name:soundslikeJSON[2]}, function(err, res2){
 						newarray.push(res2[0]);
 						
 						
-						lvl0.find({name:soundslikeJSON[3]}, function(err, res3){
+						lvl.find({name:soundslikeJSON[3]}, function(err, res3){
 							newarray.push(res3[0]);
 							
-							lvl0.find({name:soundslikeJSON[4]}, function(err, res4){
+							lvl.find({name:soundslikeJSON[4]}, function(err, res4){
 								newarray.push(res4[0]);
 								callback(null,newarray);
 							})

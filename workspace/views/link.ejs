@@ -33,7 +33,12 @@
             		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
           		</form>
 			<li><a href="/addartist">Add</a></li>
-			<li><a href="/auth/google">Sign In</a></li>
+			<li><a href="/auth/google">
+				<% if (typeof login !== "undefined") { %>
+					<%= login %>
+				<% } else { %>
+					<%= "Sign in" %>
+				<%}%></a></li>
 		</ul>
 	</div>
 	</div>
@@ -48,7 +53,11 @@
 			</div>			
 			<div class="link-artist-info-text">
 				<span class="album-header-text-size"><%= sacrifice.name %></span></br>
-				<span class="album-header-text-size-artist"><%= sacrifice.parent %></span></br>
+				<span class="album-header-text-size-artist">
+					<% if (typeof sacrifice.parent !== "undefined") { %>
+						<%= sacrifice.parent %>
+					<% }%>
+					</span></br>
 			</div>
 			</div>
 		</div>
@@ -72,12 +81,16 @@
 				<div class="link-artist-header-container">		
 					<div class="link-artist-info-text">
 						<span class="album-header-text-size"><%= soundslikelist[i].name %></span><br>
-						<span class="album-header-text-size-artist"><%= soundslikelist[i].parent %></span><br>
+						<span class="album-header-text-size-artist"> 
+							<% if (typeof soundslikelist[i].parent !== "undefined") { %>
+								<%= sacrifice.parent %>
+							<% }%>
+						</span><br>
 
 						<form action="/api/db/content/link/add/<%= lvl %>" method="post">	
 							<input type="hidden" name="key1" id="key1" value="<%= sacrifice.name %>">	
 							<input type="hidden" name="key2" id="key2" value="<%= soundslikelist[i].name %>">		
-							<button class="btn btn-soundslike" type="submit">Link</button>
+							<button class="btn btn-soundslike" type="submit">Soundslike</button>
 						</form>
 					</div>
 					<div class="link-bottom-artist-image-container">
