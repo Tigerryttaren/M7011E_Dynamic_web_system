@@ -211,7 +211,7 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 	console.log("\n");
 	console.log("GET me");
 	console.log("\n");
-	res.send('Here you are :)');
+	res.send('Hi'+ req.user.displayName);
 });
 
 app.post('/api/db/content/add',ensureAuthenticated, function(req,res){ 
