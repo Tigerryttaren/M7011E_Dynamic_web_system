@@ -116,7 +116,7 @@ app.get('/auth/google/return',
 
 
 
-app.get('/', function(req,res){ res.render('index'); });
+app.get('/', function(req,res){ res.render('index', {login : authname(req) }); });
 
 // app.get('/album', function(req,res){ 
   // res.render('album', { name : 'The Dark Side Of The Moon', parent : 'Pink Floyd', pic : 'images/fake/darkside.jpg', tracks : [ { name : 'Eclipse'}, { name : 'Breathe In The Air'}, { name : 'Any Colour You Like'} ], soundslike : [ { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'The Art Of War', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Attero Dominatus', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Primo Victoria', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'} ] } ); });
@@ -260,10 +260,10 @@ app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
 		// res.send(response); //answer is sync
 });
 
-app.post('/api/db/content/link/add:dig(\\d+)', function(req,res){
-	db.soundslike(req.params.dig, req.params.key, req.params.key2, function(err, response){
-		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-		res.redirect('/api/db/content/'+req.params.key+'/'+req.params.dig);
+app.post('/api/db/content/link/add/:dig(\\d+)', function(req,res){
+	db.soundslike(req.params.dig, req.body.key1, req.body.key2, function(err, response){
+		if (err) {console.log('\nERR: link/add: '+err); res.send(400);}
+		res.redirect('/api/db/content/'+req.body.key1+'/'+req.params.dig);
 	});
 
 	// console.log("\n");
@@ -413,6 +413,12 @@ function ensureAuthenticated(req, res, next) { //this should probably be changed
   if (req.isAuthenticated()) { return next(); }
   console.log("Failed authentication");
   res.redirect('/auth/google');
+}
+
+function authname(req){
+	console.log(req.user);
+	if (req.isAuthenticated()) {return req.user.displayName}
+	else {return}
 }
 
 //code to make this module listen to a port if no parents use this as a module
