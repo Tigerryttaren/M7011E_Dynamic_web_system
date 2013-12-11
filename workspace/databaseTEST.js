@@ -124,9 +124,7 @@ if (arg0[0]=="testaddlvl2") {
 	}
 if (arg0[0]=="getbyname1") {
 	database.getbyname(1, arg0[1],function(err, res){
-		console.log(res);
-		//var x = res[0]._id;
-		console.log(x);
+		console.log(err, res);
 	})
 	}
 
