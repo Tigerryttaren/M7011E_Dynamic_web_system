@@ -128,7 +128,7 @@ function getbynameHelper(lvl, Name, callback){
 	//db.once("open", function(){
 		lvl.find({name:Name}, function(err, res){
 			//console.log(res.length);
-			console.log('res: '+res);
+			//console.log('res: '+res);
 			if(res.length==0){callback("error: is empty", null)}
 			callback(err, res);
 		})}
@@ -176,24 +176,26 @@ function addlvl0(name, rating, picture, soundslike, info, callback){
 	}
 
 function addlvl1(name, rating, picture, soundslike, parent, info, callback){
-	
-	var lvl1 = db.model("lvl1",lvl1Schema);
-	//db.once("open", function(){
-	
-	
-		
-		var newlvl1 = new lvl1({
-			name: name,
-			rating: rating,
-			picture: picture,
-			soundslike: soundslike,
-			parent: parent,
-			info: info
-		});
-		newlvl1.save(function(err){
-			if (err){callback(err);}
-			else{callback(null, "success")}
-		});
+	var lvl0 = db.model("lvl0",lvl0Schema);
+	lvl0.find({name:parent}, function(err, res){
+		if (res.length == 0 ) {callback("could not find that artist", null)}
+		else{
+			var lvl1 = db.model("lvl1",lvl1Schema);
+		//db.once("open", function(){
+			var newlvl1 = new lvl1({
+				name: name,
+				rating: rating,
+				picture: picture,
+				soundslike: soundslike,
+				parent: parent,
+				info: info
+			});
+			newlvl1.save(function(err){
+				if (err){callback(err);}
+				else{callback(null, "success")}
+			});
+		}
+	})
 	//});
 	}
 
@@ -201,21 +203,23 @@ function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 	//db.once("open", function(){
 	var lvl1 = db.model("lvl1",lvl1Schema);
 	lvl1.find({name:parent}, function(err, res){
-		if (res  ) {};
-	})
-		var lvl2 = db.model("lvl2",lvl2Schema);
-		var newlvl2 = new lvl2({
-			name: name,
-			rating: rating,
-			picture: picture,
-			soundslike: soundslike,
-			parent: parent,
-			info: info
-		});
-		newlvl2.save(function(err){
-			if (err){callback(err);}
-			else{callback(null, "success")}
-		});
+		if (res.length == 0 ) {callback("could not find that album", null)}
+		else{
+			var lvl2 = db.model("lvl2",lvl2Schema);
+			var newlvl2 = new lvl2({
+				name: name,
+				rating: rating,
+				picture: picture,
+				soundslike: soundslike,
+				parent: parent,
+				info: info
+			});
+			newlvl2.save(function(err){
+				if (err){callback(err);}
+				else{callback(null, "success")}
+			});
+		}
+	})	
 	//});
 	}
 

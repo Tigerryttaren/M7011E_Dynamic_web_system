@@ -200,7 +200,7 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 app.post('/api/db/content/add', function(req,res){ 
 	console.log(req.body.level + " " + req.body.content + " " +req.body)
 	db.add(parseInt(req.body.level), req.body.content, function(err, response){
-		if (err) {console.log('\nERR: content/add: '+ err);}
+		if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
 		console.log(response);
 		res.send(200);
 	});
@@ -230,7 +230,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 	console.log('\nWELCOME TO CONTENT\n');
 	
 	db.getbyname(req.params.dig, req.params.content, function(err, response){
-		console.log("HEJ WILLIAM");
+		//console.log("HEJ WILLIAM");
 		if (err) {
 			console.log('\nERR: content/c: '+err); 
 			console.log('nopass');
@@ -241,16 +241,22 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 			// res.send(response); //answer is sync
 			switch(parseInt(req.params.dig)){
 				case 0:
+
 					db.getbyparentlvl0(response[0].name, function(err_child, response_child){
-						if(err_child){console.log('\nERR content/c/0 '+err); res.send(400);}
-						console.log(response_child+'n'+response_child[1]);
-						res.render('artist', { 
-							name: response[0].name,
-							pic: response[0].picture,
-							children: response_child[0],
-							toptracks: response_child[1],
-							soundslike: response[0].soundslike
-						});
+
+						//console.log(response[0].name);
+						//niklas test
+						db.getsoundslike(response[0].name, function(err, response_soundslike){
+							if(err_child){console.log('\nERR content/c/0 '+err); res.send(400);}
+							console.log(response_child+'n'+response_child[1]);
+							res.render('artist', { 
+								name: response[0].name,
+								pic: response[0].picture,
+								children: response_child[0],
+								toptracks: response_child[1],
+								soundslike: response_soundslike
+							});
+						})
 					});
 					break;
 				case 1:
@@ -271,7 +277,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 					break;
 				case 2:
 
-console.log(response[0].parent);
+					console.log(response[0].parent);
 					db.getbyname(1,	response[0].parent,  function(errParent, response_parent){
 						console.log(response_parent);
 						db.getbyname(0,	response_parent[0].parent,  function(errgrandParent, response_grandparent){

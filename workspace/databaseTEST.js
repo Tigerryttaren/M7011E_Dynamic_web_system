@@ -130,6 +130,13 @@ if (arg0[0]=="testaddlvl2") {
 		console.log(res);
 	})
 	}
+if (arg0[0]=="getbyname1") {
+	database.getbyname(1, arg0[1],function(err, res){
+		console.log(res);
+		//var x = res[0]._id;
+		console.log(x);
+	})
+	}
 
 if (arg0[0]=="testaddlvl3") {
 	//addlvl0(name, rating, picture, soundslike, parent, info, callback)
