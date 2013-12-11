@@ -64,10 +64,10 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	//returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
-	//realm: 'http://54.200.238.200:'+this_port+'/'
-	 returnURL: 'http://localhost:'+this_port+'/auth/google/return',
-	 realm: 'http://localhost:'+this_port+'/'
+	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	realm: 'http://54.200.238.200:'+this_port+'/'
+	 // returnURL: 'http://localhost:'+this_port+'/auth/google/return',
+	 // realm: 'http://localhost:'+this_port+'/'
 	},
 
 	function(identifier, profile, done) {
@@ -279,6 +279,11 @@ app.post('/api/db/content/link/add/:dig(\\d+)', function(req,res){
 app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS ON WRONG ADRESS
 	console.log('\nWELCOME TO CONTENT\n');
 	
+	// var cont1 = new Buffer(req.params.content.toString(), 'ascii').toString('utf8');
+	// console.log('cont1: '+cont1);
+	
+	// var cont = decodeURIComponent( escape ( req.params.content ) );
+	// console.log('cont: '+cont+'/cont');
 	db.getbyname(req.params.dig, req.params.content, function(err, response){
 		//console.log("HEJ WILLIAM");
 		if (err) {

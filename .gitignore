@@ -7,7 +7,12 @@ desktop.ini
 #ours
 *.dontsave
 tests/
+
 #workspace/dist/images/
+*.jpg
+*.jpeg
+*.png
+*.gif
 
 #keys
 *.pem
