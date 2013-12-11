@@ -47,7 +47,7 @@
 			<div class="artist-info-text">
 				<p class="artist-header-text-size"><%= name %></p>
 				
-				<form action="db/content/link/0" method="post">	
+				<form action="/api/db/content/link/0" method="post">	
 					<input type="hidden" name="key1" id="key1" value="<%= name %>">	
 					<button class="btn btn-soundslike" type="submit">Soundslike</button>
 				</form>
@@ -58,8 +58,8 @@
 
 			<% for (var i = 0; i < children.length; i++) { %>
 				<div class="album-container">
-					<a  class="soundslike-link-image" href="db/content/<%= children[i].name %>/1" class="" ><img class="albums-list-image" src="<%= children[i].picture %>"></a>
-					<a class="soundslike-link-text" href="db/content/<%= children[i].name %>/1"><span class="album-title"><%= children[i].name %></span></a><br>
+					<a  class="soundslike-link-image" href="/api/db/content/<%= children[i].name %>/1" class="" ><img class="albums-list-image" src="<%= children[i].picture %>"></a>
+					<a class="soundslike-link-text" href="/api/db/content/<%= children[i].name %>/1"><span class="album-title"><%= children[i].name %></span></a><br>
 
 				</div>
 			<% } %>	
@@ -72,8 +72,8 @@
 				<div class="toptrack-number-box">
 					<div class="toptrack-number"><%= i+1 %></div>
 				</div>
-				<a class="soundslike-link-image" href="db/content/<%= tracks[i].name %>/2"><span class="toptrack-title"><%= tracks[i].name %></span><br></a>
-				<a class="soundslike-link-image" href="db/content/<%= tracks[i].parent %>/1"><span class="toptrack-from-album"><%= tracks[i].parent %></span><br></a>
+				<a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><span class="toptrack-title"><%= tracks[i].name %></span><br></a>
+				<a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].parent %>/1"><span class="toptrack-from-album"><%= tracks[i].parent %></span><br></a>
 			</div>	
 			<% } %>	
 		</div>
@@ -82,8 +82,8 @@
 			<span class="soundslike-title">Sounds Like</span>
 				<% for (var i = 0; i < soundslike.length; i++) { %>
 					<div class="soundslike-item-container">
-						<a class="soundslike-link-image" href="db/content/<%= soundslike[i].name %>/0"><img class="soundslike-item-image" src="<%= soundslike[i].picture %>"></a>
-						<a class="soundslike-link-text" href="db/content/<%= soundslike[i].name %>/0"><span class="soundslike-item-title-artist"><%= soundslike[i].name %></span></a>
+						<a class="soundslike-link-image" href="/api/db/content/<%= soundslike[i].name %>/0"><img class="soundslike-item-image" src="<%= soundslike[i].picture %>"></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= soundslike[i].name %>/0"><span class="soundslike-item-title-artist"><%= soundslike[i].name %></span></a>
 					</div>
 				<% } %>	
 		</div>
