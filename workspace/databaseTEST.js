@@ -36,15 +36,7 @@ if (arg0[0]=="testgetid") {
 		console.log(res);
 	})
 	}
-if (arg0[0]=="testaddlvl0") {
-	//addlvl0(name, rating, picture, soundslike, parent, info, callback)
-	var c = [{extras:"none"}];
-	c.push({extras:"this"});
-	database.addlvl0("cooltband", 5, "mypicture", [], null,function(res){
-		//console.log(arg0[1]);
-		console.log(res);
-	})
-	}
+
 
 if (arg0[0]=="soundslike") {
 	//soundslike(num, id1, id2, callback){
@@ -130,11 +122,26 @@ if (arg0[0]=="testaddlvl2") {
 		console.log(res);
 	})
 	}
+if (arg0[0]=="getbyname1") {
+	database.getbyname(1, arg0[1],function(err, res){
+		console.log(res);
+		//var x = res[0]._id;
+		console.log(x);
+	})
+	}
 
 if (arg0[0]=="testaddlvl3") {
 	//addlvl0(name, rating, picture, soundslike, parent, info, callback)
 	
 	database.addlvl2("antonsong", 5, "http://i.imgur.com/C899nMf.gif", [], "williamalbum", null, function(err,res){
+		//console.log(arg0[1]);
+		console.log(res);
+	})
+	}
+
+if (arg0[0]=="testaddlvl0") {
+	//addlvl0(name, rating, picture, soundslike, info, callback
+	database.addlvl0("antonsband", 5, "http://i.imgur.com/C899nMf.gif", ["antonsband"], null,function(err,res){
 		//console.log(arg0[1]);
 		console.log(res);
 	})

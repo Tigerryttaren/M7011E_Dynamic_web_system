@@ -64,10 +64,10 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	// returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
-	returnURL: 'http://localhost:'+this_port+'/auth/google/return',
-	// realm: 'http://54.200.238.200:'+this_port+'/'
-	realm: 'http://localhost:'+this_port+'/'
+	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	// returnURL: 'http://localhost:'+this_port+'/auth/google/return',
+	realm: 'http://54.200.238.200:'+this_port+'/'
+	// realm: 'http://localhost:'+this_port+'/'
 	},
 
 	function(identifier, profile, done) {
@@ -200,28 +200,57 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 app.post('/api/db/content/add', function(req,res){ 
 	console.log(req.body.level + " " + req.body.content + " " +req.body)
 	db.add(parseInt(req.body.level), req.body.content, function(err, response){
-		if (err) {console.log('\nERR: content/add: '+ err);}
+		if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
 		console.log(response);
 		res.send(200);
 	});
 	// console.log("\n\n"+req.body.level +" "+req.body.content.name+" "+req.body.content.parent+" "+req.body.content.picture+" "+req.body.content+"\n");
-	// res.send(200); // answer is sync
 });
 
-app.get('/api/db/content/link', function(req,res){ //atm only response is the sent artist
-	db.getcontent(req.body.key, function(err, response){
+app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
+		db.getbyname(req.params.dig, req.params.key, function(err, response){
+			if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+			else if(req.params.key2){
+				db.getbyname(req.params.dig, req.params.key2, function(err2, response2){
+					res.render('link', {sacrifice: response[0], soundslikelist : response2});
+				});
+			}else{
+				res.render('link', {sacrifice: response[0] , soundslikelist: [] });
+			}
+		});
+		
+		// switch(parseInt(req.params.dig)){
+				// case 0:
+					// db.getbyname(0, req.params.key, function(err, response){
+						// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+						
+					// }
+				// case 1:
+					// db.getbyname(1, req.params.key, function(err, response){
+						// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+						
+					// }
+				// case 2:
+					// db.getbyname(2, req.params.content, function(err, response){
+						// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+						
+					// }
+		// }
+		// res.send(response); //answer is sync
+});
+
+app.post('/api/db/content/link/add:dig(\\d+)', function(req,res){
+	db.soundslike(req.params.dig, req.params.key, req.params.key2, function(err, response){
 		if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-		res.send(response); //answer is sync
+		res.redirect('/api/db/content/'+req.params.key+'/'+req.params.dig);
 	});
-});
 
-app.post('/api/db/content/link', function(req,res){
-	console.log("\n");
-	console.log("POST link");
-	console.log(req.body.key1);
-	console.log(req.body.key2);
-	console.log("\n");
-	res.send(' key1= '+req.body.key1 +' key2= '+req.body.key2);
+	// console.log("\n");
+	// console.log("POST link");
+	// console.log(req.body.key1);
+	// console.log(req.body.key2);
+	// console.log("\n");
+	// res.send(' key1= '+req.body.key1 +' key2= '+req.body.key2);
 });
 
 
@@ -230,7 +259,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 	console.log('\nWELCOME TO CONTENT\n');
 	
 	db.getbyname(req.params.dig, req.params.content, function(err, response){
-		console.log("HEJ WILLIAM");
+		//console.log("HEJ WILLIAM");
 		if (err) {
 			console.log('\nERR: content/c: '+err); 
 			console.log('nopass');
@@ -241,16 +270,25 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 			// res.send(response); //answer is sync
 			switch(parseInt(req.params.dig)){
 				case 0:
+					console.log("artist");
 					db.getbyparentlvl0(response[0].name, function(err_child, response_child){
-						if(err_child){console.log('\nERR content/c/0 '+err); res.send(400);}
-						console.log(response_child+'n'+response_child[1]);
-						res.render('artist', { 
-							name: response[0].name,
-							pic: response[0].picture,
-							children: response_child[0],
-							toptracks: response_child[1],
-							soundslike: response[0].soundslike
-						});
+						console.log("got by parent");
+						//console.log(response[0].name);
+						//niklas test
+						db.getsoundslike(response[0].name, function(err, response_soundslike){
+							console.log("got soundslike");
+							if(err_child){console.log('\nERR content/c/0 '+err); res.send(400);}
+							console.log(response[0].name);
+							console.log(response_soundslike);
+							// console.log(response_child+'n'+response_child[1]);
+							res.render('artist', { 
+								name: response[0].name,
+								picture: response[0].picture,
+								children: response_child[0],
+								tracks: response_child[1],
+								soundslike: response_soundslike
+							});
+						})
 					});
 					break;
 				case 1:
@@ -263,7 +301,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 						res.render('album',  {
 							name: response[0].name,
 							parent: response[0].parent,
-							pic : response[0].picture,
+							picture : response[0].picture,
 							tracks: response_child[0],
 							soundslike: response[0].soundslike
 						});
@@ -271,7 +309,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 					break;
 				case 2:
 
-console.log(response[0].parent);
+					console.log(response[0].parent);
 					db.getbyname(1,	response[0].parent,  function(errParent, response_parent){
 						console.log(response_parent);
 						db.getbyname(0,	response_parent[0].parent,  function(errgrandParent, response_grandparent){
@@ -282,7 +320,7 @@ console.log(response[0].parent);
 								name: response[0].name,
 								parent: response_parent[0].name,
 								grandparent: response_grandparent[0].name,
-								pic: response_parent[0].picture,
+								picture: response_parent[0].picture,
 								soundslike: response[0].soundslike
 							});
 						});
