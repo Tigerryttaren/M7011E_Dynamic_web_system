@@ -42,25 +42,25 @@
 	<div class="media-container">
 		<div class="artist-header-container">
 			<div class="artist-image-container">
-				<img class="album-profile-image" src="<%= pic %>"> 
+				<img class="album-profile-image" src="<%= picture %>"> 
 			</div>			
 			<div class="artist-info-text">
-				<span class="album-header-text-size"><%= name %></span></br>
-				<a class="soundslike-link-text" href="artist"><span class="album-header-text-size-artist"><%= parent %></span></a></br>
+				<span class="album-header-text-size"><%= name %></span><br>
+				<a class="soundslike-link-text" href="artist"><span class="album-header-text-size-artist"><%= parent %></span></a><br>
 				<button class="btn btn-soundslike" type="button">Soundslike</button>
 			</div> 
 		</div>
 
 		<div class="toptracks-container">
-			<span class="toptracks-title">Track Listing</span><br/>
+			<span class="toptracks-title">Track Listing</span><br>
 
 			<% for (var i = 0; i < tracks.length; i++) { %>
 			<div class="toptrack-container">
 				<div class="toptrack-number-box">
 					<div class="toptrack-number"><%= i+1 %></div>
 				</div>
-				<span class="toptrack-title"><%= tracks[i].name %></span></br>
-				<span class="toptrack-from-album"><%= name %></span></br>
+				<a class="soundslike-link-text" href="db/content/<%= tracks[i].name %>/2"><span class="toptrack-title"><%= tracks[i].name %></span><br></a>
+				<a class="soundslike-link-text" href="db/content/<%= tracks[i].parent %>/1"><span class="toptrack-from-album"><%= name %></span><br></a>
 			</div>	
 			<% } %>	
 		</div>
@@ -69,9 +69,8 @@
 			<span class="soundslike-title">Sounds Like</span>
 				<% for (var i = 0; i < soundslike.length; i++) { %>
 					<div class="soundslike-item-container">
-						<a class="soundslike-link-image" href="album"><img class="soundslike-item-image" src="<%= soundslike[i].pic %>"></a>
-						<a class="soundslike-link-text" href="album"><span class="soundslike-item-title-artist"><%= soundslike[i].name%></span></a><br />
-						<a class="soundslike-link-text" href="artist"><span class="soundslike-item-title-artist"><%= soundslike[i].parent%></span></a>
+						<a class="soundslike-link-image" href="db/content/<%= soundslike[i].name %>/1"><img class="soundslike-item-image" src="<%= soundslike[i].picture %>"></a>
+						<a class="soundslike-link-text" href="db/content/<%= soundslike[i].name %>/1"><span class="soundslike-item-title-artist"><%= soundslike[i].name %></span></a><br>
 					</div>
 				<% } %>	
 		</div>
