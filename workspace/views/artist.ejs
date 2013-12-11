@@ -47,14 +47,16 @@
 			<div class="artist-info-text">
 				<p class="artist-header-text-size"><%= name %></p>
 				
-				<button class="btn btn-soundslike" type="button">Soundslike</button>
+				<form action="db/content/link/0" method="post">	
+					<input type="hidden" name="post-value" id="post-value" value="<%= name %>">	
+					<button class="btn btn-soundslike" type="sumbit">Soundslike</button>
+				</form>
 			</div> 
 		</div>
 		<div class="albums-container">
 			<span class="albums-title">Albums</span><br/>
 
 			<% for (var i = 0; i < children.length; i++) { %>
-
 				<div class="album-container">
 					<a  class="soundslike-link-image" href="db/content/<%= children[i].name %>/1" class="" ><img class="albums-list-image" src="<%= children[i].picture %>"></a>
 					<a class="soundslike-link-text" href="db/content/<%= children[i].name %>/1"><span class="album-title"><%= children[i].name %></span></a><br>
