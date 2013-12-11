@@ -3,7 +3,7 @@
 }
 
 body {
-	padding-top: 50px;
+	padding-top: 150px;
 }
 
 .center-container {
@@ -177,38 +177,38 @@ body {
 	height: 100%;
 }
 
-.artist-image-container {
-	/*background: #565656;*/
-	float: left;
-	height: 25%;
-	width: 25%;
-	margin-left: 1%;
-	margin-bottom: 1%;
-	margin-top: 1%;
-	max-width: 200px;
-	max-height: 200px;
-}
-
-.artist-profile-image {	
-	width: 200px;
-	height: 200px;
-}
-
 .artist-image-container-old {
+	/*background: #565656;*/
 	float: left;
+	height: 25%;
+	width: 25%;
 	margin-left: 1%;
 	margin-bottom: 1%;
 	margin-top: 1%;
-	/*background: #565656;*/
-	height: 25%;
-	width: 25%;
 	max-width: 200px;
 	max-height: 200px;
 }
 
 .artist-profile-image-old {	
+	width: 200px;
+	height: 200px;
+}
+
+.artist-image-container {
+	float: left;
+	margin-left: 1%;
+	margin-bottom: 1%;
+	margin-top: 1%;
+	/*background: #565656;*/
+	height: 25%;
+	width: 25%;
+	max-width: 200px;
+	max-height: 200px;
+}
+
+.artist-profile-image {	
 	width: 100%;
-	height: 100%;
+	height: auto;
 }
 
 .artist-header-text-size {
@@ -216,8 +216,8 @@ body {
 }
 
 .album-profile-image {	
-	width: 200px;
-	height: 200px;
+	width: 100%;
+	height: auto;
 }
 
 .album-header-text-size {
@@ -234,8 +234,8 @@ body {
 }
 
 .soundslike-link-image {
-	width: 200px;
-	height: 200px;
+	width: 100%;
+	height: auto;
 }
 
 .btn-soundslike {
@@ -280,8 +280,8 @@ body {
 .albums-list-image {
 	float: left;
 	/*background: #000000;*/
-	height: 150px;
-	width: 150px;
+	height: 100%;
+	width: auto;
 	margin-right: 1%;
 }
 
@@ -374,8 +374,8 @@ body {
 }
 
 .soundslike-item-image {
-	width: 200px;
-	height: 200px;
+	width: 100%;
+	height: auto;
 }
 
 .soundslike-item-title-artist {
