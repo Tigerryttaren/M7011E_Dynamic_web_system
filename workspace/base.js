@@ -214,7 +214,7 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 	res.send('Here you are :)');
 });
 
-app.post('/api/db/content/add', function(req,res){ 
+app.post('/api/db/content/add',ensureAuthenticated, function(req,res){ 
 	console.log(req.body.level + " " + req.body.content + " " +req.body)
 	db.add(parseInt(req.body.level), req.body.content, function(err, response){
 		if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
@@ -320,6 +320,8 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 						// console.log('r_c[0][0]:'+response_child[0][0]); console.log('\n');
 						// console.log('r_c[0][1]:'+response_child[0][1]); console.log('\n');
 						db.getsoundslike(1,response[0].name, function(err_soundslike, response_soundslike){
+							console.log(response[0].name);
+							console.log(response_soundslike);
 							res.render('album',  {
 								name: response[0].name,
 								parent: response[0].parent,
