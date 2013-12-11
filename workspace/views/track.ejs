@@ -53,7 +53,10 @@
 				<span class="album-header-text-size"><%= name %></span><br>
 				<a class="soundslike-link-text" href="/api/db/content/<%= parent %>/1"><span class="album-header-text-size-artist"><%= parent %></span><br></a>
 				<a class="soundslike-link-text" href="/api/db/content/<%= grandparent %>/0"><span class="album-header-text-size-artist"><%= grandparent %></span><br></a>
-				<button class="btn btn-soundslike" type="button">Soundslike</button>
+				<form action="/api/db/content/link/2" method="post">	
+					<input type="hidden" name="key1" id="key1" value="<%= name %>">	
+					<button class="btn btn-soundslike" type="submit">Soundslike</button>
+				</form>
 			</div> 
 		</div>
 
