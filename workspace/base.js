@@ -78,14 +78,14 @@ passport.use(new GoogleStrategy({
 			// });
 
 
-			// profile.identifier = identifier;
+			profile.identifier = identifier;
 			console.log("\n");
 			console.log(profile); // i want something like profile.email[0]?
 			console.log("\n");
 
 			db.findOrCreate(identifier, dbsalt, function(err, dbuser){
 				if (err) {console.log('\nErr: error in passport auth: '+err);return null;}
-				return done(null, dbuser);
+				return done(null, profile);
 			});
 			// return done(null, profile);
 		});
@@ -270,8 +270,11 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 					});
 					break;
 				case 2:
+
+console.log(response[0].parent);
 					db.getbyname(1,	response[0].parent,  function(errParent, response_parent){
-						db.getbyname(0,	response_parent[0].parent,  function(errParent, response_grandparent){
+						console.log(response_parent);
+						db.getbyname(0,	response_parent[0].parent,  function(errgrandParent, response_grandparent){
 							console.log(response_parent[0].name);
 							console.log(response_parent);
 							console.log(response_grandparent);

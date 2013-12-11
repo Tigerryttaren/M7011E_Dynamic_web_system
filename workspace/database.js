@@ -25,6 +25,7 @@ exports.ratecontent=ratecontent;
 exports.getbyparentlvl0=getbyparentlvl0;
 exports.addlvl1=addlvl1;
 exports.getbyparentlvl1=getbyparentlvl1;
+exports.addlvl2=addlvl2;
 
 
 var lvl0Schema = new mongoose.Schema({
@@ -96,6 +97,15 @@ function findOrCreate(openId, salt, callback){
 		});
 	//})
 	}
+
+function findUser(id, callback){
+	var user=db.model("users",userSchema);
+	user.find({_id:id}, function(err, res){
+		if(res.length==0){callback("error: no such user found", null)}
+		callback(err, res);
+	})
+}
+
 //num = what lvl
 function getbyname(num, Name, callback){
 	if (num==0) {
