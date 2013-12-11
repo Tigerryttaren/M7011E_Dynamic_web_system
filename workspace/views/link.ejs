@@ -75,7 +75,11 @@
 				<div class="link-artist-header-container">		
 					<div class="link-artist-info-text">
 						<span class="album-header-text-size"><%= soundslikelist[i].name %></span><br>
-						<span class="album-header-text-size-artist"><%= soundslikelist[i].parent %></span><br>
+						<span class="album-header-text-size-artist"> 
+							<% if (typeof soundslikelist[i].parent !== "undefined") { %>
+								<%= sacrifice.parent %>
+							<% }%>
+						</span><br>
 
 						<form action="/api/db/content/link/add/<%= lvl %>" method="post">	
 							<input type="hidden" name="key1" id="key1" value="<%= sacrifice.name %>">	

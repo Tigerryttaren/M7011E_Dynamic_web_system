@@ -341,6 +341,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 							//console.log(response_parent);
 							//console.log(response_grandparent);
 							db.getsoundslike(2,response[0].name, function(err_soundslike, response_soundslike){
+								console.log(response_soundslike);
 								res.render('track',  {
 									name: response[0].name,
 									parent: response_parent[0].name,
