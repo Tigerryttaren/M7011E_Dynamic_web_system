@@ -307,7 +307,7 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 								picture: response[0].picture,
 								children: response_child[0],
 								tracks: response_child[1],
-								soundslike: response_soundslike, 
+								soundslike: response_soundslike,
 								login : authname(req)
 							});
 						})
@@ -319,34 +319,36 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 						// console.log('r_c[0]: '+response_child[0]); console.log('\n');
 						// console.log('r_c[0][0]:'+response_child[0][0]); console.log('\n');
 						// console.log('r_c[0][1]:'+response_child[0][1]); console.log('\n');
-						
-						res.render('album',  {
-							name: response[0].name,
-							parent: response[0].parent,
-							picture : response[0].picture,
-							tracks: response_child[0],
-							soundslike: response[0].soundslike, 
-							login : authname(req)
-							
+						db.getsoundslike(1,response[0].name, function(err_soundslike, response_soundslike){
+							res.render('album',  {
+								name: response[0].name,
+								parent: response[0].parent,
+								picture : response[0].picture,
+								tracks: response_child[0],
+								soundslike: response_soundslike, 
+								login : authname(req)
+							});
 						});
 					});
 					break;
 				case 2:
 
-					console.log(response[0].parent);
+					//console.log(response[0].parent);
 					db.getbyname(1,	response[0].parent,  function(errParent, response_parent){
-						console.log(response_parent);
+						//console.log(response_parent);
 						db.getbyname(0,	response_parent[0].parent,  function(errgrandParent, response_grandparent){
-							console.log(response_parent[0].name);
-							console.log(response_parent);
-							console.log(response_grandparent);
-							res.render('track',  {
-								name: response[0].name,
-								parent: response_parent[0].name,
-								grandparent: response_grandparent[0].name,
-								picture: response_parent[0].picture,
-								soundslike: response[0].soundslike, 
-								login : authname(req)
+							//console.log(response_parent[0].name);
+							//console.log(response_parent);
+							//console.log(response_grandparent);
+							db.getsoundslike(2,response[0].name, function(err_soundslike, response_soundslike){
+								res.render('track',  {
+									name: response[0].name,
+									parent: response_parent[0].name,
+									grandparent: response_grandparent[0].name,
+									picture: response_parent[0].picture,
+									soundslike: response_soundslike, 
+									login : authname(req)
+								});
 							});
 						});
 					});
