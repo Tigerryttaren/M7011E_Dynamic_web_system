@@ -130,7 +130,7 @@ function getbynameHelper(lvl, Name, callback){
 		lvl.find({name:Name}, function(err, res){
 			//console.log(res.length);
 			//console.log('res: '+res);
-			if(res.length==0){callback("error: is empty", null)}
+			if(res.length==0){callback("error: is empty", [])}
 			callback(err, res);
 		})}
 	//})

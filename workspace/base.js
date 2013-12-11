@@ -64,10 +64,10 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
-	// returnURL: 'http://localhost:'+this_port+'/auth/google/return',
-	realm: 'http://54.200.238.200:'+this_port+'/'
-	// realm: 'http://localhost:'+this_port+'/'
+	//returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	//realm: 'http://54.200.238.200:'+this_port+'/'
+	 returnURL: 'http://localhost:'+this_port+'/auth/google/return',
+	 realm: 'http://localhost:'+this_port+'/'
 	},
 
 	function(identifier, profile, done) {
@@ -133,12 +133,12 @@ app.get('/', function(req,res){ res.render('index'); });
 app.post('/results', function(req,res){
 	console.log(req.body.srch);
 	db.getbyname(0, req.body.srch, function(err0, response0){
-		if (err0) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
-		db.getbyname(0, req.body.srch, function(err1, response1){
-			if (err1) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
-			db.getbyname(0, req.body.srch, function(err2, response2){
-				if (err2) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
-					res.render('results', {artists : response0 , albums : response1, tracks : response3});
+		//if (err0) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+		db.getbyname(1, req.body.srch, function(err1, response1){
+			//if (err1) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+			db.getbyname(2, req.body.srch, function(err2, response2){
+				//if (err2) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500);}
+					res.render('results', {artists : response0 , albums : response1, tracks : response2});
 			});
 		});
 	});
@@ -225,14 +225,18 @@ app.post('/api/db/content/add', function(req,res){
 });
 
 app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
-		db.getbyname(req.params.dig, req.params.key, function(err, response){
-			if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-			else if(req.params.key2){
-				db.getbyname(req.params.dig, req.params.key2, function(err2, response2){
-					res.render('link', {sacrifice: response[0], soundslikelist : response2});
+		db.getbyname(req.params.dig, req.body.key1, function(err, response){
+			console.log(req.params.dig);
+			console.log(req.params);
+			console.log(req.body.key1);
+			console.log(response);
+			//if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+			if(req.body.key2){
+				db.getbyname(req.params.dig, req.body.key2, function(err2, response2){
+					res.render('link', {sacrifice: response[0], soundslikelist : response2, lvl : req.params.dig});
 				});
 			}else{
-				res.render('link', {sacrifice: response[0] , soundslikelist: [] });
+				res.render('link', {sacrifice: response[0] , soundslikelist: [], lvl : req.params.dig });
 			}
 		});
 		
