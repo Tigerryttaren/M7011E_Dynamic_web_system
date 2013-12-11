@@ -64,15 +64,15 @@
 							<div class="row">
 						<% } %>
 		
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= artists[i].name %>/0"><img src="<%= artists[i].picture %>" alt="Image" class="img-responsive"></a>
-						<a class="soundslike-link-text" href="db/content/<%= artists[i].name %>/0"><h4><%= artists[i].name %></h4></a>
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= artists[i].name %>/0"><img src="<%= artists[i].picture %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= artists[i].name %>/0"><h4><%= artists[i].name %></h4></a>
 						</div>	
 
 					<% } else if(spinner_artist == 4) { %>
 						<% spinner_artist=0 %>
 					
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= artists[i].name %>/0"><img src="<%= artists[i].picture %>" alt="Image" class="img-responsive"></a>
-						<a class="soundslike-link-text" href="db/content/<%= artists[i].name %>/0"><h4><%= artists[i].name %></h4></a>
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= artists[i].name %>/0"><img src="<%= artists[i].picture %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= artists[i].name %>/0"><h4><%= artists[i].name %></h4></a>
                             			</div>
 	
 						</div>
@@ -80,8 +80,8 @@
 
 					<% } else { %>
 
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= artists[i].name %>/0"><img src="<%= artists[i].picture %>" alt="Image" class="img-responsive"></a>
-						<a class="soundslike-link-text" href="db/content/<%= artists[i].name %>/0"><h4><%= artists[i].name %></h4></a>	
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= artists[i].name %>/0"><img src="<%= artists[i].picture %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= artists[i].name %>/0"><h4><%= artists[i].name %></h4></a>	
 						</div>
 						
 					<% } %>
@@ -127,16 +127,16 @@
 							<div class="row">
 						<% } %>
 		
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= albums[i].name %>/1"><img src="<%= albums[i].picture %>" alt="Image" class="img-responsive"></a>
-						<a class="soundslike-link-text" href="db/content/<%= albums[i].name %>/1"><h4><%= albums[i].name %></h4></a>
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= albums[i].name %>/1"><img src="<%= albums[i].picture %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= albums[i].name %>/1"><h4><%= albums[i].name %></h4></a>
 						<a class="soundslike-link-text" href="artist"><h5><%= albums[i].parent %></h5></a>	
 						</div>	
 
 					<% } else if(spinner_albums == 4) { %>
 						<% spinner_albums=0 %>
 					
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= albums[i].name %>/1"><img src="<%= albums[i].picture %>" alt="Image" class="img-responsive"></a>
-						<a class="soundslike-link-text" href="db/content/<%= albums[i].name %>/1"><h4><%= albums[i].name %></h4></a>
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= albums[i].name %>/1"><img src="<%= albums[i].picture %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= albums[i].name %>/1"><h4><%= albums[i].name %></h4></a>
 						<a class="soundslike-link-text" href="artist"><h5><%= albums[i].parent %></h5></a>
                             			</div>
 	
@@ -145,8 +145,8 @@
 
 					<% } else { %>
 
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= albums[i].name %>/1"><img src="<%= albums[i].picture %>" alt="Image" class="img-responsive"></a>
-						<a class="soundslike-link-text" href="db/content/<%= albums[i].name %>/1"><h4><%= albums[i].name %></h4></a>	
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= albums[i].name %>/1"><img src="<%= albums[i].picture %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= albums[i].name %>/1"><h4><%= albums[i].name %></h4></a>	
 						<a class="soundslike-link-text" href="artist"><h5><%= albums[i].parent %></h5></a>
 						</div>
 						
@@ -194,8 +194,8 @@
 							<div class="row">
 						<% } %>
 		
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
-						<a class="soundslike-link-text" href="db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>
 						<a class="soundslike-link-text" href="track"><h5><%= tracks[i].album %></h5></a>	
 						<a class="soundslike-link-text" href="track"><h6><%= tracks[i].artist %></h6></a>
 						</div>	
@@ -203,7 +203,7 @@
 					<% } else if(spinner_tracks == 4) { %>
 						<% spinner_tracks=0 %>
 					
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
 						<a class="soundslike-link-text" href="db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>
 						<a class="soundslike-link-text" href="track"><h5><%= tracks[i].album %></h5></a>
 						<a class="soundslike-link-text" href="track"><h6><%= tracks[i].artist %></h6></a>
@@ -214,7 +214,7 @@
 
 					<% } else { %>
 
-						<div class="col-sm-3"><a class="soundslike-link-image" href="db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
+						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
 						<a class="soundslike-link-text" href="db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>	
 						<a class="soundslike-link-text" href="track"><h5><%= tracks[i].album %></h5></a>
 						<a class="soundslike-link-text" href="track"><h6><%= tracks[i].artist %></h6></a>
