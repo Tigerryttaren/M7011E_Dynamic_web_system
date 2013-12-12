@@ -8,7 +8,7 @@ School project for the course M7011E at Luleå technical University, Sweden.
 	Nodejs
 	npm
 
-#Dependent on the following nodejs modules
+#Nodejs module dependencies
 
 	express
 
@@ -39,4 +39,4 @@ These need to look like:
 ```json
 { "secret" : "supersecretsalt"}
 ```
-Where supersecretsalt can be a string of your choice
+Where "supersecretsalt" can be a string of your choice
