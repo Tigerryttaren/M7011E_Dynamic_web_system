@@ -211,7 +211,8 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 	console.log("\n");
 	console.log("GET me");
 	console.log("\n");
-	res.send('Hi'+ req.user.displayName);
+	res.send('Hi'+ req.user.displayName
+	);
 });
 
 app.post('/api/db/content/add',ensureAuthenticated, function(req,res){ 
@@ -276,14 +277,24 @@ app.post('/api/db/content/link/add/:dig(\\d+)', function(req,res){
 
 
 // app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/\d$/, function(req, res){
-app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS ON WRONG ADRESS
+// app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS ON WRONG ADRESS
+app.get('/api/db/content/:content/:dig(\\d+)', function(req, res){
 	console.log('\nWELCOME TO CONTENT\n');
 	
-	// var cont1 = new Buffer(req.params.content.toString(), 'ascii').toString('utf8');
-	// console.log('cont1: '+cont1);
+	// var cont1 = new Buffer(req.params.content.toString(), 'utf-8').toString('ascii');
+	// console.log('\ncont1: '+cont1);
 	
-	// var cont = decodeURIComponent( escape ( req.params.content ) );
-	// console.log('cont: '+cont+'/cont');
+	// var cont4 = new Buffer(req.params.content.toString(), 'ascii').toString('utf-8');
+	// console.log('\ncont4: '+cont4);
+
+	// var cont2 = decodeURI(req.params.content);
+	// console.log('\ncont2: '+ cont2);
+
+	// var cont3 = decodeURIComponent( escape ( req.params.content ) );
+	// console.log('\ncont: '+cont3);
+
+	// console.log('\nreq.params.content: '+req.params.content);
+	
 	db.getbyname(req.params.dig, req.params.content, function(err, response){
 		//console.log("HEJ WILLIAM");
 		if (err) {
