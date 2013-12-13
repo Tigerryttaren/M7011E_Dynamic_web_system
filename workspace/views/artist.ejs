@@ -32,17 +32,15 @@
             		</div>
             		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
           	</form>
-			<li><a href="/addartist">
-				<%if (typeof login !== "undefined") {%>
-				<%='Add'%>
-				<%}%>
-			</a></li>
+			<%if (typeof login !== "undefined") { %>
+			<li><a href="/addartist"><%='Add' %> </a></li>
+			<% } %>
 			<li><a href="/auth/google">
 				<% if (typeof login !== "undefined") { %>
 					<%= login %>
 				<% } else { %>
 					<%= "Sign in" %>
-				<%}%></a></li>
+				<% } %></a></li>
 		</ul>
 	</div>
 	</div>
