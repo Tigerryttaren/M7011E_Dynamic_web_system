@@ -11,8 +11,8 @@ database.addlvl0("Metallica", 5, "http://images4.fanpop.com/image/photos/1960000
 		console.log("err " + err + ", res "+res);
 		database.addlvl2("Cure", 5, "", [], "Load", null,function(err,res){
 			console.log("err " + err + ", res "+res);
-		})
-		database.addlvl2("Ronnie", 5, "", [], "Load", null,function(err,res){
+		}
+)		database.addlvl2("Ronnie", 5, "", [], "Load", null,function(err,res){
 			console.log("err " + err + ", res "+res);
 		})
 	})

@@ -8,7 +8,7 @@
 
 
 var mongoose = require("mongoose");
-
+var mongodb = require("mongodb");
 var db = mongoose.createConnection("localhost", "soundslike");
 var crypt = require("./crypt");
 
@@ -33,9 +33,9 @@ var lvl0Schema = new mongoose.Schema({
 		name: String,
 		rating: Number,
 		//picture should end on .png/.jpg and is web address
-		picture: String,
+		picture: {},
 		soundslike: [],
-		info: String
+		info: {}
 	});
 var lvl1Schema = new mongoose.Schema({
 		name: String,
@@ -162,15 +162,16 @@ function getbyidHelper(lvl, Name, callback){
 function addlvl0(name, rating, picture, soundslike, info, callback){
 	//db.once("open", function(){
 		var lvl0 = db.model("lvl0",lvl0Schema);
+		var x = new mongodb.Binary(picture);
 		var newlvl0 = new lvl0({
 			name: name,
 			rating: rating,
-			picture: picture,
+			picture: {value: x},//picture,
 			soundslike: soundslike,
 			info: info
 		});
 		newlvl0.save(function(err){
-			if (err){callback(err);}
+			if (err){callback(err, "Fails");}
 			else{callback(null, "success")}
 		});
 	//});

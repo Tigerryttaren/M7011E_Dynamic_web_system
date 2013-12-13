@@ -18,6 +18,7 @@ app.configure(function() {
   app.set('view engine', 'ejs');
   
   //overwrite filepaths
+  app.use(express["static"](__dirname + "/static"));
   app.use('/css', express.static(__dirname + '/views/css'));
   app.use('/images/fake/', express.static(__dirname + '/views/images/fake/'));
   app.use('/fonts', express.static(__dirname + '/views/fonts'));
@@ -123,7 +124,41 @@ app.get('/', function(req,res){ res.render('index', {login : authname(req) }); }
 
 // app.get('/track', function(req,res){ res.render('album'); });
 
+app.get('/files', function(req,res){
+			res.send('<form method="post" 							enctype="multipart/form-data">'
+				+ '<p>file: <input type="file" name="file" /></p>'
+				+ '<p><input type="submit" value="Upload"/></p>'
+				+ '</form>');});
 
+app.post('/files', function(req,res){
+		console.log("Upload received");
+		console.log('\nFILENAME: '+req.files.file.name);
+		console.log('\nFILE0:\n'+req.files.file.value+'\n');
+		console.log('\nFILE0:\n'+req.files.file.Upload+'\n');
+		console.log('\nFILE0:\n'+req.files.file.submit+'\n');
+		console.log('\nFILE0:\n'+req.files.file.path+'\n');
+		console.log('\nFILE0:\n'+req.files.image+'\n');
+
+		var data = fs.readFileSync(req.files.file.path);
+		console.log(data);
+		//	x = new db.Binary(data);
+		var name = "upload11";
+	    db.addlvl0(name, 5, data, [], req.files.file ,function(err,res2){
+	    	console.log(res2);
+	    	db.getbyname(0, name, function(err, res1){
+	    		console.log(res1);
+	    		//res.contentType(res1[0].info.type);
+	    		res.end(res1[0].picture.value.buffer, "binary");
+	    		//res.sendfile(res.picture.buffer);
+	    	})
+	    })
+
+		
+		//var x = JSON.parse(req.files.file);
+		//console.log('\nFILE0:\n'+x+'\n');
+		//console.log('\nFILE0:\n'+res.files.value+'\n');
+		
+	});
 
 
 // app.get('/artist', function(req,res){
@@ -320,7 +355,8 @@ app.get('/api/db/content/:content/:dig(\\d+)', function(req, res){
 							// console.log(response_child+'n'+response_child[1]);
 							res.render('artist', { 
 								name: response[0].name,
-								picture: response[0].picture,
+								//picture: response[0].picture,
+								picture: response[0].picture.value.buffer,
 								children: response_child[0],
 								tracks: response_child[1],
 								soundslike: response_soundslike,
