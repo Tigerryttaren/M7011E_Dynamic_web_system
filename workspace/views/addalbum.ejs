@@ -61,7 +61,7 @@
 
 		<h1 class="logo">Add Album</h1>
 
-		<div class="input-group">
+<!-- 		<div class="input-group">
  			<span class="input-group-addon">Artist</span>
   			<input id="artistf" type="text" class="form-control" placeholder="artist name">
 		</div>
@@ -79,8 +79,14 @@
 		<p><a class="btn btn-soundslike" role="button" onclick="send(
 		document.getElementById('artistf').value,
 		document.getElementById('albumf').value,
-		document.getElementById('picturef').value)">Add Album</a></p>
-
+		document.getElementById('picturef').value)">Add Album</a></p> -->
+			<form method="post" enctype="multipart/form-data" action="/api/db/content/add"/>
+				<p>Album Cover<span style="width:5px;"><input type="file" name="file" /></p>
+				<p><input type="hidden" name="level" value="1"/></p>
+				<p>Add Album<span style="width:5px;"><input type="text" name="name" /></p>
+				<p>Artist<span style="width:5px;"><input type="text" name="parent" /></p>
+				<p><input type="submit" value="Upload"/></p>
+			</form>
 
         </div>
 	</div>

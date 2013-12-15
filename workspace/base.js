@@ -81,9 +81,9 @@ passport.use(new GoogleStrategy({
 
 
 			profile.identifier = identifier;
-			console.log("\n");
-			console.log(profile); // i want something like profile.email[0]?
-			console.log("\n");
+			//console.log("\n");
+			//console.log(profile); // i want something like profile.email[0]?
+			//console.log("\n");
 
 			db.findOrCreate(identifier, dbsalt, function(err, dbuser){
 				if (err) {console.log('\nErr: error in passport auth: '+err);return null;}
@@ -120,11 +120,6 @@ app.get('/auth/google/return',
 
 app.get('/', function(req,res){ res.render('index', {login : authname(req) }); });
 
-// app.get('/album', function(req,res){ 
-  // res.render('album', { name : 'The Dark Side Of The Moon', parent : 'Pink Floyd', pic : 'images/fake/darkside.jpg', tracks : [ { name : 'Eclipse'}, { name : 'Breathe In The Air'}, { name : 'Any Colour You Like'} ], soundslike : [ { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'The Art Of War', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Attero Dominatus', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'}, { name : 'Carolus Rex', parent : 'Sabaton', pic : 'images/fake/darkside.jpg' }, { name : 'Primo Victoria', parent : 'Sabaton', pic : 'images/fake/darkside.jpg'} ] } ); });
-
-// app.get('/track', function(req,res){ res.render('album'); });
-
 app.get('/files', function(req,res){
 			res.send('<form method="post" 							enctype="multipart/form-data">'
 				+ '<p>file: <input type="file" name="file" /></p>'
@@ -142,7 +137,6 @@ app.post('/files', function(req,res){
 
 		var data = fs.readFileSync(req.files.file.path);
 		console.log(data);
-		//	x = new db.Binary(data);
 		var name = "upload11";
 	    db.addlvl0(name, 5, data, [], req.files.file ,function(err,res2){
 	    	console.log(res2);
@@ -162,17 +156,7 @@ app.get('/files/:name/:d(\\d+)', function(req,res){
 			res.end(dbres[0].info.value.buffer, "binary");
 		});
 });
-		
-		//var x = JSON.parse(req.files.file);
-		//console.log('\nFILE0:\n'+x+'\n');
-		//console.log('\nFILE0:\n'+res.files.value+'\n');
-		
 
-
-
-// app.get('/artist', function(req,res){
-  // res.render('artist', { name: 'Raubtier', pic : 'images/fake/pinkfloyd.jpg', children: [ {name : 'Från Norrland Till Helvetets Port', pic : 'images/fake/darkside.jpg'}, { name: 'Skriet Från Vildmarken', pic : 'images/fake/darkside.jpg'}, { name: 'Det Finns Bara Krig', pic : 'images/fake/darkside.jpg'} ], rating: '* * * * *', soundslike : [{name : 'Rammstein'},{name : 'Rammstein'},{name : 'Rammstein'}, {name : 'Sabaton'}, {name : 'Rammstein'}], toptracks : [ {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'}, {name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'},{name : 'Allt Förlorat', album : 'Från Norrland Till Helvetets Port'} ] });
-// });
 
 app.post('/results', function(req,res){
 	console.log(req.body.srch);
@@ -186,14 +170,6 @@ app.post('/results', function(req,res){
 			});
 		});
 	});
-
-  // res.render('results', { artists : 
-  // [{ name : 'Pink 1 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 2 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 3 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 4 Floyd', pic : 'images/fake/pinkfloyd.jpg'}, { name : 'Pink 5 Floyd', pic : 'images/fake/pinkfloyd.jpg'} ], 
-  // albums : 
-  // [{ name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'}, {name : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', parent : 'Pink Floyd'} ], 
-  // tracks : 
-  // [ { name : 'Any Colour You Like', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'The Great Gig In The Sky', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Time', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Breathe In The Air', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Money', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Eclipse', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' }, { name : 'Speak To Me', album : 'The Dark Side Of The Moon', pic : 'images/fake/darkside.jpg', artist : 'Pink Floyd' } ]
-  // }  );
 });
 
 app.post('/link', function(req,res){
@@ -212,14 +188,6 @@ app.post('/link', function(req,res){
 			res.render('link', {sacrifice: response1[0] , soundslikelist: [] , login : authname(req)});
 		}
 	});
-//===================================
-  // res.render('link', {
-  // sacrifice: {name: 'Dark Anton of the Anton', parent: 'The Anton', imgurl: 'https://pbs.twimg.com/profile_images/3544461245/03044f4e9bb46793afa538ae28dc33a3.png'},
-  // soundslikelist: [
-					// {name: 'Anton side of the moon', parent: 'Antons mamma', imgurl: 'http://img.laget.se/2692915.jpg'},
-					// {name: 'Dark side of Anton', parent: 'Antons pappa', imgurl: 'https://pbs.twimg.com/profile_images/378800000695072052/973895f817ea5419ad1ed101374c5991.jpeg'},
-					// {name: 'Dark Anton of the moon', parent: 'Antons bror', imgurl: 'https://pbs.twimg.com/profile_images/3622800908/def779d8ce92eb727bc7f62491c3d3f5.jpeg'}]
-	 //});
 });
 
 
@@ -261,35 +229,23 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 
 
 app.post('/api/db/content/add', function(req,res){ 
-	// console.log(req.body.level + " " + req.body.content + " " +req.body)
-		// console.log("Upload received");
-		// console.log('\nFILENAME: '+req.files.file.name);
-		// console.log('\nFILE0:\n'+req.files.file.path+'\n');
-		// console.log('\nart:\n'+req.body.artist+'\n');
-		// console.log(req.files.file.type);
-		if (req.files) {
+	if (req.files) {
 	//if (req.files.file.type.indexOf('image/')!=-1){res.send(415);}
-		
-		//console.log('\nart:\n'+req.body.level+'\n');
-	makeC(req.body.artist, req.files.file.path, req.body.parent, function(cres){
-		db.add(parseInt(req.body.level), cres, function(err, response){
-			if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
-			console.log(response);
-			res.redirect('/api/db/content/'+req.body.artist+'/'+req.body.level);
+		makeC(req.body.name, req.files.file.path, req.body.parent, function(cres){
+			db.add(parseInt(req.body.level), cres, function(err, response){
+				if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
+				console.log(response);
+				res.redirect('/api/db/content/'+req.body.name+'/'+req.body.level);
+			});
 		});
-	});
-}
-else
-{
-	db.add(parseInt(req.body.level), req.body.content, function(err, response){
-			if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
-			console.log(response);
-			res.redirect('/api/db/content/'+req.body.content.name+'/'+req.body.level);
-		});
-	
-		
-		//console.log('\ninfo:'+JSON.stringify(c));
-}
+	}
+	else{
+		db.add(parseInt(req.body.level), req.body.content, function(err, response){
+				if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
+				console.log(response);
+				res.redirect('/api/db/content/'+req.body.content.name+'/'+req.body.level);
+			});
+	}
 
 			
 	
@@ -432,7 +388,7 @@ app.get('/api/db/content/:content/:dig(\\d+)', function(req, res){
 						db.getbyname(0,	response_parent[0].parent,  function(errgrandParent, response_grandparent){
 							//console.log(response_parent[0].name);
 							//console.log(response_parent);
-							//console.log(response_grandparent);
+							// console.log('hejsanhoppsan\n\n\n\n'+response_grandparent[0].name);
 							db.getsoundslike(2,response[0].name, function(err_soundslike, response_soundslike){
 								console.log(response_soundslike);
 								res.render('track',  {

@@ -43,7 +43,7 @@ var lvl1Schema = new mongoose.Schema({
 		picture: String,
 		soundslike: [],
 		parent: String,
-		info: String
+		info: {}
 	});
 var lvl2Schema = new mongoose.Schema({
 		name: String,
@@ -51,7 +51,7 @@ var lvl2Schema = new mongoose.Schema({
 		picture: String,
 		soundslike: [],
 		parent: String,
-		info: String
+		info: {}
 	});
 var userSchema = new mongoose.Schema({
 	openID: String
@@ -212,7 +212,7 @@ function addlvl2(name, rating, picture, soundslike, parent, info, callback){
 			var newlvl2 = new lvl2({
 				name: name,
 				rating: rating,
-				picture: picture,
+				picture: res[0].picture,
 				soundslike: soundslike,
 				parent: parent,
 				info: info
@@ -364,7 +364,8 @@ function add(lvl, content, callback){
                        	addlvl0(content.name, 0, '/files/'+content.name+'/'+0, [], content.info, callback);
                        	break;
                case 1: 
-               			addlvl1(content.name, 0, content.picture, [], content.parent, "", callback);
+               			// addlvl1(content.name, 0, content.picture, [], content.parent, "", callback);
+               			addlvl1(content.name, 0, '/files/'+content.name+'/'+1, [], content.parent, content.info, callback);
                			break;
                case 2:
                        	addlvl2(content.name, 0, "", [], content.parent, "", callback);

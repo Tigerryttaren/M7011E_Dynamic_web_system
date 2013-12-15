@@ -209,8 +209,8 @@
 		
 						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].album %></h5></a>	
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].artist %></h6></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].parent %></h5></a>	
+						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].grandparent %></h6></a>
 						</div>	
 
 					<% } else if(spinner_tracks == 4) { %>
@@ -218,8 +218,8 @@
 					
 						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].album %></h5></a>
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].artist %></h6></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].parent %></h5></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].grandparent %></h6></a>
                             			</div>
 	
 						</div>
@@ -229,8 +229,8 @@
 
 						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>	
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].album %></h5></a>
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].artist %></h6></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].parent %></h5></a>
+						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].grandparent %></h6></a>
 						</div>
 						
 					<% } %>
