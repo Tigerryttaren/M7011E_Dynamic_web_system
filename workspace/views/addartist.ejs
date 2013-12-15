@@ -56,20 +56,22 @@
 
 		<h1 class="logo">Add Artist</h1>
 
-		<div class="input-group">
+<!-- 		<div class="input-group">
  			<span class="input-group-addon">Artist</span>
   			<input id="artistf" type="text" class="form-control" placeholder="artist name">
 		</div>
-		<br />
-		<div class="input-group">
- 			<span class="input-group-addon">Picture</span>
-  			<input id="picturef" type="text" class="form-control" placeholder="link to picture">
-		</div>
-		<br />
+		<br /> -->
+		<form method="post" enctype="multipart/form-data" action="/api/db/content/add"/>
+				<p><input type="file" name="file" /></p>
+				<p><input type="hidden" name="level" value="0"/></p>
+				<p>Add artist<span style="width:5px;">  <input type="text" name="artist" /></p>
+				<p><input type="submit" value="Upload"/></p>
+				</form>
+<!-- 		<br />
 		<p><a class="btn btn-soundslike" role="button" onclick="send(
 		document.getElementById('artistf').value,
 		document.getElementById('picturef').value)">Add Artist</a></p>
-        </div>
+        </div> -->
 	</div>
 	</div>
 
