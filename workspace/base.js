@@ -18,10 +18,12 @@ app.configure(function() {
   app.set('view engine', 'ejs');
   
   //overwrite filepaths
+  app.use(express["static"](__dirname + "/static"));
   app.use('/css', express.static(__dirname + '/views/css'));
   app.use('/images/fake/', express.static(__dirname + '/views/images/fake/'));
   app.use('/fonts', express.static(__dirname + '/views/fonts'));
   app.use('/js', express.static(__dirname + '/views/js'));
+  app.use('C:\\fakepath\\', express.static('/tmp'));
   
   //logs, parses cookies and other
   app.use(express.logger());
@@ -64,10 +66,10 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
-	realm: 'http://54.200.238.200:'+this_port+'/'
-	 // returnURL: 'http://localhost:'+this_port+'/auth/google/return',
-	 // realm: 'http://localhost:'+this_port+'/'
+	// returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	// realm: 'http://54.200.238.200:'+this_port+'/'
+	 returnURL: 'http://localhost:'+this_port+'/auth/google/return',
+	 realm: 'http://localhost:'+this_port+'/'
 	},
 
 	function(identifier, profile, done) {
@@ -123,6 +125,48 @@ app.get('/', function(req,res){ res.render('index', {login : authname(req) }); }
 
 // app.get('/track', function(req,res){ res.render('album'); });
 
+app.get('/files', function(req,res){
+			res.send('<form method="post" 							enctype="multipart/form-data">'
+				+ '<p>file: <input type="file" name="file" /></p>'
+				+ '<p><input type="submit" value="Upload"/></p>'
+				+ '</form>');});
+
+app.post('/files', function(req,res){
+		console.log("Upload received");
+		console.log('\nFILENAME: '+req.files.file.name);
+		console.log('\nFILE0:\n'+req.files.file.value+'\n');
+		console.log('\nFILE0:\n'+req.files.file.Upload+'\n');
+		console.log('\nFILE0:\n'+req.files.file.submit+'\n');
+		console.log('\nFILE0:\n'+req.files.file.path+'\n');
+		console.log('\nFILE0:\n'+req.files.image+'\n');
+
+		var data = fs.readFileSync(req.files.file.path);
+		console.log(data);
+		//	x = new db.Binary(data);
+		var name = "upload11";
+	    db.addlvl0(name, 5, data, [], req.files.file ,function(err,res2){
+	    	console.log(res2);
+	    	db.getbyname(0, name, function(err, res1){
+	    		console.log(res1);
+	    		//res.contentType(res1[0].info.type);
+	    		res.end(res1[0].picture.value.buffer, "binary");
+	    		//res.sendfile(res.picture.buffer);
+	    	})
+	    })
+	});
+
+app.get('/files/:name/:d(\\d+)', function(req,res){
+		console.log('reaching for /files/:name/:d : ' + req.params.name+ " "+req.params.d);
+		db.getbyname(req.params.d, req.params.name, function(err, dbres){
+			if (err){console.log('\nERR: /files/name/d: '+err);}
+			res.end(dbres[0].info.value.buffer, "binary");
+		});
+});
+		
+		//var x = JSON.parse(req.files.file);
+		//console.log('\nFILE0:\n'+x+'\n');
+		//console.log('\nFILE0:\n'+res.files.value+'\n');
+		
 
 
 
@@ -211,18 +255,48 @@ app.get('/api/user/me',ensureAuthenticated, function(req,res){
 	console.log("\n");
 	console.log("GET me");
 	console.log("\n");
-	res.send('Here you are :)');
+	res.send('Hi'+ req.user.displayName
+	);
 });
 
-app.post('/api/db/content/add',ensureAuthenticated, function(req,res){ 
-	console.log(req.body.level + " " + req.body.content + " " +req.body)
-	db.add(parseInt(req.body.level), req.body.content, function(err, response){
-		if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
-		console.log(response);
-		res.send(200);
+
+app.post('/api/db/content/add', function(req,res){ 
+	// console.log(req.body.level + " " + req.body.content + " " +req.body)
+		// console.log("Upload received");
+		// console.log('\nFILENAME: '+req.files.file.name);
+		// console.log('\nFILE0:\n'+req.files.file.path+'\n');
+		// console.log('\nart:\n'+req.body.artist+'\n');
+		// console.log(req.files.file.type);
+		if (req.files) {
+	//if (req.files.file.type.indexOf('image/')!=-1){res.send(415);}
+		
+		//console.log('\nart:\n'+req.body.level+'\n');
+	makeC(req.body.artist, req.files.file.path, req.body.parent, function(cres){
+		db.add(parseInt(req.body.level), cres, function(err, response){
+			if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
+			console.log(response);
+			res.redirect('/api/db/content/'+req.body.artist+'/'+req.body.level);
+		});
 	});
-	// console.log("\n\n"+req.body.level +" "+req.body.content.name+" "+req.body.content.parent+" "+req.body.content.picture+" "+req.body.content+"\n");
+}
+else
+{
+	db.add(parseInt(req.body.level), req.body.content, function(err, response){
+			if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
+			console.log(response);
+			res.redirect('/api/db/content/'+req.body.content.name+'/'+req.body.level);
+		});
+	
+		
+		//console.log('\ninfo:'+JSON.stringify(c));
+}
+
+			
+	
 });
+
+
+
 
 app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
 		db.getbyname(req.params.dig, req.body.key1, function(err, response){
@@ -276,22 +350,34 @@ app.post('/api/db/content/link/add/:dig(\\d+)', function(req,res){
 
 
 // app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/\d$/, function(req, res){
-app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS ON WRONG ADRESS
+// app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS ON WRONG ADRESS
+app.get('/api/db/content/:content/:dig(\\d+)', function(req, res){
 	console.log('\nWELCOME TO CONTENT\n');
 	
-	// var cont1 = new Buffer(req.params.content.toString(), 'ascii').toString('utf8');
-	// console.log('cont1: '+cont1);
+	// var cont1 = new Buffer(req.params.content.toString(), 'utf-8').toString('ascii');
+	// console.log('\ncont1: '+cont1);
 	
-	// var cont = decodeURIComponent( escape ( req.params.content ) );
-	// console.log('cont: '+cont+'/cont');
-	db.getbyname(req.params.dig, req.params.content, function(err, response){
-		//console.log("HEJ WILLIAM");
-		if (err) {
-			console.log('\nERR: content/c: '+err); 
-			console.log('nopass');
-			res.send(400);
-		}
-		else{ 
+	// var cont4 = new Buffer(req.params.content.toString(), 'ascii').toString('utf-8');
+	// console.log('\ncont4: '+cont4);
+
+	// var cont2 = decodeURI(req.params.content);
+	// console.log('\ncont2: '+ cont2);
+
+	// var cont3 = decodeURIComponent( escape ( req.params.content ) );
+	// console.log('\ncont: '+cont3);
+
+	// console.log('\nreq.params.content: '+req.params.content);
+	
+	db.getbyname(req.params.dig, req.params.content, function(err6, response){
+		console.log(err6);
+		console.log(req.params.dig);
+		console.log(req.params.content);
+		//if (err) {
+		//	console.log('\nERR: content/c: '+err); 
+		//	console.log('nopass');
+		//	res.send(400);
+		//}else 
+		if(!err6){ 
 			console.log('lolpass');
 			// res.send(response); //answer is sync
 			switch(parseInt(req.params.dig)){
@@ -301,14 +387,14 @@ app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS
 						console.log("got by parent");
 						//console.log(response[0].name);
 						//niklas test
-						db.getsoundslike(0,response[0].name, function(err, response_soundslike){
+						db.getsoundslike(0,response[0].name, function(err123, response_soundslike){
 							console.log("got soundslike");
-							if(err_child){console.log('\nERR content/c/0 '+err); res.send(400);}
-							console.log(response[0].name);
+							if(err_child){console.log('\nERR content/c/0 '+err123); res.send(400);}
 							console.log(response_soundslike);
 							// console.log(response_child+'n'+response_child[1]);
 							res.render('artist', { 
 								name: response[0].name,
+								//picture: response[0].picture,
 								picture: response[0].picture,
 								children: response_child[0],
 								tracks: response_child[1],
@@ -422,6 +508,15 @@ app.use(function(err, req, res, next){
 });
 
 //Below are functions usable in the other functions
+
+function makeC(artist, pic, parent, callback){
+	callback({ 
+						name :artist, 
+						parent : parent, 
+						info : fs.readFileSync(pic) 
+			 
+			});
+}
 
 function ensureAuthenticated(req, res, next) { //this should probably be changed to if db.findUser(req.user).unsalt.isauthenticated , but i will test first
   if (req.isAuthenticated()) { return next(); }

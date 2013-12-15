@@ -3,23 +3,40 @@ M7011E_Dynamic_web_system
 
 School project for the course M7011E at Luleå technical University, Sweden.
 
-#Dependent on the following nodejs modules
+#Requirements
+	MongoDB
+	Nodejs
+	npm
 
-express
+#Nodejs module dependencies
 
-fs
+	express
 
-ejs
+	fs
 
-mongoose-schema-extend
+	ejs
 
-passport
+	mongoose-schema-extend
 
-passport-google
+	passport
 
-mongoose
+	passport-google
 
-crypto
+	mongoose
 
-#Use
-npm install *module*
+	crypto
+
+#Installing node modules
+	npm install *module*
+
+#Other files required
+
+workspace/dbsalt.dontsave
+
+workspace/sessionsalt.dontsave
+
+These need to look like: 
+```json
+{ "secret" : "supersecretsalt"}
+```
+Where "supersecretsalt" can be a string of your choice

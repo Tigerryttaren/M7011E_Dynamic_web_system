@@ -8,7 +8,7 @@
 
 
 var mongoose = require("mongoose");
-
+var mongodb = require("mongodb");
 var db = mongoose.createConnection("localhost", "soundslike");
 var crypt = require("./crypt");
 
@@ -35,7 +35,7 @@ var lvl0Schema = new mongoose.Schema({
 		//picture should end on .png/.jpg and is web address
 		picture: String,
 		soundslike: [],
-		info: String
+		info: {}
 	});
 var lvl1Schema = new mongoose.Schema({
 		name: String,
@@ -130,7 +130,7 @@ function getbynameHelper(lvl, Name, callback){
 		lvl.find({name:Name}, function(err, res){
 			//console.log(res.length);
 			//console.log('res: '+res);
-			if(res.length==0){callback("error: is empty", [])}
+			if(res.length==0){callback("error is empty", res)}
 			callback(err, res);
 		})}
 	//})
@@ -162,15 +162,16 @@ function getbyidHelper(lvl, Name, callback){
 function addlvl0(name, rating, picture, soundslike, info, callback){
 	//db.once("open", function(){
 		var lvl0 = db.model("lvl0",lvl0Schema);
+		var x = new mongodb.Binary(info);
 		var newlvl0 = new lvl0({
 			name: name,
 			rating: rating,
-			picture: picture,
+			picture: picture,//picture,
 			soundslike: soundslike,
-			info: info
+			info: {value: x}
 		});
 		newlvl0.save(function(err){
-			if (err){callback(err);}
+			if (err){callback(err, "Fails");}
 			else{callback(null, "success")}
 		});
 	//});
@@ -183,13 +184,14 @@ function addlvl1(name, rating, picture, soundslike, parent, info, callback){
 		else{
 			var lvl1 = db.model("lvl1",lvl1Schema);
 		//db.once("open", function(){
+			var x = new mongodb.Binary(info);
 			var newlvl1 = new lvl1({
 				name: name,
 				rating: rating,
 				picture: picture,
 				soundslike: soundslike,
 				parent: parent,
-				info: info
+				info: {value: x}
 			});
 			newlvl1.save(function(err){
 				if (err){callback(err);}
@@ -355,9 +357,11 @@ function soundslikeHelper(lvl, id1, id2, callback){
 
 function add(lvl, content, callback){
 	console.log("in add");//lvl +""+ (1===lvl));
+	console.log('add: '+content.name);
        switch(lvl){
                case 0:
-                       	addlvl0(content.name, 0, content.picture, [], "", callback);
+                       	// addlvl0(content.name, 0, content.picture, [], "", callback);
+                       	addlvl0(content.name, 0, '/files/'+content.name+'/'+0, [], content.info, callback);
                        	break;
                case 1: 
                			addlvl1(content.name, 0, content.picture, [], content.parent, "", callback);
