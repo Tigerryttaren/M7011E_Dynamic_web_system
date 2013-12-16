@@ -55,39 +55,14 @@
 	<div class="absolute-center-add-artist">
 
 		<h1 class="logo">Add Artist</h1>
-
-<!-- 		<div class="input-group">
- 			<span class="input-group-addon">Artist</span>
-  			<input id="artistf" type="text" class="form-control" placeholder="artist name">
-		</div>
-		<br /> -->
 		<form method="post" enctype="multipart/form-data" action="/api/db/content/add"/>
 				<p>Artist Image<span style="width:5px;"><input type="file" name="file" /></p>
 				<p><input type="hidden" name="level" value="0"/></p>
 				<p>Add artist<span style="width:5px;">  <input type="text" name="name" /></p>
 				<p><input type="submit" value="Upload"/></p>
 				</form>
-<!-- 		<br />
-		<p><a class="btn btn-soundslike" role="button" onclick="send(
-		document.getElementById('artistf').value,
-		document.getElementById('picturef').value)">Add Artist</a></p>
-        </div> -->
 	</div>
 	</div>
-
-	<script> 
-		function send(ar, pic){
-			xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("POST", "/api/db/content/add", true);
-			xmlhttp.setRequestHeader('Content-Type', 'application/json');
-			xmlhttp.onreadystatechange=function(){
-				if (xmlhttp.readyState==4 && xmlhttp.status==200){
-					window.location.replace("/api/db/content/"+ar+"/0");
-				}
-			}
-			xmlhttp.send(JSON.stringify({ "level": "0", "content":{ "name": ar, "picture": pic }  }));
-		}
-	</script>
 	<script type="text/javascript" src="/js/ejs_production.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
