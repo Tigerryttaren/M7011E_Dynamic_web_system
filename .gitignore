@@ -8,9 +8,23 @@ desktop.ini
 *.dontsave
 tests/
 
+#workspace/dist/images/
+*.jpg
+*.jpeg
+*.png
+*.gif
+
 #keys
 *.pem
 
 #node modules
 node_modules/
+
+
+# Go home Tilde, you're drunk.
+*~
+
+
+
+
 

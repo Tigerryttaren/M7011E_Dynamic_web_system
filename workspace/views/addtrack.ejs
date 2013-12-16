@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Soundslike - Add track</title>
+		<link href="/css/bootstrap.css" rel="stylesheet">
+		<link href="/css/soundslike.css" rel="stylesheet">		
+	</head>
+	<body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="sr-only">Toggle Navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+ 			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="/">Soundslike</a>
+	</div>
+	<div class="collapse navbar-collapse">
+		<form class="navbar-form navbar-right" action="/results" method="post">
+            		<div class="form-group">
+              			<input type="text" placeholder="Search" class="form-control" id="srch" name="srch">
+            		</div>
+            		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+          	</form>
+		<ul class="nav navbar-nav pull-right">
+			<li><a href="/auth/google">
+				<% if (typeof login !== "undefined") { %>
+					<%= login %>
+				<% } else { %>
+					<%= "Sign in" %>
+				<%}%></a></li>
+		</ul>
+	</div>
+	</div>
+	</div>
+
+ 	<div class="center-buttons">	
+		<div class="btn-group-lg">
+  			<a class="btn btn-default" href="addartist">Artist</a>
+  			<a class="btn btn-default" href="addalbum">Album</a>
+  			<a class="btn btn-default active" href="addtrack">Track</a>
+		</div>
+	</div>
+
+	<div clas="center-container"> 
+	<div class="absolute-center-buttons">
+		
+	</div>
+
+	<div class="absolute-center-add-track">
+
+		<h1 class="logo">Add Track</h1>
+
+		<div class="input-group">
+ 			<span class="input-group-addon">Track</span>
+  			<input id="trackf" type="text" class="form-control" placeholder="enter track name">
+		</div>
+		<br />
+		<div class="input-group">
+ 			<span class="input-group-addon">Album</span>
+  			<input id="albumf" type="text" class="form-control" placeholder="enter album name">
+		</div>
+		<br />
+		<p><a class="btn btn-soundslike" role="button" onclick="send(
+		document.getElementById('trackf').value,
+		document.getElementById('albumf').value)">Add Track</a></p>
+
+
+        </div>
+	</div>
+	</div>
+
+	<script> 
+		function send(tr, al){
+			xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("POST", "/api/db/content/add", true);
+			xmlhttp.setRequestHeader('Content-Type', 'application/json');
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+					window.location.replace("/api/db/content/"+tr+"/2");
+				}
+			}
+			xmlhttp.send(JSON.stringify({ "level": "2", "content":{ "name": tr, "parent": al }  }));
+		}
+	</script>
+	<script type="text/javascript" src="/js/ejs_production.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Soundslike</title>
+		<link href="/css/bootstrap.css" rel="stylesheet">
+		<link href="/css/soundslike.css" rel="stylesheet">	
+	</head>
+	<body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="sr-only">Toggle Navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+ 			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="/">Soundslike</a>
+	</div>
+	<div class="collapse navbar-collapse">
+		<ul class="nav navbar-nav pull-right">
+			<%if (typeof login !== "undefined") { %>
+				<li><a href="/addartist"><%= "Add" %></a></li>
+			<% } %>
+			<li><a href="/auth/google">
+				<% if (typeof login !== "undefined") { %>
+					<%= login %>
+				<% } else { %>
+					<%= "Sign in" %>
+				<%}%>
+			</a></li>
+		</ul>
+	</div>
+	</div>
+	</div>
+
+	<div clas="center-container"> 
+	<div class="absolute-center">
+		<h1 class="logo">Soundslike</h1>	
+
+		<form role="search" id="top_bar_search_group" action="/results" method="post" >		
+			<div class="input-group soundslike-home-searchbar">
+		    		<input type="text" class="form-control" placeholder="Search" name="srch" id="srch">
+		    		<div class="input-group-btn">
+		        		<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+		    		</div>
+			</div>
+		</form>
+	</div>
+	</div>
+
+	<script> 
+		function send(srch){
+			xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "/results", false);
+			xmlhttp.setRequestHeader('Content-Type', 'application/json');
+		
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+					window.location.replace("/results");
+				}
+			}
+			xmlhttp.send(JSON.stringify({ "search": srch }));
+		}
+	</script>
+
+	<script type="text/javascript" src="/js/ejs_production.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	</body>
+</html>
