@@ -1,19 +1,7 @@
-// i want a find user for endpoint  /api/user/me, prob a search for what the findorcreate function returned, but need to do some testing first
-
-// some nod in the functionnames to tell me which functions handle users and which handle content is neccessary if you want to keep everything in one document
-
-//shall we generate a username when user is created?
-
-// added function addcontent
-
-
 var mongoose = require("mongoose");
 var mongodb = require("mongodb");
 var db = mongoose.createConnection("localhost", "soundslike");
 var crypt = require("./crypt");
-
-//var schemas = require("./initSchemas");
-//schemas.init();
 
 exports.add = add;
 exports.findOrCreate = findOrCreate;
@@ -28,11 +16,9 @@ exports.getbyparentlvl1=getbyparentlvl1;
 exports.addlvl2=addlvl2;
 exports.addlvl0=addlvl0;
 
-
 var lvl0Schema = new mongoose.Schema({
 		name: String,
 		rating: Number,
-		//picture should end on .png/.jpg and is web address
 		picture: String,
 		soundslike: [],
 		info: {}
@@ -57,19 +43,9 @@ var userSchema = new mongoose.Schema({
 	openID: String
 	});
 
-//lvl01Schema.methods.sayName = function(){
-//		console.log("This name: "+this.name);};
-//var lvl0 = db.model("lvl0",lvl0Schema);
-//var lvl1 = db.model("lvl1",lvl1Schema);
-//var lvl2 = db.model("lvl2",lvl2Schema);
-
-
-//This Method finds openId and returns 
-//call with
-//Callback(err, res)
 function findOrCreate(openId, salt, callback){ 
 	var saltedid = crypt.hash(openId,salt);
-	//db.once("open", function(){
+
 		var user = db.model("users",userSchema);
 		user.find({openID:saltedid}, function(err, res){
 			if (err){
@@ -96,7 +72,7 @@ function findOrCreate(openId, salt, callback){
 				});
 			}
 		});
-	//})
+	
 	}
 
 function findUser(id, callback){
@@ -126,14 +102,14 @@ function getbyname(num, Name, callback){
 	})}}
 
 function getbynameHelper(lvl, Name, callback){
-	//db.once("open", function(){
+	
 		lvl.find({name:Name}, function(err, res){
 			//console.log(res.length);
 			//console.log('res: '+res);
 			if(res.length==0){callback("error is empty", res)}
 			callback(err, res);
 		})}
-	//})
+	
 
 function getbyid(num, Name, callback){
 	if (num==0) {
@@ -153,14 +129,14 @@ function getbyid(num, Name, callback){
 	})}}
 
 function getbyidHelper(lvl, Name, callback){
-	//db.once("open", function(){
+	
 		lvl.find({_id:Name}, function(err, res){
 			callback(err, res);
-	//})
+	
 	})}
 
 function addlvl0(name, rating, picture, soundslike, info, callback){
-	//db.once("open", function(){
+	
 		var lvl0 = db.model("lvl0",lvl0Schema);
 		var x = new mongodb.Binary(info);
 		var newlvl0 = new lvl0({
@@ -174,7 +150,7 @@ function addlvl0(name, rating, picture, soundslike, info, callback){
 			if (err){callback(err, "Fails");}
 			else{callback(null, "success")}
 		});
-	//});
+	
 	}
 
 function addlvl1(name, rating, picture, soundslike, parent, info, callback){
@@ -183,7 +159,7 @@ function addlvl1(name, rating, picture, soundslike, parent, info, callback){
 		if (res.length == 0 ) {callback("could not find that artist", null)}
 		else{
 			var lvl1 = db.model("lvl1",lvl1Schema);
-		//db.once("open", function(){
+		
 			var x = new mongodb.Binary(info);
 			var newlvl1 = new lvl1({
 				name: name,
@@ -199,7 +175,7 @@ function addlvl1(name, rating, picture, soundslike, parent, info, callback){
 			});
 		}
 	})
-	//});
+
 	}
 
 function addlvl2(name, rating, picture, soundslike, parent, info, callback){
@@ -242,8 +218,6 @@ function getsoundslike(lvl, name, callback){
 		//console.log(ras[0].soundslike)
 		
 		//console.log(soundslikeJSON);
-		//var array = [];
-		////var count = 0;
 		//console.log(soundslikeJSON.length);
 		var newarray=[];
 		if (soundslikeJSON.length == 0) {
@@ -356,15 +330,15 @@ function soundslikeHelper(lvl, id1, id2, callback){
 	}
 
 function add(lvl, content, callback){
-	console.log("in add");//lvl +""+ (1===lvl));
+	console.log("in add");
 	console.log('add: '+content.name);
        switch(lvl){
                case 0:
-                       	// addlvl0(content.name, 0, content.picture, [], "", callback);
+                       
                        	addlvl0(content.name, 0, '/files/'+content.name+'/'+0, [], content.info, callback);
                        	break;
                case 1: 
-               			// addlvl1(content.name, 0, content.picture, [], content.parent, "", callback);
+               			
                			addlvl1(content.name, 0, '/files/'+content.name+'/'+1, [], content.parent, content.info, callback);
                			break;
                case 2:

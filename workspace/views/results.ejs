@@ -24,17 +24,16 @@
 		<a class="navbar-brand" href="/">Soundslike</a>
 	</div>
 	<div class="collapse navbar-collapse">
-
 		<form class="navbar-form navbar-right" action="/results" method="post">
-            		<div class="form-group">
-              			<input type="text" placeholder="Search" class="form-control" id="srch" name="srch">
-            		</div>
-            		<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+            	<div class="form-group">
+              		<input type="text" placeholder="Search" class="form-control" id="srch" name="srch">
+            	</div>
+            	<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
           	</form>
 
 		<ul class="nav navbar-nav pull-right">
 			<%if (typeof login !== "undefined") { %>
-				<%= '<li><a href="/addartist">Add</a></li>' %> 
+				<li><a href="/addartist"><%= "Add" %></a></li> 
 			<% } %>
 			<li><a href="/auth/google">
 				<% if (typeof login !== "undefined") { %>
@@ -212,7 +211,6 @@
 						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].parent %></h5></a>	
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].grandparent %></h6></a>
 						</div>	
 
 					<% } else if(spinner_tracks == 4) { %>
@@ -221,8 +219,7 @@
 						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].parent %></h5></a>
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].grandparent %></h6></a>
-                            			</div>
+                        </div>
 	
 						</div>
 						</div>
@@ -232,7 +229,6 @@
 						<div class="col-sm-3"><a class="soundslike-link-image" href="/api/db/content/<%= tracks[i].name %>/2"><img src="<%= tracks[i].picture %>" alt="Image" class="img-responsive"></a>
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].name %>/2"><h4><%= tracks[i].name %></h4></a>	
 						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].parent %>/1"><h5><%= tracks[i].parent %></h5></a>
-						<a class="soundslike-link-text" href="/api/db/content/<%= tracks[i].grandparent %>/0"><h6><%= tracks[i].grandparent %></h6></a>
 						</div>
 						
 					<% } %>

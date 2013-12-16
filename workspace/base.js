@@ -66,30 +66,21 @@ passport.deserializeUser(function(obj, done) {
 // credentials (in this case, an OpenID identifier and profile), and invoke a
 // callback with a user object.
 passport.use(new GoogleStrategy({
-	// returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
-	// realm: 'http://54.200.238.200:'+this_port+'/'
-	 returnURL: 'http://localhost:'+this_port+'/auth/google/return',
-	 realm: 'http://localhost:'+this_port+'/'
+	returnURL: 'http://54.200.238.200:'+this_port+'/auth/google/return',
+	realm: 'http://54.200.238.200:'+this_port+'/'
+	 // returnURL: 'http://localhost:'+this_port+'/auth/google/return',
+	 // realm: 'http://localhost:'+this_port+'/'
 	},
 
 	function(identifier, profile, done) {
 		process.nextTick(function () {
-			//when the user logins: inser to database or check if they exist
-			// User.findOrCreate({ openId: identifier }, function(err, user) {
-				// done(err, user);
-			// });
-
 
 			profile.identifier = identifier;
-			//console.log("\n");
-			//console.log(profile); // i want something like profile.email[0]?
-			//console.log("\n");
 
-			db.findOrCreate(identifier, dbsalt, function(err, dbuser){
-				if (err) {console.log('\nErr: error in passport auth: '+err);return null;}
+			// db.findOrCreate(identifier, dbsalt, function(err, dbuser){
+				// if (err) {console.log('\nErr: error in passport auth: '+err);return null;}
 				return done(null, profile);
-			});
-			// return done(null, profile);
+			// });
 		});
 	}
 ));
@@ -120,34 +111,6 @@ app.get('/auth/google/return',
 
 app.get('/', function(req,res){ res.render('index', {login : authname(req) }); });
 
-app.get('/files', function(req,res){
-			res.send('<form method="post" 							enctype="multipart/form-data">'
-				+ '<p>file: <input type="file" name="file" /></p>'
-				+ '<p><input type="submit" value="Upload"/></p>'
-				+ '</form>');});
-
-app.post('/files', function(req,res){
-		console.log("Upload received");
-		console.log('\nFILENAME: '+req.files.file.name);
-		console.log('\nFILE0:\n'+req.files.file.value+'\n');
-		console.log('\nFILE0:\n'+req.files.file.Upload+'\n');
-		console.log('\nFILE0:\n'+req.files.file.submit+'\n');
-		console.log('\nFILE0:\n'+req.files.file.path+'\n');
-		console.log('\nFILE0:\n'+req.files.image+'\n');
-
-		var data = fs.readFileSync(req.files.file.path);
-		console.log(data);
-		var name = "upload11";
-	    db.addlvl0(name, 5, data, [], req.files.file ,function(err,res2){
-	    	console.log(res2);
-	    	db.getbyname(0, name, function(err, res1){
-	    		console.log(res1);
-	    		//res.contentType(res1[0].info.type);
-	    		res.end(res1[0].picture.value.buffer, "binary");
-	    		//res.sendfile(res.picture.buffer);
-	    	})
-	    })
-	});
 
 app.get('/files/:name/:d(\\d+)', function(req,res){
 		console.log('reaching for /files/:name/:d : ' + req.params.name+ " "+req.params.d);
@@ -173,9 +136,6 @@ app.post('/results', function(req,res){
 });
 
 app.post('/link', function(req,res){
-	//info that i needs:
-	//lvl
-	//sacrificename
 	db.getbyname(req.body.sacrifice.level, req.body.sacrifice.name, function(err1, response1){
 		if (err1) { console.log('\nERR: /link getbyid' + req.body.level + req.body.search); res.send(500); }
 		else if  (req.body.alike){
@@ -196,28 +156,6 @@ app.get('/addartist', function(req,res){ res.render('addartist', {login : authna
 app.get('/addalbum',  function(req,res){ res.render('addalbum',  {login : authname(req)} );  });
 app.get('/addtrack',  function(req,res){ res.render('addtrack',  {login : authname(req)} );  });
 
-
-// I Believe these are unneeded since google authentication takes care of it
-
-// app.post('/api/user/register', function(req,res){
-	// console.log("\n");
-	// console.log("POST register");
-	// console.log(req.body.username);
-	// console.log(req.body.email);
-	// console.log(req.body.password);
-	// console.log("\n");
-	// res.send('uname='+ req.body.username +', mail= ' + req.body.email + ', pass='+req.body.password);
-// });
-
-// app.post('/api/user/login', function(req,res){
-	// console.log("\n");
-	// console.log("POST login");
-	// console.log(req.body.username);
-	// console.log(req.body.password);
-	// console.log("\n");
-	// res.send('uname='+ req.body.username + ', pass='+req.body.password);
-	
-// });
 
 app.get('/api/user/me',ensureAuthenticated, function(req,res){
 	console.log("\n");
@@ -241,53 +179,25 @@ app.post('/api/db/content/add', function(req,res){
 	}
 	else{
 		db.add(parseInt(req.body.level), req.body.content, function(err, response){
-				if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
-				console.log(response);
-				res.redirect('/api/db/content/'+req.body.content.name+'/'+req.body.level);
-			});
+			if (err) {console.log('\nERR: content/add: '+ err); res.send(400);}
+			console.log(response);
+			res.redirect('/api/db/content/'+req.body.content.name+'/'+req.body.level);
+		});
 	}
-
-			
-	
 });
 
 
-
-
 app.post('/api/db/content/link/:dig(\\d+)', function(req,res){
-		db.getbyname(req.params.dig, req.body.key1, function(err, response){
-			console.log(req.params.dig);
-			console.log(req.params);
-			console.log(req.body.key1);
-			console.log(response);
-			//if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-			if(req.body.key2){
-				db.getbyname(req.params.dig, req.body.key2, function(err2, response2){
-					res.render('link', {sacrifice: response[0], soundslikelist : response2, lvl : req.params.dig, login : authname(req)});
-				});
-			}else{
-				res.render('link', {sacrifice: response[0] , soundslikelist: [], lvl : req.params.dig, login : authname(req) });
-			}
-		});
-		
-		// switch(parseInt(req.params.dig)){
-				// case 0:
-					// db.getbyname(0, req.params.key, function(err, response){
-						// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-						
-					// }
-				// case 1:
-					// db.getbyname(1, req.params.key, function(err, response){
-						// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-						
-					// }
-				// case 2:
-					// db.getbyname(2, req.params.content, function(err, response){
-						// if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
-						
-					// }
-		// }
-		// res.send(response); //answer is sync
+	db.getbyname(req.params.dig, req.body.key1, function(err, response){
+		//if (err) {console.log('\nERR: content/c: '+err); res.send(400);}
+		if(req.body.key2){
+			db.getbyname(req.params.dig, req.body.key2, function(err2, response2){
+				res.render('link', {sacrifice: response[0], soundslikelist : response2, lvl : req.params.dig, login : authname(req)});
+			});
+		}else{
+			res.render('link', {sacrifice: response[0] , soundslikelist: [], lvl : req.params.dig, login : authname(req) });
+		}
+	});
 });
 
 app.post('/api/db/content/link/add/:dig(\\d+)', function(req,res){
@@ -295,62 +205,28 @@ app.post('/api/db/content/link/add/:dig(\\d+)', function(req,res){
 		if (err) {console.log('\nERR: link/add: '+err); res.send(400);}
 		res.redirect('/api/db/content/'+req.body.key1+'/'+req.params.dig);
 	});
-
-	// console.log("\n");
-	// console.log("POST link");
-	// console.log(req.body.key1);
-	// console.log(req.body.key2);
-	// console.log("\n");
-	// res.send(' key1= '+req.body.key1 +' key2= '+req.body.key2);
 });
 
 
-// app.get(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/\d$/, function(req, res){
-// app.get('/api/db/content/:content(\\w+)/:dig(\\d+)', function(req, res){ //FAILS ON WRONG ADRESS
 app.get('/api/db/content/:content/:dig(\\d+)', function(req, res){
-	console.log('\nWELCOME TO CONTENT\n');
-	
-	// var cont1 = new Buffer(req.params.content.toString(), 'utf-8').toString('ascii');
-	// console.log('\ncont1: '+cont1);
-	
-	// var cont4 = new Buffer(req.params.content.toString(), 'ascii').toString('utf-8');
-	// console.log('\ncont4: '+cont4);
 
-	// var cont2 = decodeURI(req.params.content);
-	// console.log('\ncont2: '+ cont2);
-
-	// var cont3 = decodeURIComponent( escape ( req.params.content ) );
-	// console.log('\ncont: '+cont3);
-
-	// console.log('\nreq.params.content: '+req.params.content);
-	
 	db.getbyname(req.params.dig, req.params.content, function(err6, response){
 		console.log(err6);
 		console.log(req.params.dig);
 		console.log(req.params.content);
-		//if (err) {
-		//	console.log('\nERR: content/c: '+err); 
-		//	console.log('nopass');
-		//	res.send(400);
-		//}else 
 		if(!err6){ 
-			console.log('lolpass');
-			// res.send(response); //answer is sync
+
 			switch(parseInt(req.params.dig)){
 				case 0:
 					console.log("artist");
 					db.getbyparentlvl0(response[0].name, function(err_child, response_child){
 						console.log("got by parent");
-						//console.log(response[0].name);
-						//niklas test
 						db.getsoundslike(0,response[0].name, function(err123, response_soundslike){
 							console.log("got soundslike");
 							if(err_child){console.log('\nERR content/c/0 '+err123); res.send(400);}
 							console.log(response_soundslike);
-							// console.log(response_child+'n'+response_child[1]);
 							res.render('artist', { 
 								name: response[0].name,
-								//picture: response[0].picture,
 								picture: response[0].picture,
 								children: response_child[0],
 								tracks: response_child[1],
@@ -362,10 +238,6 @@ app.get('/api/db/content/:content/:dig(\\d+)', function(req, res){
 					break;
 				case 1:
 					db.getbyparentlvl1(response[0].name, function(err_child, response_child){
-						// console.log('response_child: '+ response_child); console.log('\n');
-						// console.log('r_c[0]: '+response_child[0]); console.log('\n');
-						// console.log('r_c[0][0]:'+response_child[0][0]); console.log('\n');
-						// console.log('r_c[0][1]:'+response_child[0][1]); console.log('\n');
 						db.getsoundslike(1,response[0].name, function(err_soundslike, response_soundslike){
 							console.log(response[0].name);
 							console.log(response_soundslike);
@@ -382,13 +254,8 @@ app.get('/api/db/content/:content/:dig(\\d+)', function(req, res){
 					break;
 				case 2:
 
-					//console.log(response[0].parent);
 					db.getbyname(1,	response[0].parent,  function(errParent, response_parent){
-						//console.log(response_parent);
 						db.getbyname(0,	response_parent[0].parent,  function(errgrandParent, response_grandparent){
-							//console.log(response_parent[0].name);
-							//console.log(response_parent);
-							// console.log('hejsanhoppsan\n\n\n\n'+response_grandparent[0].name);
 							db.getsoundslike(2,response[0].name, function(err_soundslike, response_soundslike){
 								console.log(response_soundslike);
 								res.render('track',  {
@@ -409,8 +276,6 @@ app.get('/api/db/content/:content/:dig(\\d+)', function(req, res){
 			}
 		}
 	});
-	// console.log("\nWelcome to content/something");
-	// res.send();
 });
 
 app.post(/^\/api\/db\/content\/(\w+)(?:\.\.(\w+))?\/edit$/, function(req, res){
@@ -467,14 +332,13 @@ app.use(function(err, req, res, next){
 
 function makeC(artist, pic, parent, callback){
 	callback({ 
-						name :artist, 
-						parent : parent, 
-						info : fs.readFileSync(pic) 
-			 
+				name :artist, 
+				parent : parent, 
+				info : fs.readFileSync(pic) 
 			});
 }
 
-function ensureAuthenticated(req, res, next) { //this should probably be changed to if db.findUser(req.user).unsalt.isauthenticated , but i will test first
+function ensureAuthenticated(req, res, next) { 
   if (req.isAuthenticated()) { return next(); }
   console.log("Failed authentication");
   res.redirect('/auth/google');
